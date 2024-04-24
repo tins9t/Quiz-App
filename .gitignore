@@ -2,3 +2,24 @@
 /tests/obj
 /api/obj
 /.idea
+api/bin/
+api/obj/
+/packages/
+/_ReSharper.Caches/
+Tests/node_modules/
+/angular/
+/node_modules/
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/.idea.InternationalChatroom.iml
+/contentModel.xml
+/projectSettingsUpdater.xml
+/modules.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+.idea/.idea.InternationalChatroom/
