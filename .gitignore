@@ -23,3 +23,7 @@ Tests/node_modules/
 /dataSources/
 /dataSources.local.xml
 .idea/.idea.InternationalChatroom/
+/tests/obj
+/service/obj
+/infrastructure/obj
+/api/obj
