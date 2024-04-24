@@ -6,13 +6,12 @@ public class UserRepository
 {
     public User CreateUser(User user)
     {
-        user.Id = new Guid().ToString();
         var sql = $@"INSERT INTO user(id, username, email) VALUES (@id, @username, @email);";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<User>(sql, new
             {
-                id = user.Id,
+                id = new Guid().ToString(),
                 username = user.Username,
                 email = user.Email
             });

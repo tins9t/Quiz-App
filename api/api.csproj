@@ -15,8 +15,10 @@
 
     <ItemGroup>
       <Folder Include="ClientEventHandlers\" />
-      <Folder Include="Controllers\" />
-      <Folder Include="Models\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\service\service.csproj" />
     </ItemGroup>
 
 </Project>
