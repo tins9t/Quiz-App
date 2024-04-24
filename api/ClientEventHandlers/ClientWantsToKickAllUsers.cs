@@ -8,7 +8,7 @@ public class ClientWantsToRemoveRoomDto: BaseDto
     public int RoomId { get; set; }
 }
 
-public class ClientWantsToRemoveRoom() : BaseEventHandler<ClientWantsToLeaveRoomDto>
+public class ClientWantsToKickAllUsers() : BaseEventHandler<ClientWantsToLeaveRoomDto>
 {
     public override Task Handle(ClientWantsToLeaveRoomDto dto, IWebSocketConnection socket)
     {
