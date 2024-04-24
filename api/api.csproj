@@ -14,11 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ClientEventHandlers\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\service\service.csproj" />
+      <Folder Include="Controllers\" />
     </ItemGroup>
 
 </Project>
