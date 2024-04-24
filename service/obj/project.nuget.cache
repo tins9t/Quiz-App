@@ -1,8 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "meHhkYRwyO+UAo4COjkXzEb2LqXyN+koTq0v+XEogKPvg4umA4oIEjJQ86sgMNn0pe8iD6SsfnirDk7S+Z/nzw==",
+  "dgSpecHash": "XmmLaCU86Tv913jkEKrmMENde2sOEp5jzWwLel8keOXBpn/xcC/f7NzvyCJNsg6VrnGNQC2iywTSk9BDpKdmKQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\nhi_t\\RiderProjects\\QuizApp\\service\\service.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\nhi_t\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
+    "C:\\Users\\nhi_t\\.nuget\\packages\\konscious.security.cryptography.argon2\\1.3.0\\konscious.security.cryptography.argon2.1.3.0.nupkg.sha512",
+    "C:\\Users\\nhi_t\\.nuget\\packages\\konscious.security.cryptography.blake2\\1.1.0\\konscious.security.cryptography.blake2.1.1.0.nupkg.sha512",
+    "C:\\Users\\nhi_t\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\nhi_t\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\nhi_t\\.nuget\\packages\\npgsql\\8.0.2\\npgsql.8.0.2.nupkg.sha512",
+    "C:\\Users\\nhi_t\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512"
+  ],
   "logs": []
 }
