@@ -27,3 +27,7 @@ Tests/node_modules/
 /service/obj
 /infrastructure/obj
 /api/obj
+/infrastructure/bin
+/service/bin
+/service/obj
+/tests/bin
