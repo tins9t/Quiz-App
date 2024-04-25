@@ -30,15 +30,18 @@ public static class StateService
             return guids.Remove(socket.ConnectionInfo.Id);
         return false;
     }
-
-    public static void BroadcastToRoom(int room, string message)
+    public static bool KickAllUsersFromRoom(int room)
     {
         if(Rooms.TryGetValue(room, out var guids))
+        {
             foreach (var guid in guids)
             {
                 if (Connections.TryGetValue(guid, out var ws))
-                    ws.Connection.Send(message);
-
+                    ws.Connection.Send("You have been kicked from the room");
             }
+            guids.Clear();
+            return true;
+        }
+        return false;
     }
 }

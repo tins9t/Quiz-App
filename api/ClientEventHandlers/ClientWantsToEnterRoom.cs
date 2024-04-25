@@ -6,7 +6,7 @@ using api.State;
 
 namespace api.ClientEventHandlers;
 
-// This class is responsible for handling the event when a client wants to enter a room, this is the same as a user wants to join a quiz
+// This class is responsible for handling the event when a client wants to enter a room, this is the same as a user wants to create/join a quiz
 
 public class ClientWantsToEnterRoomDto : BaseDto
 {
