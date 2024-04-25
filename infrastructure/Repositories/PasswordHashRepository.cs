@@ -41,7 +41,7 @@ public class PasswordHashRepository
         security.password as {nameof(PasswordHash.Hash)},
         security.salt as {nameof(PasswordHash.Salt)}
         FROM security
-        JOIN user ON security.user_id = user.id
+        JOIN users ON security.user_id = user.id
         WHERE email = @email;";
         using var connection = DataConnection.DataSource.OpenConnection();
         return connection.QuerySingle<PasswordHash>(sql, new { email });

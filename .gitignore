@@ -31,3 +31,5 @@ Tests/node_modules/
 /service/bin
 /service/obj
 /tests/bin
+global.json
+api/api.csproj

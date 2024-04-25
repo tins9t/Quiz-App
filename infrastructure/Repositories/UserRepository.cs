@@ -6,12 +6,12 @@ public class UserRepository
 {
     public User CreateUser(User user)
     {
-        var sql = $@"INSERT INTO user(id, username, email) VALUES (@id, @username, @email);";
+        var sql = $@"INSERT INTO users(id, username, email) VALUES (@id, @username, @email);";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<User>(sql, new
             {
-                id = new Guid().ToString(),
+                id = Guid.NewGuid().ToString(),
                 username = user.Username,
                 email = user.Email
             });
@@ -20,7 +20,7 @@ public class UserRepository
 
     public User UpdateUser(User user)
     {
-        var sql = $@"UPDATE user SET username = @username, email = @email WHERE id = @id;";
+        var sql = $@"UPDATE users SET username = @username, email = @email WHERE id = @id;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<User>(sql, new
@@ -34,7 +34,7 @@ public class UserRepository
 
     public bool DeleteUserById(string userId)
     {
-        var sql = $@"DELETE FROM user WHERE id = @id;";
+        var sql = $@"DELETE FROM users WHERE id = @id;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.Execute(sql, new { id = userId }) == 1;
@@ -43,7 +43,7 @@ public class UserRepository
 
     public bool DoesUsernameExist(string? username)
     {
-        var sql = "SELECT count(*) from user where username = @Username;";
+        var sql = "SELECT count(*) from users where username = @Username;";
 
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
@@ -54,7 +54,7 @@ public class UserRepository
     
     public bool DoesEmailExist(string? email)
     {
-        var sql = "SELECT count(*) from user where email = @Email;";
+        var sql = "SELECT count(*) from users where email = @Email;";
 
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
@@ -65,7 +65,7 @@ public class UserRepository
 
     public User GetUserById(string userId)
     {
-        var sql = $@"SELECT * FROM user where id = @id;";
+        var sql = $@"SELECT * FROM users where id = @id;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<User>(sql, new { id = userId });
