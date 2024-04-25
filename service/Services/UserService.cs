@@ -22,8 +22,13 @@ public class UserService
         return _userRepository.UpdateUser(user);
     }
 
-    public bool DeleteUserById(int userId)
+    public bool DeleteUserById(string userId)
     {
         return _userRepository.DeleteUserById(userId);
+    }
+
+    public User GetUserById(string userId)
+    {
+        return _userRepository.GetUserById(userId);
     }
 }

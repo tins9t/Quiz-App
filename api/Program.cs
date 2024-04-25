@@ -2,8 +2,9 @@ using System.Reflection;
 using api;
 using api.State;
 using Fleck;
-
+using infrastructure.Repositories;
 using lib;
+using service;
 
 var app = await ApiStartUp.StartApi();
 app.UseSwagger();
@@ -24,12 +25,19 @@ public static class ApiStartUp
     public static async Task <WebApplication> StartApi()
     {
         var builder = WebApplication.CreateBuilder();
+        
+        builder.Services.AddSingleton<UserService>();
+        builder.Services.AddSingleton<PasswordHashService>();
+        builder.Services.AddSingleton<UserRepository>();
+        builder.Services.AddSingleton<PasswordHashRepository>();
+        builder.Services.AddSingleton<PasswordHashAlgorithm, Argon2IdPasswordHashAlgorithm>();
 
         var clientEventHandlers = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        
         var app = builder.Build();
         
 

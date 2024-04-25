@@ -47,4 +47,24 @@ public class PasswordHashService
         var hash = _passwordHashAlgorithm.HashPassword(password, salt);
         _passwordHashRepository.CreatePasswordHash(user.Id, hash, salt);
     }
+
+    public void UpdateCredentials(User user, string newPassword, string password)
+    {
+        try
+        {
+            var passwordHash = _passwordHashRepository.GetPasswordHashByUserId(user.Id);
+
+            if (_passwordHashAlgorithm.VerifyHashedPassword(user.Email, password, passwordHash.Hash, passwordHash.Salt))
+            {
+                var salt = _passwordHashAlgorithm.GenerateSalt();
+                var hash = _passwordHashAlgorithm.HashPassword(newPassword, salt);
+                _passwordHashRepository.UpdatePassword(user.Id, newPassword, salt);
+            }
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Update password error: {Message}", e);
+        }
+    }
 }

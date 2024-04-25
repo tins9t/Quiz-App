@@ -11,7 +11,28 @@ public class PasswordHashRepository
         using var conn = DataConnection.DataSource.OpenConnection();
         conn.Execute(sql, new { userId, password, salt });
     }
-    
+
+    public void UpdatePassword(string userId, string newPassword, string newSalt)
+    {
+        var sql = $@"UPDATE security SET password_hash = @password_hash, salt = @salt WHERE user_id = @user_id;";
+        using var conn = DataConnection.DataSource.OpenConnection();
+        conn.Execute(sql, new
+        {
+            user_id = userId,
+            password_hash = newPassword,
+            salt = newSalt
+        });
+    }
+
+    public PasswordHash GetPasswordHashByUserId(string userId)
+    {
+        var sql = $@"SELECT * FROM security where user_id = @id;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.QueryFirst<PasswordHash>(sql, new { id = userId });
+        }
+    }
+
     public PasswordHash GetByEmail(string email)
     {
         const string sql = $@"

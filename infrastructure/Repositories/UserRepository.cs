@@ -32,7 +32,7 @@ public class UserRepository
         }
     }
 
-    public bool DeleteUserById(int userId)
+    public bool DeleteUserById(string userId)
     {
         var sql = $@"DELETE FROM user WHERE id = @id;";
         using (var conn = DataConnection.DataSource.OpenConnection())
@@ -63,7 +63,7 @@ public class UserRepository
         }
     }
 
-    public User GetUserById(int userId)
+    public User GetUserById(string userId)
     {
         var sql = $@"SELECT * FROM user where id = @id;";
         using (var conn = DataConnection.DataSource.OpenConnection())

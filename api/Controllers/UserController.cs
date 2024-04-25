@@ -32,4 +32,27 @@ public class UserController : ControllerBase
 
         return user;
     }
+
+    [Route("api/update/user/{userId}")]
+    [HttpPut]
+    public User UpdateUser([FromBody] User user, [FromRoute] string userId)
+    {
+        user.Id = userId;
+        return _userService.UpdateUser(user);
+    }
+    
+    [Route("api/update/password/{userId}")]
+    [HttpPut]
+    public void UpdateCredentials([FromBody] PasswordUpdateDto dto, [FromRoute] string userId)
+    {
+        User user = _userService.GetUserById(userId);
+        _passwordHashService.UpdateCredentials(user, dto.NewPassword, dto.Password);
+    }
+
+    [Route("/api/delete/user/{userId}")]
+    [HttpDelete]
+    public bool DeleteUserById([FromRoute] string userId)
+    {
+        return _userService.DeleteUserById(userId);
+    }
 }
