@@ -67,4 +67,9 @@ public class PasswordHashService
             _logger.LogError("Update password error: {Message}", e);
         }
     }
+
+    public bool DeletePasswordHash(string userId)
+    { 
+        return _passwordHashRepository.DeletePasswordHash(userId);
+    }
 }

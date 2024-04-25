@@ -6,7 +6,8 @@ public class UserRepository
 {
     public User CreateUser(User user)
     {
-        var sql = $@"INSERT INTO users(id, username, email) VALUES (@id, @username, @email);";
+        var sql = $@"INSERT INTO users(id, username, email) VALUES (@id, @username, @email)
+                 RETURNING *;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<User>(sql, new
@@ -23,13 +24,15 @@ public class UserRepository
         var sql = $@"UPDATE users SET username = @username, email = @email WHERE id = @id;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
-            return conn.QueryFirst<User>(sql, new
+            conn.Execute(sql, new
             {
                 id = user.Id,
                 username = user.Username,
                 email = user.Email
             });
         }
+
+        return user;
     }
 
     public bool DeleteUserById(string userId)
