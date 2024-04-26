@@ -49,4 +49,13 @@ public class QuizRepository
             return conn.Execute(sql, new { id = quizId }) == 1;
         }
     }
+    
+    public Quiz GetQuizById(string id)
+    {
+        var sql = $@"SELECT * FROM quiz WHERE id = @id;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.QueryFirst<Quiz>(sql, new { id });
+        }
+    }
 }

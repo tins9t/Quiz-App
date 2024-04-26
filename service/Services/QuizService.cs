@@ -26,4 +26,9 @@ public class QuizService
     {
         return _quizRepository.DeleteQuizById(quizId);
     }
+    
+    public Quiz GetQuizById(string id)
+    {
+        return _quizRepository.GetQuizById(id);
+    }
 }
