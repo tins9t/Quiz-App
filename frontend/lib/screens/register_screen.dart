@@ -16,22 +16,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.lightBlue,
       body: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.6,
-          height: MediaQuery.of(context).size.height * 0.6,
+          width: width * 0.75, // 90% of screen width
+          height: height * 0.7, // 90% of screen height
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(width * 0.02),
             child: Container(
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(width * 0.02),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.circular(15.0),
                 color: Colors.white,
               ),
-              child: Column(
+              child: SingleChildScrollView(
+                child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -39,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'Create Account',
                     style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: height * 0.02),
                   TextField(
                     decoration: InputDecoration(
                       hintText: 'Username',
@@ -134,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
 
