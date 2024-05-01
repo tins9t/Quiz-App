@@ -25,148 +25,190 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
+
+    // Determine if the screen is small (e.g., mobile) or large (e.g., desktop)
+    bool isSmallScreen = width <
+        600; // You can adjust this breakpoint as needed
+
     return Scaffold(
       backgroundColor: Colors.lightBlue,
       body: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.6,
-          height: MediaQuery.of(context).size.height * 0.6,
+          width: isSmallScreen ? width : 600,
+          // Limit container width on larger screens
+          height: isSmallScreen ? null : height/2+100,
+          // Allow container height to expand on larger screens
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(width * 0.02),
             child: Container(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(width * 0.02),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.circular(15.0),
                 color: Colors.white,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 20.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          padding: EdgeInsets.all(20.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Join us today!',
-                                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 20.0),
-                              Lottie.asset(
-                                'assets/animations/success.json',
-                                width: 150,
-                                height: 150,
-                                fit: BoxFit.cover,
-                              ),
-                              SizedBox(height: 20.0),
-                              TextButton(
-                                onPressed: () => _navigateToRegisterScreen(context),
-                                child: Text(
-                                  'Register',
-                                  style: TextStyle(color: Colors.white),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: height * 0.02),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: isSmallScreen ? 1 : 2,
+                          // Adjust flex based on screen size
+                          child: Container(
+                            padding: EdgeInsets.all(width * 0.02),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Join us today!',
+                                  style: TextStyle(fontSize: isSmallScreen
+                                      ? width * 0.05
+                                      : 20.0, fontWeight: FontWeight.bold),
                                 ),
-                                style: TextButton.styleFrom(
-                                  backgroundColor: Colors.green,
-                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                SizedBox(height: height * 0.02),
+                                AspectRatio(
+                                  aspectRatio: 1 / 1,
+                                  // Adjust this value as needed to match your animation's aspect ratio
+                                  child: Lottie.asset(
+                                    'assets/animations/success.json',
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 1.0,
-                        color: Colors.black,
-                        height: MediaQuery.of(context).size.height * 0.4,
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          padding: EdgeInsets.all(20.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Already have an account? Login here!',
-                                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 20.0),
-                              TextField(
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: InputDecoration(
-                                  hintText: 'Email',
-                                  prefixIcon: Icon(Icons.email),
-                                  filled: true,
-                                  fillColor: Colors.white70,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20.0),
-                              TextField(
-                                obscureText: _isHidden,
-                                decoration: InputDecoration(
-                                  hintText: 'Password',
-                                  prefixIcon: Icon(Icons.lock),
-                                  suffixIcon: IconButton(
-                                    onPressed: _toggleVisibility,
-                                    icon: _isHidden
-                                        ? Icon(Icons.visibility_off)
-                                        : Icon(Icons.visibility),
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white70,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20.0),
-                              Center(
-                                child: TextButton(
-                                  onPressed: () {},
+                                SizedBox(height: height * 0.02),
+                                TextButton(
+                                  onPressed: () =>
+                                      _navigateToRegisterScreen(context),
                                   child: Text(
-                                    'Forgot Password?',
+                                    'Register',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   style: TextButton.styleFrom(
-                                    backgroundColor: Colors.deepPurpleAccent,
-                                    padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                                    backgroundColor: Colors.green,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: isSmallScreen
+                                            ? width * 0.05
+                                            : 20.0,
+                                        vertical: isSmallScreen
+                                            ? height * 0.02
+                                            : 10.0),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        if (!isSmallScreen)
+                          Container(
+                            width: 1.0,
+                            color: Colors.black,
+                            height: height * 0.4,
+                          ),
+                        Expanded(
+                          flex: isSmallScreen ? 1 : 3,
+                          // Adjust flex based on screen size
+                          child: Container(
+                            padding: EdgeInsets.all(width * 0.02),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Already have an account? Login here!',
+                                  style: TextStyle(fontSize: isSmallScreen
+                                      ? width * 0.04
+                                      : 16.0, fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: height * 0.02),
+                                TextField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    prefixIcon: Icon(Icons.email),
+                                    filled: true,
+                                    fillColor: Colors.white70,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent, width: 2.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                          color: Colors.blue, width: 2.0),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: height * 0.02),
+                                TextField(
+                                  obscureText: _isHidden,
+                                  decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    prefixIcon: Icon(Icons.lock),
+                                    suffixIcon: IconButton(
+                                      onPressed: _toggleVisibility,
+                                      icon: _isHidden
+                                          ? Icon(Icons.visibility_off)
+                                          : Icon(Icons.visibility),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white70,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                          color: Colors.blueAccent, width: 2.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                          color: Colors.blue, width: 2.0),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: height * 0.02),
+                                Center(
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Forgot Password?',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.deepPurpleAccent,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: isSmallScreen ? width *
+                                              0.05 : 20.0,
+                                          vertical: isSmallScreen ? height *
+                                              0.02 : 10.0),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -175,9 +217,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
-
-
-
-
