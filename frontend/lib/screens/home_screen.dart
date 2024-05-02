@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'account_settings_screen.dart';
+import 'create_quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -8,9 +10,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _selectedOption = 'Home';
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo[300],
@@ -18,140 +23,202 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Row(
           children: [
             Text(
-              'Quiz App !',
-              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'LongToday', fontSize: 25, color: Colors.indigo[900]),
-            ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement Create button functionality
-              },
-              child: Text('Create'),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.indigo[900],
+              'Quiz App',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: isSmallScreen ? 20 : 25,
+                color: Colors.indigo[900],
               ),
             ),
-            SizedBox(width: 10),
+            Spacer(),
             IconButton(
-              icon: Icon(Icons.account_circle),
+              icon: Icon(Icons.account_circle, color: Colors.indigo[900],),
               onPressed: () {
-                // TODO: Implement user icon functionality
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AccountSettingsScreen()),);
               },
             ),
           ],
         ),
       ),
-      body: Row(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.2,
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20), // Add space
-                ListTile(
-                  leading: Icon(Icons.home, color: Colors.indigo),
-                  title: Text(
-                    'Home',
-                    style: TextStyle(color: Colors.indigo),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedOption = 'Home';
-                    });
-                  },
-                ),
-                SizedBox(height: 20), // Add space
-                ListTile(
-                  leading: Icon(Icons.explore, color: Colors.indigo),
-                  title: Text(
-                    'Discover',
-                    style: TextStyle(color: Colors.indigo),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedOption = 'Discover';
-                    });
-                  },
-                ),
-                SizedBox(height: 20), // Add space
-                ListTile(
-                  leading: Icon(Icons.library_books, color: Colors.indigo),
-                  title: Text(
-                    'Library',
-                    style: TextStyle(color: Colors.indigo),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedOption = 'Library';
-                    });
-                  },
-                ),
-                SizedBox(height: 20), // Add space
-                ListTile(
-                  leading: Icon(Icons.assignment, color: Colors.indigo),
-                  title: Text(
-                    'Sessions',
-                    style: TextStyle(color: Colors.indigo),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedOption = 'Sessions';
-                    });
-                  },
-                ),
-                // Add spacing
-                SizedBox(height: 20), // Add space between menu items and Lottie animation
-                Expanded(
-                  child: SizedBox(), // Add Expanded to push items to the bottom
-                ),
-                // Add Lottie animation to the bottom of the menu bar
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 0.0),
-                  child: Center(
-                    child: Lottie.asset(
-                      'assets/animations/writing.json',
-                      width: 170,
-                      height: 170,
-                      fit: BoxFit.cover,
-                      repeat: false,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          VerticalDivider(),
-          Expanded(
-            child: _buildSelectedOptionWidget(),
-          ),
-        ],
+      body: _buildMenuBar(isSmallScreen),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(
+          bottom: isSmallScreen ? 70 : 0,
+        ),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateQuizScreen()),
+            );
+          },
+          child: Icon(Icons.add, color: Colors.white,),
+          backgroundColor: Colors.indigo[900],
+        ),
       ),
     );
   }
 
+  Widget _buildMenuBar(bool isSmallScreen) {
+    if (isSmallScreen) {
+      return _buildSmallScreenLayout();
+    } else {
+      return _buildLargeScreenLayout();
+    }
+  }
+
+  Widget _buildLargeScreenLayout() {
+    return Row(
+      children: [
+        Container(
+          width: 200,
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(height: 20),
+                    ListTile(
+                      leading: Icon(Icons.home, color: Colors.indigo, size: 20,),
+                      title: Text(
+                        'Home',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _selectedOption = 'Home';
+                        });
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    ListTile(
+                      leading: Icon(Icons.explore, color: Colors.indigo, size: 20),
+                      title: Text(
+                        'Discover',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _selectedOption = 'Discover';
+                        });
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    ListTile(
+                      leading: Icon(Icons.library_books, color: Colors.indigo, size: 20),
+                      title: Text(
+                        'Library',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _selectedOption = 'Library';
+                        });
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    ListTile(
+                      leading: Icon(Icons.assignment, color: Colors.indigo, size: 20),
+                      title: Text(
+                        'Sessions',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _selectedOption = 'Sessions';
+                        });
+                      },
+                    ),
+                    SizedBox(height: 20),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 0.0),
+                child: Center(
+                  child: Lottie.asset(
+                    'assets/animations/writing.json',
+                    fit: BoxFit.cover,
+                    repeat: false,
+                    height: 130,
+                    width: 130,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        VerticalDivider(),
+        Expanded(
+          child: _buildSelectedOptionWidget(),
+        ),
+      ],
+    );
+  }
+
+
+  Widget _buildSmallScreenLayout() {
+    return Scaffold(
+      body: _buildSelectedOptionWidget(),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // Fixed
+        backgroundColor: Colors.indigo[300],
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, color: Colors.indigo[900],),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore, color: Colors.indigo[900]),
+            label: 'Discover',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_books, color: Colors.indigo[900]),
+            label: 'Library',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assignment, color: Colors.indigo[900]),
+            label: 'Sessions',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.indigo[900],
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+            _selectedOption = ['Home', 'Discover', 'Library', 'Sessions'][index];
+          });
+        },
+      ),
+    );
+  }
+
+
   Widget _buildSelectedOptionWidget() {
     switch (_selectedOption) {
       case 'Discover':
-        return Container(); // Placeholder until DiscoverScreen is implemented
+        print("Discover");
+        return Container();
       case 'Library':
-        return Container(); // Placeholder until LibraryScreen is implemented
+        print("Library");
+        return Container();
       case 'Sessions':
-        return Container(); // Placeholder until SessionsScreen is implemented
+        print("Sessions");
+        return Container();
       default:
-        return Container(); // Placeholder until HomeContent is implemented
+        print("Home");
+        return Container();
     }
   }
 }
-
-
-
-
-
-
-
-
-
-

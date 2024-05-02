@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'register_screen.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -34,18 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
         .size
         .height;
 
-    // Determine if the screen is small (e.g., mobile) or large (e.g., desktop)
-    bool isSmallScreen = width <
-        600; // You can adjust this breakpoint as needed
+    bool isSmallScreen = width < 600;
 
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Colors.indigo[300],
       body: Center(
         child: Container(
           width: isSmallScreen ? width : 600,
-          // Limit container width on larger screens
           height: isSmallScreen ? null : height/2+100,
-          // Allow container height to expand on larger screens
           child: Padding(
             padding: EdgeInsets.all(width * 0.02),
             child: Container(
@@ -65,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Expanded(
                           flex: isSmallScreen ? 1 : 2,
-                          // Adjust flex based on screen size
                           child: Container(
                             padding: EdgeInsets.all(width * 0.02),
                             child: Column(
@@ -80,7 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(height: height * 0.02),
                                 AspectRatio(
                                   aspectRatio: 1 / 1,
-                                  // Adjust this value as needed to match your animation's aspect ratio
                                   child: Lottie.asset(
                                     'assets/animations/success.json',
                                     fit: BoxFit.cover,
@@ -120,7 +115,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         Expanded(
                           flex: isSmallScreen ? 1 : 3,
-                          // Adjust flex based on screen size
                           child: Container(
                             padding: EdgeInsets.all(width * 0.02),
                             child: Column(
@@ -144,12 +138,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: BorderSide(
-                                          color: Colors.blueAccent, width: 2.0),
+                                          color: Colors.indigo[300]!, width: 2.0),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: BorderSide(
-                                          color: Colors.blue, width: 2.0),
+                                          color: Colors.indigo[300]!, width: 2.0),
                                     ),
                                   ),
                                 ),

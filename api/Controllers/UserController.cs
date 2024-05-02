@@ -60,4 +60,16 @@ public class UserController : ControllerBase
         _passwordHashService.DeletePasswordHash(userId);
         return _userService.DeleteUserById(userId);
     }
+
+    [Route("api/login")]
+    [HttpPost]
+    public bool Login([FromBody] LoginDto dto)
+    {
+        var user = _passwordHashService.Authenticate(dto.Email, dto.Password);
+        if (user == null)
+        {
+            return false;
+        }
+        return true;
+    }
 }
