@@ -10,10 +10,12 @@ namespace api.Controllers;
 public class QuestionController : ControllerBase
 {
     private readonly QuestionService _questionService;
+    private readonly AnswerService _answerService;
     
-    public QuestionController(QuestionService questionService)
+    public QuestionController(QuestionService questionService, AnswerService answerService)
     {
         _questionService = questionService;
+        _answerService = answerService;
     }
     
     [Route("api/question/create")]
@@ -41,18 +43,22 @@ public class QuestionController : ControllerBase
         return _questionService.UpdateQuestion(updatedQuestion);
     }
     
-    [Route("api/question/create/multiple")]
+    [Route("api/question/createWithAnswers")]
     [HttpPost]
-    public List<Question> CreateMultipleQuestions([FromBody] List<Question> questions)
+    public Question CreateQuestionWithAnswers([FromBody] QuestionAndAnswersDto questionWithAnswers)
     {
-        List<Question> createdQuestions = new List<Question>();
-        foreach (var question in questions)
+        var createdQuestion = _questionService.CreateQuestion(questionWithAnswers.Question);
+
+        foreach (var answer in questionWithAnswers.Answers)
         {
-            createdQuestions.Add(_questionService.CreateQuestion(question));
+            answer.QuestionId = createdQuestion.Id;
+            _answerService.CreateAnswer(answer);
         }
 
-        return createdQuestions;
+        return createdQuestion;
     }
+
+    
     
 
 }
