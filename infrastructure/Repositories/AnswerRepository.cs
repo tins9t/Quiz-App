@@ -7,7 +7,7 @@ public class AnswerRepository
 {
     public Answer CreateAnswer(Answer answer)
     {
-        var sql = $@"INSERT INTO answer(question_id, text, correct) VALUES (@question_id, @text, @correct);";
+        var sql = $@"INSERT INTO answer(question_id, text, correct) VALUES (@question_id, @text, @correct) RETURNING *;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<Answer>(sql, new
@@ -21,11 +21,12 @@ public class AnswerRepository
 
     public Answer UpdateAnswer(Answer answer)
     {
-        var sql = $@"UPDATE answer SET text = @text, correct = @correct WHERE id = @id;";
+        var sql = $@"UPDATE answer SET text = @text, correct = @correct WHERE id = @id RETURNING *;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<Answer>(sql, new
             {
+                id = answer.Id,
                 text = answer.Text,
                 correct = answer.Correct
             });

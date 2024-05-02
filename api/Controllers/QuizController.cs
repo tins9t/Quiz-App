@@ -1,3 +1,4 @@
+using api.Models.TransferModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
 using service;
@@ -28,11 +29,15 @@ public class QuizController : ControllerBase
         return _quizService.GetQuizById(quizId);
     }
     
-    [Route("api/quiz/update")]
+    [Route("api/quiz/update/{quizId}")]
     [HttpPut]
-    public Quiz UpdateQuiz([FromBody] Quiz quiz)
+    public Quiz UpdateQuiz([FromBody] QuizUpdateDto dto, [FromRoute] string quizId)
     {
-        return _quizService.UpdateQuiz(quiz);
+        Quiz updatedQuiz = new Quiz()
+        {
+            Name = dto.Name, Description = dto.Description, IsPrivate = dto.IsPrivate, Id = quizId
+        };
+        return _quizService.UpdateQuiz(updatedQuiz);
     }
     
     [Route("api/quiz/delete/{quizId}")]
@@ -40,6 +45,13 @@ public class QuizController : ControllerBase
     public bool DeleteQuizById([FromRoute] string quizId)
     {
         return _quizService.DeleteQuizById(quizId);
+    }
+    
+    [Route("api/quiz/start/{quizId}")]
+    [HttpGet]
+    public void StartQuiz([FromRoute] string quizId)
+    {
+        _quizService.StartQuiz(quizId);
     }
 
 }

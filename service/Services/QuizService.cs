@@ -31,4 +31,23 @@ public class QuizService
     {
         return _quizRepository.GetQuizById(id);
     }
+
+    public void StartQuiz(string id)
+    {
+        Quiz quiz = GetQuizById(id);
+        
+        List<Question> questions = _quizRepository.GetQuestionsByQuizId(id);
+        
+        foreach (var question in questions)
+        {
+            Console.WriteLine(question.Text);
+            List<Answer> answers = _quizRepository.GetAnswersByQuestionId(question.Id);
+            foreach (var answer in answers)
+            {
+                Console.WriteLine(answer.Text);
+            }
+            
+            
+        }
+    }
 }

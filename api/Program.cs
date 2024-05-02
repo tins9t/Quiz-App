@@ -25,11 +25,21 @@ public static class ApiStartUp
     public static async Task <WebApplication> StartApi()
     {
         var builder = WebApplication.CreateBuilder();
+        builder.Services.AddSingleton<QuestionRepository>();
+        builder.Services.AddSingleton<QuestionService>();
         
-        builder.Services.AddSingleton<UserService>();
-        builder.Services.AddSingleton<PasswordHashService>();
-        builder.Services.AddSingleton<UserRepository>();
+        builder.Services.AddSingleton<AnswerRepository>();
+        builder.Services.AddSingleton<AnswerService>();
+        
         builder.Services.AddSingleton<PasswordHashRepository>();
+        builder.Services.AddSingleton<PasswordHashService>();
+        
+        builder.Services.AddSingleton<UserRepository>();
+        builder.Services.AddSingleton<UserService>();
+        
+        builder.Services.AddSingleton<QuizRepository>();
+        builder.Services.AddSingleton<QuizService>();
+        
         builder.Services.AddSingleton<PasswordHashAlgorithm, Argon2IdPasswordHashAlgorithm>();
 
         var clientEventHandlers = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
