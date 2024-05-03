@@ -1,3 +1,4 @@
+using api.Models.TransferModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
 using service;
@@ -23,11 +24,15 @@ public class AnswerController : ControllerBase
         return _answerService.CreateAnswer(answer);
     }
     
-    [Route("api/answer/update")]
+    [Route("api/answer/update/{answerId}")]
     [HttpPut]
-    public Answer UpdateAnswer([FromBody] Answer answer)
+    public Answer UpdateAnswer([FromBody] AnswerUpdateDto answer, [FromRoute] int answerId)
     {
-        return _answerService.UpdateAnswer(answer);
+        Answer updatedAnswer = new Answer()
+        {
+            Text = answer.Text, Correct = answer.Correct, Id = answerId
+        };
+        return _answerService.UpdateAnswer(updatedAnswer);
     }
     
     [Route("api/answer/delete/{answerId}")]
@@ -35,6 +40,19 @@ public class AnswerController : ControllerBase
     public bool DeleteAnswerById([FromRoute] int answerId)
     {
         return _answerService.DeleteAnswerById(answerId);
+    }
+    
+    [Route("api/answer/create/multiple")]
+    [HttpPost]
+    public List<Answer> CreateMultipleAnswers([FromBody] List<Answer> answers)
+    {
+        List<Answer> createdAnswers = new List<Answer>();
+        foreach (var answer in answers)
+        {
+            createdAnswers.Add(_answerService.CreateAnswer(answer));
+        }
+
+        return createdAnswers;
     }
     
     

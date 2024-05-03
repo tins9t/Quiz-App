@@ -7,5 +7,5 @@ public class Quiz
     public string? Description { get; set; }
     public string? TimeCreated { get; set; }
     public string? UserId { get; set; }
-    public bool Private { get; set; }
+    public bool IsPrivate { get; set; }
 }

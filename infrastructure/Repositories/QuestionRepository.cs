@@ -7,7 +7,7 @@ public class QuestionRepository
 {
     public Question CreateQuestion(Question question)
     {
-        var sql = $@"INSERT INTO question(quiz_id, text) VALUES (@quizId, @text);";
+        var sql = $@"INSERT INTO question(quiz_id, text) VALUES (@quizId, @text) RETURNING *;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<Question>(sql, new
@@ -20,11 +20,12 @@ public class QuestionRepository
 
     public Question UpdateQuestion(Question question)
     {
-        var sql = $@"UPDATE question SET text = @text WHERE id = @id;";
+        var sql = $@"UPDATE question SET text = @text WHERE id = @id RETURNING *;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<Question>(sql, new
             {
+                id = question.Id,
                 text = question.Text
             });
         }
@@ -36,6 +37,15 @@ public class QuestionRepository
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.Execute(sql, new {id = questionId}) == 1;
+        }
+    }
+    
+    public bool DeleteQuestionsByQuizId(string quizId)
+    {
+        var sql = $@"DELETE FROM question WHERE quiz_id = @quizId;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new {quizId}) > 0;
         }
     }
 }

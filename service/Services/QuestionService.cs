@@ -6,10 +6,13 @@ namespace service;
 public class QuestionService
 {
     private readonly QuestionRepository _questionRepository;
+    private readonly AnswerService _answerService;
 
-    public QuestionService(QuestionRepository questionRepository)
+    public QuestionService(QuestionRepository questionRepository, AnswerService answerService)
     {
         _questionRepository = questionRepository;
+        _answerService = answerService;
+        
     }
 
     public Question CreateQuestion(Question question)
@@ -24,6 +27,16 @@ public class QuestionService
 
     public bool DeleteQuestionById(int questionId)
     {
+        _answerService.DeleteAnswersByQuestionId(questionId);
         return _questionRepository.DeleteQuestionById(questionId);
     }
+    
+    public bool DeleteQuestionsByQuizId(string quizId)
+    {
+        _answerService.DeleteAnswersByQuizId(quizId);
+        return _questionRepository.DeleteQuestionsByQuizId(quizId);
+    }
+    
+    
+    
 }

@@ -1,3 +1,4 @@
+using api.Models.TransferModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
 using service;
@@ -9,10 +10,12 @@ namespace api.Controllers;
 public class QuestionController : ControllerBase
 {
     private readonly QuestionService _questionService;
+    private readonly AnswerService _answerService;
     
-    public QuestionController(QuestionService questionService)
+    public QuestionController(QuestionService questionService, AnswerService answerService)
     {
         _questionService = questionService;
+        _answerService = answerService;
     }
     
     [Route("api/question/create")]
@@ -29,12 +32,33 @@ public class QuestionController : ControllerBase
         return _questionService.DeleteQuestionById(questionId);
     }
     
-    [Route("api/question/update")]
+    [Route("api/question/update/{questionId}")]
     [HttpPut]
-    public Question UpdateQuestion([FromBody] Question question)
+    public Question UpdateQuestion([FromBody] QuestionUpdateDto question, [FromRoute] int questionId)
     {
-        return _questionService.UpdateQuestion(question);
+        Question updatedQuestion = new Question()
+        {
+            Text = question.Text, Id = questionId
+        };
+        return _questionService.UpdateQuestion(updatedQuestion);
     }
+    
+    [Route("api/question/createWithAnswers")]
+    [HttpPost]
+    public Question CreateQuestionWithAnswers([FromBody] QuestionAndAnswersDto questionWithAnswers)
+    {
+        var createdQuestion = _questionService.CreateQuestion(questionWithAnswers.Question);
+
+        foreach (var answer in questionWithAnswers.Answers)
+        {
+            answer.QuestionId = createdQuestion.Id;
+            _answerService.CreateAnswer(answer);
+        }
+
+        return createdQuestion;
+    }
+
+    
     
 
 }

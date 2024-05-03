@@ -4,7 +4,7 @@ using Fleck;
 public class WebSocketMetaData(IWebSocketConnection connection)
 {
     public IWebSocketConnection Connection { get; set; } = connection;
-    public string Username { get; set; }
+    public string? Username { get; set; }
 }
 
 public static class StateService
@@ -20,15 +20,22 @@ public static class StateService
 
     public static bool AddToRoom(IWebSocketConnection socket, int room)
     {
-        if(!Rooms.ContainsKey(room))
+        if(!Rooms.ContainsKey(room)){
             Rooms.Add(room, new HashSet<Guid>());
+            Console.WriteLine("created to room " + room);
+            
+        }
+        Console.WriteLine("joined room:  " + room);
+            
+        Rooms[room].Add(socket.ConnectionInfo.Id);
         return Rooms[room].Add(socket.ConnectionInfo.Id);
     }
     public static bool RemoveFromRoom(IWebSocketConnection socket, int room)
     {
-        if(Rooms.TryGetValue(room, out var guids))
-            return guids.Remove(socket.ConnectionInfo.Id);
-        return false;
+        if(!Rooms.ContainsKey(room))
+            Rooms.Add(room, new HashSet<Guid>());
+        return Rooms[room].Add(socket.ConnectionInfo.Id);
+        
     }
     public static bool KickAllUsersFromRoom(int room)
     {
@@ -43,5 +50,15 @@ public static class StateService
             return true;
         }
         return false;
+    }
+    
+    public static void BroadcastToRoom(int room, string message, IWebSocketConnection? dontSentToThis = null)
+    {
+        if (Rooms.TryGetValue(room, out var guids))
+            foreach (var guid in guids)
+            {
+                if (Connections.TryGetValue(guid, out var ws) && ws != null && ws.Connection != dontSentToThis)
+                    ws.Connection.Send(message);
+            }
     }
 }

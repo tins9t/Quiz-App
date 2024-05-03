@@ -26,4 +26,14 @@ public class AnswerService
     {
         return _answerRepository.DeleteAnswerById(answerId);
     }
+    
+    public bool DeleteAnswersByQuestionId(int questionId)
+    {
+        return _answerRepository.DeleteAnswersByQuestionId(questionId);
+    }
+    
+    public bool DeleteAnswersByQuizId(string quizId)
+    {
+        return _answerRepository.DeleteAnswersByQuizId(quizId);
+    }
 }
