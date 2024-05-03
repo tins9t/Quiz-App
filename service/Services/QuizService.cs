@@ -6,10 +6,12 @@ namespace service;
 public class QuizService
 {
     private readonly QuizRepository _quizRepository;
+    private readonly QuestionService _questionService;
 
-    public QuizService(QuizRepository quizRepository)
+    public QuizService(QuizRepository quizRepository, QuestionService questionService)
     {
         _quizRepository = quizRepository;
+        _questionService = questionService;
     }
 
     public Quiz CreateQuiz(Quiz quiz)
@@ -24,6 +26,7 @@ public class QuizService
 
     public bool DeleteQuizById(string quizId)
     {
+        _questionService.DeleteQuestionsByQuizId(quizId);
         return _quizRepository.DeleteQuizById(quizId);
     }
     

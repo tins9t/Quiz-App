@@ -39,4 +39,13 @@ public class QuestionRepository
             return conn.Execute(sql, new {id = questionId}) == 1;
         }
     }
+    
+    public bool DeleteQuestionsByQuizId(string quizId)
+    {
+        var sql = $@"DELETE FROM question WHERE quiz_id = @quizId;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new {quizId}) > 0;
+        }
+    }
 }

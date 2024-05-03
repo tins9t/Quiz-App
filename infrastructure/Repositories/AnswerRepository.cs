@@ -41,4 +41,22 @@ public class AnswerRepository
             return conn.Execute(sql, new { id = answerId }) == 1;
         }
     }
+    
+    public bool DeleteAnswersByQuestionId(int questionId)
+    {
+        var sql = $@"DELETE FROM answer WHERE question_id = @questionId;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new { questionId }) > 0;
+        }
+    }
+    
+    public bool DeleteAnswersByQuizId(string quizId)
+    {
+        var sql = $@"DELETE FROM answer WHERE question_id IN (SELECT id FROM question WHERE quiz_id = @quizId);";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new { quizId }) > 0;
+        }
+    }
 }

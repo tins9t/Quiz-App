@@ -27,7 +27,16 @@ public class QuestionService
 
     public bool DeleteQuestionById(int questionId)
     {
+        _answerService.DeleteAnswersByQuestionId(questionId);
         return _questionRepository.DeleteQuestionById(questionId);
     }
+    
+    public bool DeleteQuestionsByQuizId(string quizId)
+    {
+        _answerService.DeleteAnswersByQuizId(quizId);
+        return _questionRepository.DeleteQuestionsByQuizId(quizId);
+    }
+    
+    
     
 }
