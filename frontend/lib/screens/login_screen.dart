@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import '../data/data_source.dart';
 import 'register_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +12,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isHidden = true;
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   void _toggleVisibility() {
     setState(() {
@@ -129,6 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 SizedBox(height: height * 0.02),
                                 TextField(
+                                  controller: _emailController,
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     hintText: 'Email',
@@ -149,7 +155,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 SizedBox(height: height * 0.02),
                                 TextField(
+                                  controller: _passwordController,
                                   obscureText: _isHidden,
+                                  onSubmitted: (value) async {
+                                    final email = _emailController.value.text;
+                                    final password = _passwordController.value.text;
+                                    if (email.isEmpty || password.isEmpty) return;
+                                    await context.read<DataSource>().login(email: email, password: password);
+                                  },
                                   decoration: InputDecoration(
                                     hintText: 'Password',
                                     prefixIcon: Icon(Icons.lock),

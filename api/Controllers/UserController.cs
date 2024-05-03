@@ -44,14 +44,6 @@ public class UserController : ControllerBase
         };
         return _userService.UpdateUser(updatedUser);
     }
-    
-    [Route("api/update/password/{userId}")]
-    [HttpPut]
-    public void UpdateCredentials([FromBody] PasswordUpdateDto dto, [FromRoute] string userId)
-    {
-        User user = _userService.GetUserById(userId);
-        _passwordHashService.UpdateCredentials(user, dto.NewPassword, dto.Password);
-    }
 
     [Route("/api/delete/user/{userId}")]
     [HttpDelete]
@@ -59,17 +51,5 @@ public class UserController : ControllerBase
     {
         _passwordHashService.DeletePasswordHash(userId);
         return _userService.DeleteUserById(userId);
-    }
-
-    [Route("api/login")]
-    [HttpPost]
-    public bool Login([FromBody] LoginDto dto)
-    {
-        var user = _passwordHashService.Authenticate(dto.Email, dto.Password);
-        if (user == null)
-        {
-            return false;
-        }
-        return true;
     }
 }

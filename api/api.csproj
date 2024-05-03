@@ -16,4 +16,8 @@
         <ProjectReference Include="..\service\service.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Models\ValidationModels\" />
+    </ItemGroup>
+
 </Project>

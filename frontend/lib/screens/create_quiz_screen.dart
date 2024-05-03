@@ -78,8 +78,8 @@ class CreateQuizScreen extends StatelessWidget {
                     SizedBox(height: 10),
                     Center(
                       child: Container(
-                        height: isSmallScreen ? 150 : 400,
-                        width: isSmallScreen ? 150 : 400,
+                        height: isSmallScreen ? 200 : 400,
+                        width: isSmallScreen ? 200 : 400,
                         child: Lottie.asset(
                           'assets/animations/writing.json',
                           fit: BoxFit.cover,

@@ -38,10 +38,10 @@ public class PasswordHashRepository
         const string sql = $@"
         SELECT 
         security.user_id as {nameof(PasswordHash.UserId)},
-        security.password as {nameof(PasswordHash.Hash)},
+        security.password_hash as {nameof(PasswordHash.Hash)},
         security.salt as {nameof(PasswordHash.Salt)}
         FROM security
-        JOIN users ON security.user_id = user.id
+        JOIN users ON security.user_id = users.id
         WHERE email = @email;";
         using var connection = DataConnection.DataSource.OpenConnection();
         return connection.QuerySingle<PasswordHash>(sql, new { email });
