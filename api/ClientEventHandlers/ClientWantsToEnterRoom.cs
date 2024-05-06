@@ -14,10 +14,16 @@ public class ClientWantsToEnterRoomDto : BaseDto
 }
 public class ClientWantsToEnterRoom() : BaseEventHandler<ClientWantsToEnterRoomDto>
 {
+    private readonly StateService _stateService;
+
+    public ClientWantsToEnterRoom(StateService stateService) : this()
+    {
+        _stateService = stateService;
+    }
 
     public override Task Handle(ClientWantsToEnterRoomDto dto, IWebSocketConnection socket)
     {
-        var isSuccess = StateService.AddToRoom(socket, dto.roomId);
+        var isSuccess = _stateService.AddToRoom(socket, dto.roomId);
         socket.Send(JsonSerializer.Serialize(new ServerAddsClientToRoomDto()
         {
             eventType = "ServerAddsClientToRoom",

@@ -14,13 +14,19 @@ public class ClientWantsToAnswerQuestionDto : BaseDto
 
 public class ClientWantsToAnswerQuestion : BaseEventHandler<ClientWantsToAnswerQuestionDto>
 {
+    private readonly StateService _stateService;
+    
+    public ClientWantsToAnswerQuestion( StateService stateService)
+    {
+        _stateService = stateService;
+    }
     public override Task Handle(ClientWantsToAnswerQuestionDto dto, IWebSocketConnection socket)
     {
         socket.Send(JsonSerializer.Serialize(new ClientWantsToAnswerQuestionDto()
         {
             eventType = "ClientWantsToAnswerQuestion",
             Answer = dto.Answer,
-            Username = StateService.Connections[socket.ConnectionInfo.Id].Username
+            Username = _stateService.Connections[socket.ConnectionInfo.Id].Username
         }));
         return Task.CompletedTask;
     }
