@@ -1,6 +1,7 @@
 using System.Text.Json;
 using api.State;
 using Fleck;
+using infrastructure.QueryModels;
 using lib;
 
 namespace api.ClientEventHandlers;
@@ -10,6 +11,10 @@ public class ClientWantsToAnswerQuestionDto : BaseDto
     public string? Answer { get; set; }
     
     public string? Username { get; set; }
+    
+    public int RoomId { get; set; }
+    
+    public string? Question { get; set; }
 }
 
 public class ClientWantsToAnswerQuestion : BaseEventHandler<ClientWantsToAnswerQuestionDto>
@@ -28,6 +33,15 @@ public class ClientWantsToAnswerQuestion : BaseEventHandler<ClientWantsToAnswerQ
             Answer = dto.Answer,
             Username = _stateService.Connections[socket.ConnectionInfo.Id].Username
         }));
+        
+        // Get the room ID and the question from the context
+        // You need to implement this part according to your application's logic
+        
+
+        Answer answer = new Answer { Text = dto.Answer };
+        Question question = new Question { Text = dto.Question };
+        _stateService.AddAnswer(dto.Username, dto.RoomId, question, answer);
+
         return Task.CompletedTask;
     }
 }

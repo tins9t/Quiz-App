@@ -1,4 +1,5 @@
 using api.ClientEventHandlers;
+using infrastructure.QueryModels;
 using service;
 
 namespace api.State;
@@ -8,22 +9,24 @@ public class WebSocketMetaData(IWebSocketConnection connection)
 {
     public IWebSocketConnection Connection { get; set; } = connection;
     public string? Username { get; set; }
-    
-    
 }
-
-public class StateService
-{
-    public Dictionary<Guid, WebSocketMetaData> Connections { get; } = new();
-    public Dictionary<int, HashSet<Guid>> Rooms { get; } = new();
-
-    private readonly QuizGameService _quizGameService;
-    public Dictionary<int, Timer> SetupTimers { get; } = new Dictionary<int, Timer>();
-
-    public StateService(QuizGameService quizGameService)
+public class StateService { 
+    public StateService(QuizManagerService quizManagerService)
     {
-        _quizGameService = quizGameService;
+        _quizManagerService = quizManagerService;
+        _quizManagerService.QuestionAsked += WaitForAnswers;
+
     }
+    
+    private readonly QuizManagerService _quizManagerService;
+    public Dictionary<Guid, WebSocketMetaData> Connections { get; } = new();
+    private Dictionary<int, HashSet<Guid>> Rooms { get; } = new();
+    public Dictionary<int, Timer> SetupTimers { get; } = new Dictionary<int, Timer>();
+    private Dictionary<int, Dictionary<string, Dictionary<Question, Answer>>> _userAnswersPerRoom = new();
+    public event Action<string, int, string> QuizStarted;
+    
+    
+    
     
     public bool AddConnection(IWebSocketConnection socket)
     {
@@ -80,9 +83,56 @@ public class StateService
                     ws.Connection.Send(message);
             }
     }
-    
-    public void StartQuiz(string UserName, int QuizRoomId, string QuizId)
+    public void AddAnswer(string username, int room, Question question, Answer answer)
     {
-        _quizGameService.StartQuiz(UserName, QuizRoomId, QuizId); // Start the quiz
+        if (!_userAnswersPerRoom.ContainsKey(room))
+        {
+            _userAnswersPerRoom[room] = new Dictionary<string, Dictionary<Question, Answer>>();
+        }
+
+        if (!_userAnswersPerRoom[room].ContainsKey(username))
+        {
+            _userAnswersPerRoom[room][username] = new Dictionary<Question, Answer>();
+        }
+
+        _userAnswersPerRoom[room][username][question] = answer;
     }
+
+    private void WaitForAnswers(int room, Question question)
+    {
+        Task.Run(() =>
+        {
+            Timer timer = new Timer(30000); // Set the time limit to 30 seconds
+            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+
+            timer.Elapsed += (sender, e) => tcs.TrySetResult(true);
+            timer.Start();
+
+            // This loop checks every second if all users have answered
+            while (_userAnswersPerRoom[room].Count < Rooms[room].Count - 1) // Subtract 1 to exclude the host user
+            {
+                if (Task.WhenAny(Task.Delay(1000), tcs.Task).Result == tcs.Task)
+                {
+                    break; // The timer has run out
+                }
+            }
+
+            timer.Stop();
+
+            // Use _userAnswersPerRoom directly as it is already in the format expected by CalculateScore
+            _quizManagerService.CalculateScore(_userAnswersPerRoom[room]);
+        });
+    }
+    
+    public void StartQuiz(string userName, int quizRoomId, string quizId)
+    {
+        QuizStarted?.Invoke(userName, quizRoomId, quizId);
+        _quizManagerService.StartQuiz(userName, quizRoomId, quizId);
+        
+    }
+    
+    
+    
+    
+   
 }

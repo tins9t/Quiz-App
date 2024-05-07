@@ -41,8 +41,8 @@ public static class ApiStartUp
         
         builder.Services.AddSingleton<QuizRepository>();
         builder.Services.AddSingleton<QuizService>();
-        builder.Services.AddSingleton<QuizGameService>();
         
+        builder.Services.AddSingleton<QuizManagerService>();
         builder.Services.AddSingleton<StateService>();
         
         builder.Services.AddSingleton<PasswordHashAlgorithm, Argon2IdPasswordHashAlgorithm>();

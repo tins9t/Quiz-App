@@ -24,16 +24,14 @@ public class ClientWantsToStartQuiz : BaseEventHandler<ClientWantsToStartQuizDto
     public override Task Handle(ClientWantsToStartQuizDto dto, IWebSocketConnection socket)
     {
         Console.WriteLine("Handle method of ClientWantsToStartQuiz is called.");
-        
         try
         {
-            
             if (_stateService.SetupTimers.TryGetValue(dto.QuizRoomId, out var timer))
             {
                 timer?.Stop(); // Stop the timer if it's running
                 timer?.Dispose(); // Dispose the timer
             }
-            _stateService.StartQuiz(UserName: dto.Username, QuizRoomId: dto.QuizRoomId, QuizId: dto.QuizId);
+            _stateService.StartQuiz(dto.Username, dto.QuizRoomId, dto.QuizId);
             Console.WriteLine("Quiz has started.");
         }
         catch (Exception e)
