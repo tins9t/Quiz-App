@@ -1,5 +1,6 @@
 using System.Reflection;
 using api;
+using api.Middleware;
 using api.State;
 using Fleck;
 using infrastructure.Repositories;
@@ -48,9 +49,12 @@ public static class ApiStartUp
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         
-        var app = builder.Build();
+        builder.Services.AddJwtHelper();
         
+        var app = builder.Build();
 
+        app.UseMiddleware<JwtBearerHandler>();
+        
         var server = new WebSocketServer("ws://0.0.0.0:8181");
         server.Start(socket =>
         {

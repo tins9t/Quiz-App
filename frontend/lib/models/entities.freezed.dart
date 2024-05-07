@@ -766,3 +766,230 @@ abstract class _Credentials implements Credentials {
   _$$CredentialsImplCopyWith<_$CredentialsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+ApiError _$ApiErrorFromJson(Map<String, dynamic> json) {
+  return _ApiError.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ApiError {
+  String get type => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  int get status => throw _privateConstructorUsedError;
+  Map<String, List<String>> get errors => throw _privateConstructorUsedError;
+  String get traceId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ApiErrorCopyWith<ApiError> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ApiErrorCopyWith<$Res> {
+  factory $ApiErrorCopyWith(ApiError value, $Res Function(ApiError) then) =
+      _$ApiErrorCopyWithImpl<$Res, ApiError>;
+  @useResult
+  $Res call(
+      {String type,
+      String title,
+      int status,
+      Map<String, List<String>> errors,
+      String traceId});
+}
+
+/// @nodoc
+class _$ApiErrorCopyWithImpl<$Res, $Val extends ApiError>
+    implements $ApiErrorCopyWith<$Res> {
+  _$ApiErrorCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? title = null,
+    Object? status = null,
+    Object? errors = null,
+    Object? traceId = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int,
+      errors: null == errors
+          ? _value.errors
+          : errors // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
+      traceId: null == traceId
+          ? _value.traceId
+          : traceId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ApiErrorImplCopyWith<$Res>
+    implements $ApiErrorCopyWith<$Res> {
+  factory _$$ApiErrorImplCopyWith(
+          _$ApiErrorImpl value, $Res Function(_$ApiErrorImpl) then) =
+      __$$ApiErrorImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String type,
+      String title,
+      int status,
+      Map<String, List<String>> errors,
+      String traceId});
+}
+
+/// @nodoc
+class __$$ApiErrorImplCopyWithImpl<$Res>
+    extends _$ApiErrorCopyWithImpl<$Res, _$ApiErrorImpl>
+    implements _$$ApiErrorImplCopyWith<$Res> {
+  __$$ApiErrorImplCopyWithImpl(
+      _$ApiErrorImpl _value, $Res Function(_$ApiErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? title = null,
+    Object? status = null,
+    Object? errors = null,
+    Object? traceId = null,
+  }) {
+    return _then(_$ApiErrorImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int,
+      errors: null == errors
+          ? _value._errors
+          : errors // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
+      traceId: null == traceId
+          ? _value.traceId
+          : traceId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ApiErrorImpl implements _ApiError {
+  const _$ApiErrorImpl(
+      {required this.type,
+      required this.title,
+      required this.status,
+      required final Map<String, List<String>> errors,
+      required this.traceId})
+      : _errors = errors;
+
+  factory _$ApiErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ApiErrorImplFromJson(json);
+
+  @override
+  final String type;
+  @override
+  final String title;
+  @override
+  final int status;
+  final Map<String, List<String>> _errors;
+  @override
+  Map<String, List<String>> get errors {
+    if (_errors is EqualUnmodifiableMapView) return _errors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_errors);
+  }
+
+  @override
+  final String traceId;
+
+  @override
+  String toString() {
+    return 'ApiError(type: $type, title: $title, status: $status, errors: $errors, traceId: $traceId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ApiErrorImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.status, status) || other.status == status) &&
+            const DeepCollectionEquality().equals(other._errors, _errors) &&
+            (identical(other.traceId, traceId) || other.traceId == traceId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, type, title, status,
+      const DeepCollectionEquality().hash(_errors), traceId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ApiErrorImplCopyWith<_$ApiErrorImpl> get copyWith =>
+      __$$ApiErrorImplCopyWithImpl<_$ApiErrorImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ApiErrorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ApiError implements ApiError {
+  const factory _ApiError(
+      {required final String type,
+      required final String title,
+      required final int status,
+      required final Map<String, List<String>> errors,
+      required final String traceId}) = _$ApiErrorImpl;
+
+  factory _ApiError.fromJson(Map<String, dynamic> json) =
+      _$ApiErrorImpl.fromJson;
+
+  @override
+  String get type;
+  @override
+  String get title;
+  @override
+  int get status;
+  @override
+  Map<String, List<String>> get errors;
+  @override
+  String get traceId;
+  @override
+  @JsonKey(ignore: true)
+  _$$ApiErrorImplCopyWith<_$ApiErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

@@ -49,8 +49,11 @@ public class QuizService
             {
                 Console.WriteLine(answer.Text);
             }
-            
-            
         }
+    }
+
+    public List<Quiz> GetNewestQuizzes()
+    {
+        return _quizRepository.GetNewestQuizzes();
     }
 }

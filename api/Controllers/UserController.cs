@@ -1,4 +1,5 @@
 ﻿using api.Models.TransferModels;
+using api.TransferModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
 using service;
@@ -10,11 +11,13 @@ public class UserController : ControllerBase
 {
     private readonly UserService _userService;
     private readonly PasswordHashService _passwordHashService;
+    private readonly JwtTokenService _jwtTokenService;
 
-    public UserController(UserService userService, PasswordHashService passwordHashService)
+    public UserController(UserService userService, PasswordHashService passwordHashService, JwtTokenService jwtTokenService)
     {
         _userService = userService;
         _passwordHashService = passwordHashService;
+        _jwtTokenService = jwtTokenService;
     }
 
     [Route("api/create/user")]
@@ -51,5 +54,29 @@ public class UserController : ControllerBase
     {
         _passwordHashService.DeletePasswordHash(userId);
         return _userService.DeleteUserById(userId);
+    }
+    
+    [Route("api/login")]
+    [HttpPost]
+    public IActionResult Login([FromBody] LoginDto dto)
+    {
+        var user = _passwordHashService.Authenticate(dto.Email, dto.Password);
+        if (user == null)
+        {
+            return Unauthorized("Invalid credentials");
+        }
+        else
+        {
+            var token = _jwtTokenService.IssueToken(SessionData.FromUser(user!));
+            return Ok(new { token });
+        }
+    }
+    
+    [Route("api/update/password/{userId}")]
+    [HttpPut]
+    public void UpdateCredentials([FromBody] PasswordUpdateDto dto, [FromRoute] string userId)
+    {
+        User user = _userService.GetUserById(userId);
+        _passwordHashService.UpdateCredentials(user, dto.NewPassword, dto.Password);
     }
 }

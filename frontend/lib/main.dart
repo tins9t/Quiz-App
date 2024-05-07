@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/data/data_source.dart';
+import 'package:frontend/data/user_data_source.dart';
+import 'package:frontend/data/quiz_data_source.dart';
 import 'package:frontend/screens/create_quiz_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'screens/login_screen.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-const baseUrl = "http://10.0.2.2:5185";
+void main() {
 
-void main() => runApp(
+  String baseUrl = kIsWeb ? "http://localhost:5185" : "http://10.0.2.2:5185";
+
+runApp(
       MultiProvider(
         providers: [
-          Provider<DataSource>(
-            create: (context) => DataSource(baseUrl),
+          Provider<UserDataSource>(
+            create: (context) => UserDataSource(baseUrl),
+          ),
+          Provider<QuizDataSource>(
+            create: (context) => QuizDataSource(baseUrl),
           ),
         ],
         child: QuizApp(),
       ),
     );
+}
 
 class QuizApp extends StatelessWidget {
   @override
@@ -27,7 +35,7 @@ class QuizApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: HomeScreen(),
     );
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart'; // Import Provider package
+import '../data/quiz_data_source.dart';
+import '../models/entities.dart';
 import 'account_settings_screen.dart';
 import 'create_quiz_screen.dart';
 
@@ -35,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.account_circle, color: Colors.indigo[900],),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AccountSettingsScreen()),);
+                  MaterialPageRoute(builder: (context) => AccountSettingsScreen()),);
               },
             ),
           ],
@@ -207,18 +210,75 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildSelectedOptionWidget() {
     switch (_selectedOption) {
+      case 'Home':
+        return _buildQuizzesWidget();
       case 'Discover':
         print("Discover");
-        return Container();
+        return Container(); // Implement Discover widget
       case 'Library':
         print("Library");
-        return Container();
+        return Container(); // Implement Library widget
       case 'Sessions':
         print("Sessions");
-        return Container();
+        return Container(); // Implement Sessions widget
       default:
         print("Home");
         return Container();
     }
+  }
+
+  Widget _buildQuizzesWidget() {
+    final future = context.read<QuizDataSource>().getNewestQuizzes();
+
+    return FutureBuilder<List<Quiz>>(
+      future: future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          final quizzes = snapshot.data ?? [];
+          print('Quizzes: $quizzes');
+          return _buildQuizList(quizzes);
+        }
+      },
+    );
+  }
+
+  Widget _buildQuizList(List<Quiz> quizzes) {
+    return ListView.builder(
+      itemCount: quizzes.length,
+      itemBuilder: (context, index) {
+        final quiz = quizzes[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: ListTile(
+              title: Text(
+                quiz.name,
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(
+                quiz.description,
+                style: TextStyle(fontSize: 14.0),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

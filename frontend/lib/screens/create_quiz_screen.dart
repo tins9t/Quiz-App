@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/data/quiz_data_source.dart';
+import 'package:provider/provider.dart';
 import 'create_questions_and_answers.dart';
 import 'package:lottie/lottie.dart';
 
 class CreateQuizScreen extends StatelessWidget {
+
+  final _quizNameController = TextEditingController();
+  final _quizDescriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
@@ -12,7 +18,7 @@ class CreateQuizScreen extends StatelessWidget {
         backgroundColor: Colors.indigo[300],
         elevation: 4,
         title: Text(
-          'Create Quiz',
+          '',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: isSmallScreen ? 20 : 25,
@@ -41,6 +47,7 @@ class CreateQuizScreen extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextFormField(
+                controller: _quizNameController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -64,6 +71,7 @@ class CreateQuizScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: _quizDescriptionController,
                         maxLines: 4,
                         keyboardType: TextInputType.multiline,
                         decoration: InputDecoration(
@@ -93,7 +101,8 @@ class CreateQuizScreen extends StatelessWidget {
               SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await context.read<QuizDataSource>().createQuiz(name: _quizNameController.value.text, description: _quizDescriptionController.value.text);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => CreateQuestionsAndAnswersScreen()),

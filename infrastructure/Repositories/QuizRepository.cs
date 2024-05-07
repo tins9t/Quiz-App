@@ -86,4 +86,13 @@ public class QuizRepository
             return conn.Query<Answer>(sql, new { question_id = questionId }).ToList();
         }
     }
+    
+    public List<Quiz> GetNewestQuizzes()
+    {
+        var sql = @"SELECT * FROM quiz ORDER BY time_created DESC;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.Query<Quiz>(sql).ToList();
+        }
+    }
 }

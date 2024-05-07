@@ -1,9 +1,8 @@
-import 'dart:html';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'entities.freezed.dart';
-part 'entities.g.dart';
 
+part 'entities.freezed.dart';
+
+part 'entities.g.dart';
 
 @freezed
 class Quiz with _$Quiz {
@@ -16,8 +15,7 @@ class Quiz with _$Quiz {
     required bool private,
   }) = _Quiz;
 
-  factory Quiz.fromJson(Map<String, Object?> json) =>
-      _$QuizFromJson(json);
+  factory Quiz.fromJson(Map<String, Object?> json) => _$QuizFromJson(json);
 }
 
 @freezed
@@ -41,8 +39,7 @@ class Answer with _$Answer {
     required bool correct,
   }) = _Answer;
 
-  factory Answer.fromJson(Map<String, Object?> json) =>
-      _$AnswerFromJson(json);
+  factory Answer.fromJson(Map<String, Object?> json) => _$AnswerFromJson(json);
 }
 
 @freezed
@@ -54,4 +51,18 @@ class Credentials with _$Credentials {
 
   factory Credentials.fromJson(Map<String, Object?> json) =>
       _$CredentialsFromJson(json);
+}
+
+@freezed
+class ApiError with _$ApiError {
+  const factory ApiError({
+    required String type,
+    required String title,
+    required int status,
+    required Map<String, List<String>> errors,
+    required String traceId,
+  }) = _ApiError;
+
+  factory ApiError.fromJson(Map<String, Object?> json) =>
+      _$ApiErrorFromJson(json);
 }

@@ -65,3 +65,24 @@ Map<String, dynamic> _$$CredentialsImplToJson(_$CredentialsImpl instance) =>
       'email': instance.email,
       'password': instance.password,
     };
+
+_$ApiErrorImpl _$$ApiErrorImplFromJson(Map<String, dynamic> json) =>
+    _$ApiErrorImpl(
+      type: json['type'] as String,
+      title: json['title'] as String,
+      status: (json['status'] as num).toInt(),
+      errors: (json['errors'] as Map<String, dynamic>).map(
+        (k, e) =>
+            MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
+      ),
+      traceId: json['traceId'] as String,
+    );
+
+Map<String, dynamic> _$$ApiErrorImplToJson(_$ApiErrorImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'title': instance.title,
+      'status': instance.status,
+      'errors': instance.errors,
+      'traceId': instance.traceId,
+    };

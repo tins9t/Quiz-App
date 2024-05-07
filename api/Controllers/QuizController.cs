@@ -17,9 +17,13 @@ public class QuizController : ControllerBase
     
     [Route("api/quiz/create")]
     [HttpPost]
-    public Quiz CreateQuiz([FromBody] Quiz quiz)
+    public Quiz CreateQuiz([FromBody] QuizDto dto)
     {
-        return _quizService.CreateQuiz(quiz);
+        Quiz createdQuiz = new Quiz()
+        {
+            Name = dto.Name, Description = dto.Description, UserId = dto.UserId
+        };
+        return _quizService.CreateQuiz(createdQuiz);
     }
     
     [Route("api/quiz/{quizId}")]
@@ -54,5 +58,11 @@ public class QuizController : ControllerBase
         _quizService.StartQuiz(quizId);
     }
 
+    [Route("api/quiz/get/newest")]
+    [HttpGet]
+    public List<Quiz> GetNewestQuizzes()
+    {
+        return _quizService.GetNewestQuizzes();
+    }
 }
 
