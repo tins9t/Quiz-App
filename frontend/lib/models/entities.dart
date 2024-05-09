@@ -1,18 +1,16 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'entities.freezed.dart';
-
 part 'entities.g.dart';
 
 @freezed
 class Quiz with _$Quiz {
   const factory Quiz({
-    required String id,
+    String? id,
     required String name,
     required String description,
-    required String timeCreated,
-    required String userId,
-    required bool private,
+    String? timeCreated,
+    String? userId,
+    bool? isPrivate,
   }) = _Quiz;
 
   factory Quiz.fromJson(Map<String, Object?> json) => _$QuizFromJson(json);
@@ -51,6 +49,18 @@ class Credentials with _$Credentials {
 
   factory Credentials.fromJson(Map<String, Object?> json) =>
       _$CredentialsFromJson(json);
+}
+
+@freezed
+class User with _$User {
+  const factory User({
+    required String id,
+    required String username,
+    required String email,
+  }) = _User;
+
+  factory User.fromJson(Map<String, Object?> json) =>
+      _$UserFromJson(json);
 }
 
 @freezed

@@ -1,5 +1,5 @@
-﻿using api.Models.TransferModels;
-using api.TransferModels;
+﻿using api.Filters;
+using api.Models.TransferModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
 using service;
@@ -70,6 +70,17 @@ public class UserController : ControllerBase
             var token = _jwtTokenService.IssueToken(SessionData.FromUser(user!));
             return Ok(new { token });
         }
+    }
+    
+    [RequireAuthentication]
+    [HttpGet]
+    [Route("/api/users/whoami")]
+    public User WhoAmI()
+    {
+        var data = HttpContext.GetSessionData();
+        Console.WriteLine(data);
+        var user = _userService.GetUserById(data.UserId);
+        return user;
     }
     
     [Route("api/update/password/{userId}")]

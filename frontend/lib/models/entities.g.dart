@@ -7,12 +7,12 @@ part of 'entities.dart';
 // **************************************************************************
 
 _$QuizImpl _$$QuizImplFromJson(Map<String, dynamic> json) => _$QuizImpl(
-      id: json['id'] as String,
+      id: json['id'] as String?,
       name: json['name'] as String,
       description: json['description'] as String,
-      timeCreated: json['timeCreated'] as String,
-      userId: json['userId'] as String,
-      private: json['private'] as bool,
+      timeCreated: json['timeCreated'] as String?,
+      userId: json['userId'] as String?,
+      isPrivate: json['isPrivate'] as bool?,
     );
 
 Map<String, dynamic> _$$QuizImplToJson(_$QuizImpl instance) =>
@@ -22,7 +22,7 @@ Map<String, dynamic> _$$QuizImplToJson(_$QuizImpl instance) =>
       'description': instance.description,
       'timeCreated': instance.timeCreated,
       'userId': instance.userId,
-      'private': instance.private,
+      'isPrivate': instance.isPrivate,
     };
 
 _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
@@ -64,6 +64,19 @@ Map<String, dynamic> _$$CredentialsImplToJson(_$CredentialsImpl instance) =>
     <String, dynamic>{
       'email': instance.email,
       'password': instance.password,
+    };
+
+_$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
+      id: json['id'] as String,
+      username: json['username'] as String,
+      email: json['email'] as String,
+    );
+
+Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'username': instance.username,
+      'email': instance.email,
     };
 
 _$ApiErrorImpl _$$ApiErrorImplFromJson(Map<String, dynamic> json) =>

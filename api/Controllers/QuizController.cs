@@ -64,5 +64,12 @@ public class QuizController : ControllerBase
     {
         return _quizService.GetNewestQuizzes();
     }
+
+    [Route("api/quiz/get/user/{userId}")]
+    [HttpGet]
+    public List<Quiz> GetQuizzesByUser([FromRoute] string userId)
+    {
+        return _quizService.GetQuizzesByUser(userId);
+    }
 }
 

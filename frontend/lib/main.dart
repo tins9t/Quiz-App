@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/data/user_data_source.dart';
 import 'package:frontend/data/quiz_data_source.dart';
@@ -7,6 +9,8 @@ import 'package:frontend/screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'screens/login_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'services/token_service.dart';
 
 void main() {
 
@@ -21,6 +25,7 @@ runApp(
           Provider<QuizDataSource>(
             create: (context) => QuizDataSource(baseUrl),
           ),
+          Provider(create: (context) => TokenService()),
         ],
         child: QuizApp(),
       ),
@@ -35,7 +40,7 @@ class QuizApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }

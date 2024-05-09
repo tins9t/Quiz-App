@@ -89,10 +89,28 @@ public class QuizRepository
     
     public List<Quiz> GetNewestQuizzes()
     {
-        var sql = @"SELECT * FROM quiz ORDER BY time_created DESC;";
+        var sql = $@"SELECT * FROM quiz ORDER BY time_created DESC;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.Query<Quiz>(sql).ToList();
+        }
+    }
+
+    public List<Quiz> GetQuizzesByUser(string userId)
+    {
+        var sql = $@"SELECT * FROM quiz WHERE user_id = @user_id;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.Query<Quiz>(sql, new { user_id = userId }).ToList();
+        }
+    }
+
+    public List<Quiz> GetQuizzesByName(string name)
+    {
+        var sql = $@"SELECT * FROM quiz WHERE name ILIKE @name;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.Query<Quiz>(sql, new { name = $"%{name}%" }).ToList();
         }
     }
 }

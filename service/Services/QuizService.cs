@@ -56,4 +56,9 @@ public class QuizService
     {
         return _quizRepository.GetNewestQuizzes();
     }
+
+    public List<Quiz> GetQuizzesByUser(string userId)
+    {
+        return _quizRepository.GetQuizzesByUser(userId);
+    }
 }

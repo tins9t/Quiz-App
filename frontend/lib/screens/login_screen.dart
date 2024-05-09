@@ -163,27 +163,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 SizedBox(height: isSmallScreen ? 10 : 20),
-                                TextField(
-                                  controller: _passwordController,
-                                  obscureText: _isHidden,
-                                  onSubmitted: (value) async {
-                                    final email = _emailController.value.text;
-                                    final password =
-                                        _passwordController.value.text;
-                                    if (email.isEmpty || password.isEmpty)
-                                      return;
-                                    try {
-                                      await context
-                                          .read<UserDataSource>()
-                                          .login(
-                                          email: email, password: password);
-                                      _navigateToHomeScreen(context);
-                                    } catch (e) {
-                                        errorMessage =
-                                        'Invalid Credentials. Please try again.';
-                                    }
-                                  },
-                                  decoration: InputDecoration(
+                            TextField(
+                              controller: _passwordController,
+                              obscureText: _isHidden,
+                              onSubmitted: (value) async {
+                                final email = _emailController.value.text;
+                                final password = _passwordController.value.text;
+                                if (email.isEmpty || password.isEmpty)
+                                  return;
+                                try {
+                                  await context.read<UserDataSource>().login(
+                                    email: email,
+                                    password: password,
+                                    context: context,
+                                  );
+                                  if (context.mounted) {
+                                    _navigateToHomeScreen(context);
+                                  }
+                                } catch (e) {
+                                  print("Error: $e");
+                                  errorMessage = 'Invalid Credentials. Please try again.';
+                                }
+                              },
+                            decoration: InputDecoration(
                                     hintText: 'Password',
                                     prefixIcon: Icon(Icons.lock),
                                     suffixIcon: IconButton(

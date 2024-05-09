@@ -20,12 +20,12 @@ Quiz _$QuizFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Quiz {
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String get timeCreated => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
-  bool get private => throw _privateConstructorUsedError;
+  String? get timeCreated => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
+  bool? get isPrivate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,12 +38,12 @@ abstract class $QuizCopyWith<$Res> {
       _$QuizCopyWithImpl<$Res, Quiz>;
   @useResult
   $Res call(
-      {String id,
+      {String? id,
       String name,
       String description,
-      String timeCreated,
-      String userId,
-      bool private});
+      String? timeCreated,
+      String? userId,
+      bool? isPrivate});
 }
 
 /// @nodoc
@@ -59,18 +59,18 @@ class _$QuizCopyWithImpl<$Res, $Val extends Quiz>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
     Object? description = null,
-    Object? timeCreated = null,
-    Object? userId = null,
-    Object? private = null,
+    Object? timeCreated = freezed,
+    Object? userId = freezed,
+    Object? isPrivate = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -79,18 +79,18 @@ class _$QuizCopyWithImpl<$Res, $Val extends Quiz>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      timeCreated: null == timeCreated
+      timeCreated: freezed == timeCreated
           ? _value.timeCreated
           : timeCreated // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: null == userId
+              as String?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      private: null == private
-          ? _value.private
-          : private // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as String?,
+      isPrivate: freezed == isPrivate
+          ? _value.isPrivate
+          : isPrivate // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -103,12 +103,12 @@ abstract class _$$QuizImplCopyWith<$Res> implements $QuizCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {String? id,
       String name,
       String description,
-      String timeCreated,
-      String userId,
-      bool private});
+      String? timeCreated,
+      String? userId,
+      bool? isPrivate});
 }
 
 /// @nodoc
@@ -121,18 +121,18 @@ class __$$QuizImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = null,
     Object? description = null,
-    Object? timeCreated = null,
-    Object? userId = null,
-    Object? private = null,
+    Object? timeCreated = freezed,
+    Object? userId = freezed,
+    Object? isPrivate = freezed,
   }) {
     return _then(_$QuizImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -141,18 +141,18 @@ class __$$QuizImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      timeCreated: null == timeCreated
+      timeCreated: freezed == timeCreated
           ? _value.timeCreated
           : timeCreated // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: null == userId
+              as String?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      private: null == private
-          ? _value.private
-          : private // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as String?,
+      isPrivate: freezed == isPrivate
+          ? _value.isPrivate
+          : isPrivate // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -161,32 +161,32 @@ class __$$QuizImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$QuizImpl implements _Quiz {
   const _$QuizImpl(
-      {required this.id,
+      {this.id,
       required this.name,
       required this.description,
-      required this.timeCreated,
-      required this.userId,
-      required this.private});
+      this.timeCreated,
+      this.userId,
+      this.isPrivate});
 
   factory _$QuizImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuizImplFromJson(json);
 
   @override
-  final String id;
+  final String? id;
   @override
   final String name;
   @override
   final String description;
   @override
-  final String timeCreated;
+  final String? timeCreated;
   @override
-  final String userId;
+  final String? userId;
   @override
-  final bool private;
+  final bool? isPrivate;
 
   @override
   String toString() {
-    return 'Quiz(id: $id, name: $name, description: $description, timeCreated: $timeCreated, userId: $userId, private: $private)';
+    return 'Quiz(id: $id, name: $name, description: $description, timeCreated: $timeCreated, userId: $userId, isPrivate: $isPrivate)';
   }
 
   @override
@@ -201,13 +201,14 @@ class _$QuizImpl implements _Quiz {
             (identical(other.timeCreated, timeCreated) ||
                 other.timeCreated == timeCreated) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.private, private) || other.private == private));
+            (identical(other.isPrivate, isPrivate) ||
+                other.isPrivate == isPrivate));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, name, description, timeCreated, userId, private);
+      runtimeType, id, name, description, timeCreated, userId, isPrivate);
 
   @JsonKey(ignore: true)
   @override
@@ -225,27 +226,27 @@ class _$QuizImpl implements _Quiz {
 
 abstract class _Quiz implements Quiz {
   const factory _Quiz(
-      {required final String id,
+      {final String? id,
       required final String name,
       required final String description,
-      required final String timeCreated,
-      required final String userId,
-      required final bool private}) = _$QuizImpl;
+      final String? timeCreated,
+      final String? userId,
+      final bool? isPrivate}) = _$QuizImpl;
 
   factory _Quiz.fromJson(Map<String, dynamic> json) = _$QuizImpl.fromJson;
 
   @override
-  String get id;
+  String? get id;
   @override
   String get name;
   @override
   String get description;
   @override
-  String get timeCreated;
+  String? get timeCreated;
   @override
-  String get userId;
+  String? get userId;
   @override
-  bool get private;
+  bool? get isPrivate;
   @override
   @JsonKey(ignore: true)
   _$$QuizImplCopyWith<_$QuizImpl> get copyWith =>
@@ -764,6 +765,174 @@ abstract class _Credentials implements Credentials {
   @override
   @JsonKey(ignore: true)
   _$$CredentialsImplCopyWith<_$CredentialsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+User _$UserFromJson(Map<String, dynamic> json) {
+  return _User.fromJson(json);
+}
+
+/// @nodoc
+mixin _$User {
+  String get id => throw _privateConstructorUsedError;
+  String get username => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserCopyWith<$Res> {
+  factory $UserCopyWith(User value, $Res Function(User) then) =
+      _$UserCopyWithImpl<$Res, User>;
+  @useResult
+  $Res call({String id, String username, String email});
+}
+
+/// @nodoc
+class _$UserCopyWithImpl<$Res, $Val extends User>
+    implements $UserCopyWith<$Res> {
+  _$UserCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? username = null,
+    Object? email = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
+  factory _$$UserImplCopyWith(
+          _$UserImpl value, $Res Function(_$UserImpl) then) =
+      __$$UserImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, String username, String email});
+}
+
+/// @nodoc
+class __$$UserImplCopyWithImpl<$Res>
+    extends _$UserCopyWithImpl<$Res, _$UserImpl>
+    implements _$$UserImplCopyWith<$Res> {
+  __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? username = null,
+    Object? email = null,
+  }) {
+    return _then(_$UserImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserImpl implements _User {
+  const _$UserImpl(
+      {required this.id, required this.username, required this.email});
+
+  factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String username;
+  @override
+  final String email;
+
+  @override
+  String toString() {
+    return 'User(id: $id, username: $username, email: $email)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.email, email) || other.email == email));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, username, email);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
+      __$$UserImplCopyWithImpl<_$UserImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _User implements User {
+  const factory _User(
+      {required final String id,
+      required final String username,
+      required final String email}) = _$UserImpl;
+
+  factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get username;
+  @override
+  String get email;
+  @override
+  @JsonKey(ignore: true)
+  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

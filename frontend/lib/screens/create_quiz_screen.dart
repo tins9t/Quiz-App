@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/data/quiz_data_source.dart';
+import 'package:frontend/data/user_data_source.dart';
+import 'package:frontend/models/entities.dart';
+import 'package:frontend/services/token_service.dart';
 import 'package:provider/provider.dart';
 import 'create_questions_and_answers.dart';
 import 'package:lottie/lottie.dart';
@@ -102,7 +105,8 @@ class CreateQuizScreen extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
-                    await context.read<QuizDataSource>().createQuiz(name: _quizNameController.value.text, description: _quizDescriptionController.value.text);
+                    User user = await context.read<UserDataSource>().getUser(context);
+                    if (context.mounted) await context.read<QuizDataSource>().createQuiz(name: _quizNameController.value.text, description: _quizDescriptionController.value.text, userId: user.id);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => CreateQuestionsAndAnswersScreen()),

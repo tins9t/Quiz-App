@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart'; // Import Provider package
+import 'package:provider/provider.dart';
 import '../data/quiz_data_source.dart';
 import '../models/entities.dart';
 import 'account_settings_screen.dart';
@@ -17,7 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final isSmallScreen = MediaQuery
+        .of(context)
+        .size
+        .width < 600;
 
     return Scaffold(
       appBar: AppBar(
@@ -38,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.account_circle, color: Colors.indigo[900],),
               onPressed: () {
                 Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AccountSettingsScreen()),);
+                  MaterialPageRoute(
+                      builder: (context) => AccountSettingsScreen()),);
               },
             ),
           ],
@@ -85,7 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     SizedBox(height: 20),
                     ListTile(
-                      leading: Icon(Icons.home, color: Colors.indigo, size: 20,),
+                      leading: Icon(
+                        Icons.home, color: Colors.indigo, size: 20,),
                       title: Text(
                         'Home',
                         style: TextStyle(
@@ -100,7 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 20),
                     ListTile(
-                      leading: Icon(Icons.explore, color: Colors.indigo, size: 20),
+                      leading: Icon(
+                          Icons.explore, color: Colors.indigo, size: 20),
                       title: Text(
                         'Discover',
                         style: TextStyle(
@@ -115,7 +121,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 20),
                     ListTile(
-                      leading: Icon(Icons.library_books, color: Colors.indigo, size: 20),
+                      leading: Icon(
+                          Icons.library_books, color: Colors.indigo, size: 20),
                       title: Text(
                         'Library',
                         style: TextStyle(
@@ -130,7 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 20),
                     ListTile(
-                      leading: Icon(Icons.assignment, color: Colors.indigo, size: 20),
+                      leading: Icon(
+                          Icons.assignment, color: Colors.indigo, size: 20),
                       title: Text(
                         'Sessions',
                         style: TextStyle(
@@ -175,7 +183,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: _buildSelectedOptionWidget(),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Fixed
+        type: BottomNavigationBarType.fixed,
+        // Fixed
         backgroundColor: Colors.indigo[300],
         items: [
           BottomNavigationBarItem(
@@ -200,7 +209,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
-            _selectedOption = ['Home', 'Discover', 'Library', 'Sessions'][index];
+            _selectedOption =
+            ['Home', 'Discover', 'Library', 'Sessions'][index];
           });
         },
       ),
@@ -210,74 +220,115 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildSelectedOptionWidget() {
     switch (_selectedOption) {
-      case 'Home':
-        return _buildQuizzesWidget();
       case 'Discover':
         print("Discover");
-        return Container(); // Implement Discover widget
+        return Container();
       case 'Library':
         print("Library");
-        return Container(); // Implement Library widget
+        return _buildUserQuizzesListWidget(context);
       case 'Sessions':
         print("Sessions");
-        return Container(); // Implement Sessions widget
+        return Container(); // TODO
       default:
         print("Home");
-        return Container();
+        return _buildQuizzesListWidget(context);
     }
   }
 
-  Widget _buildQuizzesWidget() {
-    final future = context.read<QuizDataSource>().getNewestQuizzes();
+  Widget _buildBox(Quiz quiz, {bool showTrashIcon = false}) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      padding: EdgeInsets.all(16.0),
+      height: 120,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.indigo, Colors.white],
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(quiz.name, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white)),
+              SizedBox(height: 20),
+              Text(quiz.description, style: TextStyle(color: Colors.white)),
+            ],
+          ),
+          if (showTrashIcon)
+            GestureDetector(
+              onTap: () {
+                // TODO
+              },
+              child: Icon(Icons.delete, color: Colors.white),
+            ),
+        ],
+      ),
+    );
+  }
 
+
+
+  Widget _buildQuizzesListWidget(BuildContext context) {
     return FutureBuilder<List<Quiz>>(
-      future: future,
+      future: context.read<QuizDataSource>().getNewestQuizzes(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No quizzes available'));
         } else {
-          final quizzes = snapshot.data ?? [];
-          print('Quizzes: $quizzes');
-          return _buildQuizList(quizzes);
+          return Column(
+            children: [
+              Text('Newest Quizzes:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final Quiz quiz = snapshot.data![index];
+                    return _buildBox(quiz);
+                  },
+                ),
+              ),
+            ],
+          );
         }
       },
     );
   }
 
-  Widget _buildQuizList(List<Quiz> quizzes) {
-    return ListView.builder(
-      itemCount: quizzes.length,
-      itemBuilder: (context, index) {
-        final quiz = quizzes[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, 3),
+  Widget _buildUserQuizzesListWidget(BuildContext context) {
+    return FutureBuilder<List<Quiz>>(
+      future: context.read<QuizDataSource>().getQuizzesByUser(context: context),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No quizzes available'));
+        } else {
+          return Column(
+            children: [
+              Text('Library:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final Quiz quiz = snapshot.data![index];
+                    return _buildBox(quiz, showTrashIcon: true);
+                  },
                 ),
-              ],
-            ),
-            child: ListTile(
-              title: Text(
-                quiz.name,
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(
-                quiz.description,
-                style: TextStyle(fontSize: 14.0),
-              ),
-            ),
-          ),
-        );
+            ],
+          );
+        }
       },
     );
   }

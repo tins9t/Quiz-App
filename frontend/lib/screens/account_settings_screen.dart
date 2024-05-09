@@ -49,7 +49,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-                color: Colors.indigo[300]!, width: 5), // Add border
+                color: Colors.indigo[300]!, width: 5),
           ),
           child: Padding(
             padding: EdgeInsets.all(16),
