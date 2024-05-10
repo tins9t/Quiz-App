@@ -7,7 +7,7 @@ namespace api.ClientEventHandlers;
 
 public class ClientWantsToPickNickNameDto : BaseDto
 {
-    public string? username { get; set; }
+    public string Username { get; set; }
 }
 
 public class ClientWantsToPickNickName: BaseEventHandler<ClientWantsToPickNickNameDto>
@@ -21,11 +21,11 @@ public class ClientWantsToPickNickName: BaseEventHandler<ClientWantsToPickNickNa
 
     public override Task Handle(ClientWantsToPickNickNameDto dto, IWebSocketConnection socket)
     {
-        _stateService.Connections[socket.ConnectionInfo.Id].Username = dto.username;
+        _stateService.Connections[socket.ConnectionInfo.Id].Username = dto.Username;
         socket.Send(JsonSerializer.Serialize(new ServerResponseDto()
         {
             eventType = "ServerResponseConnectionChoseUsername",
-            message = "Welcome   " + dto.username
+            message = "Welcome   " + dto.Username
         }));
         return Task.CompletedTask;
     }

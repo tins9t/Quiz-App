@@ -31,16 +31,17 @@ public class ClientWantsToAnswerQuestion : BaseEventHandler<ClientWantsToAnswerQ
         {
             eventType = "ClientWantsToAnswerQuestion",
             Answer = dto.Answer,
+            Question = dto.Question,
             Username = _stateService.Connections[socket.ConnectionInfo.Id].Username
         }));
         
         // Get the room ID and the question from the context
         // You need to implement this part according to your application's logic
         
-
+        Console.WriteLine(_stateService.Connections[socket.ConnectionInfo.Id].Username + " answered the question: " + dto.Answer + " in room: " + dto.RoomId + " to the question: " + dto.Question);
         Answer answer = new Answer { Text = dto.Answer };
         Question question = new Question { Text = dto.Question };
-        _stateService.AddAnswer(dto.Username, dto.RoomId, question, answer);
+        _stateService.AddAnswer(_stateService.Connections[socket.ConnectionInfo.Id].Username, dto.RoomId, question, answer);
 
         return Task.CompletedTask;
     }
