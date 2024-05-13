@@ -11,6 +11,7 @@ namespace api.ClientEventHandlers;
 public class ClientWantsToEnterRoomDto : BaseDto
 {
     public int roomId { get; set; }
+    public string Username { get; set; }
 }
 public class ClientWantsToEnterRoom() : BaseEventHandler<ClientWantsToEnterRoomDto>
 {
@@ -24,10 +25,11 @@ public class ClientWantsToEnterRoom() : BaseEventHandler<ClientWantsToEnterRoomD
     public override Task Handle(ClientWantsToEnterRoomDto dto, IWebSocketConnection socket)
     {
         var isSuccess = _stateService.AddToRoom(socket, dto.roomId);
+        _stateService.Connections[socket.ConnectionInfo.Id].Username = dto.Username;
         socket.Send(JsonSerializer.Serialize(new ServerAddsClientToRoomDto()
         {
             eventType = "ServerAddsClientToRoom",
-            message = "You were successfully added to room with ID: " + dto.roomId
+            message = dto.Username + " were successfully added to room with ID: " + dto.roomId
         }));
         
         return Task.CompletedTask;
