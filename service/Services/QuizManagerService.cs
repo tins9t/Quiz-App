@@ -7,7 +7,7 @@ public class QuizManagerService
 {
     private readonly QuizService _quizService;
 
-    private Dictionary<Question, List<Answer>> _quizData;
+    private readonly Dictionary<Question, List<Answer>> _quizData;
 
     public event Action<int, Question> QuestionAsked;
 
@@ -26,7 +26,7 @@ public class QuizManagerService
     private String QuizHost = "";
 
 
-    public async Task RunQuiz(String username, int quizRoomId, string quizId, GetUserInputCallback getUserInput)
+    public async Task RunQuiz(String username, int quizRoomId, string quizId, GetUserInputCallback getUserInput, Dictionary<int, Dictionary<string, Dictionary<Question, Answer>>> userAnswersPerRoom)
     {
         QuizHost = username;
         Console.WriteLine("Quiz has started running " + quizId + " " + quizRoomId + " " + username);
@@ -37,6 +37,9 @@ public class QuizManagerService
         Dictionary<Question, Answer> userAnswers = new Dictionary<Question, Answer>();
         QuizStarted?.Invoke(quizRoomId);
         await AskQuestion(questions, 0, quizRoomId, userAnswers, getUserInput);
+
+        // Call CalculateScore after all questions have been asked
+        CalculateScore(userAnswersPerRoom[quizRoomId]);
     }
 
     private async Task AskQuestion(List<Question> questions, int currentIndex, int quizRoomId, Dictionary<Question, Answer> userAnswers, GetUserInputCallback getUserInput)
@@ -47,6 +50,7 @@ public class QuizManagerService
             var question = questions[currentIndex];
             List<Answer> answers = _quizService.GetAnswersByQuestionId(question.Id);
             _quizData[question] = answers; // Store the question and its answers in the dictionary
+            Console.WriteLine("Answers: " + string.Join(", ", answers.Select(a => a.Text)));
 
             // Raise the QuestionAsked event after each question
             // Send question and answers to the frontend
@@ -70,41 +74,41 @@ public class QuizManagerService
     }
     public void CalculateScore(Dictionary<string, Dictionary<Question, Answer>> allUserAnswers)
     {
-        // Calculate the score
+        // Iterate over each user's answers
         foreach (var userAnswers in allUserAnswers)
         {
+            Console.WriteLine("Calculating score for user " + userAnswers.Key);
             var userId = userAnswers.Key;
             var answers = userAnswers.Value;
             int userScore = 0;
 
+            // Iterate over each answer
             foreach (var answer in answers)
             {
-                Console.WriteLine("Calculating score for user " + userId);
-                Console.WriteLine("Question: " + answer.Key.Text);
-                Console.WriteLine("User's answer: " + answer.Value.Text);
                 var question = answer.Key;
                 var userAnswer = answer.Value;
 
                 // Check if the question exists in the quiz data
-                if (_quizData.ContainsKey(question))
+                if (_quizData.TryGetValue(question, out var correctAnswers))
                 {
-                    // Log the correct answers for the question
-                    Console.WriteLine("Correct answers for question: " + string.Join(", ", _quizData[question].Where(a => a.Correct).Select(a => a.Text)));
-
-                    // Check if the user's answer is correct
-                    if (_quizData[question].Any(a => a.Id == userAnswer.Id && a.Correct))
+                    Console.WriteLine("Checking answer for question " + question.Text);
+                    Console.WriteLine(correctAnswers.FirstOrDefault(a => a.Correct).Text);
+                    Console.WriteLine(userAnswer.Text);
+                    Console.WriteLine(string.Equals(correctAnswers.FirstOrDefault(a => a.Correct).Text.Trim(), userAnswer.Text.Trim(), StringComparison.CurrentCultureIgnoreCase));
+                    // Check if the user's answer matches any of the correct answers
+                    var matchingAnswer = correctAnswers.FirstOrDefault(a => string.Equals(a.Text.Trim(), userAnswer.Text.Trim(), StringComparison.CurrentCultureIgnoreCase));
+                    if (matchingAnswer != null && matchingAnswer.Correct)
                     {
+                        // If the user's answer is correct, increment the user's score
                         userScore++;
+                        Console.WriteLine("User " + userId + " answered question " + question.Text + " correctly.");
                     }
                 }
-                else
-                {
-                    // Log if the question is not in the quiz data
-                    Console.WriteLine("Question not found in quiz data: " + question.Text);
-                }
             }
-            // Send the score to the frontend
+
+            // Print out the final score for the user
             Console.WriteLine("Final score for user " + userId + ": " + userScore);
         }
     }
+    
 }

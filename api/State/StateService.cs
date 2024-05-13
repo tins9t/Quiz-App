@@ -27,7 +27,7 @@ public class StateService {
     private Dictionary<int, Dictionary<string, Dictionary<Question, Answer>>> _userAnswersPerRoom = new();
     public delegate void ClientWantsToAnswerQuestionHandler(string Username, int room, Question question, Answer answer);
     public event ClientWantsToAnswerQuestionHandler ClientWantsToAnswerQuestion;
-    
+    private Dictionary<int, Question> _currentQuestionsPerRoom = new();
    
     
     public void GetNumberOfConnectionsInRoom(int room)
@@ -91,6 +91,7 @@ public class StateService {
                     ws.Connection.Send(message);
             }
     }
+    
     public void AddAnswer(String Username, Int32 room, Question question, Answer answer)
     {
         if (Username == null)
@@ -112,8 +113,11 @@ public class StateService {
 
     private async Task WaitForAnswers(int room, Question question)
     {
+        
         await Task.Run(() =>
         {
+            // Update the current question for the room
+            SetCurrentQuestion(room, question);
             Timer timer = new Timer(QuizManagerService.DelayTime);
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
 
@@ -139,17 +143,13 @@ public class StateService {
 
             // Print out the number of people who answered the question
             Console.WriteLine(_userAnswersPerRoom[room].Count + " people answered the question.");
-
-            // Use _userAnswersPerRoom directly as it is already in the format expected by CalculateScore
-            _quizManagerService.CalculateScore(_userAnswersPerRoom[room]);
+            
         });
     }
     
     public void StartQuiz(string Username, int quizRoomId, string quizId)
     {
-        
-        _quizManagerService.RunQuiz(Username, quizRoomId, quizId, GetUserInput);
-        
+        _quizManagerService.RunQuiz(Username, quizRoomId, quizId, GetUserInput, _userAnswersPerRoom);
     }
     public async Task<Answer> GetUserInput(Question question, List<Answer> answers)
     {
@@ -162,8 +162,27 @@ public class StateService {
         return answers[0];
     }
     
-    
-    
-    
-   
+    public void SetCurrentQuestion(int roomId, Question question)
+    {
+        if (_currentQuestionsPerRoom.ContainsKey(roomId))
+        {
+            _currentQuestionsPerRoom[roomId] = question;
+        }
+        else
+        {
+            _currentQuestionsPerRoom.Add(roomId, question);
+        }
+    }
+
+    public Question GetCurrentQuestion(int roomId)
+    {
+        if (_currentQuestionsPerRoom.TryGetValue(roomId, out var currentQuestion))
+        {
+            return currentQuestion;
+        }
+        else
+        {
+            throw new Exception("No current question for room " + roomId);
+        }
+    }
 }

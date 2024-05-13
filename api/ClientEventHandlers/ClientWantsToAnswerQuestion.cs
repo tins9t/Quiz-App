@@ -9,18 +9,16 @@ namespace api.ClientEventHandlers;
 public class ClientWantsToAnswerQuestionDto : BaseDto
 {
     public string? Answer { get; set; }
-    
+
     public string? Username { get; set; }
-    
+
     public int RoomId { get; set; }
-    
-    public string? Question { get; set; }
 }
 
 public class ClientWantsToAnswerQuestion : BaseEventHandler<ClientWantsToAnswerQuestionDto>
 {
     private readonly StateService _stateService;
-    
+
     public ClientWantsToAnswerQuestion( StateService stateService)
     {
         _stateService = stateService;
@@ -31,16 +29,16 @@ public class ClientWantsToAnswerQuestion : BaseEventHandler<ClientWantsToAnswerQ
         {
             eventType = "ClientWantsToAnswerQuestion",
             Answer = dto.Answer,
-            Question = dto.Question,
             Username = _stateService.Connections[socket.ConnectionInfo.Id].Username
         }));
-        
+
         // Get the room ID and the question from the context
         // You need to implement this part according to your application's logic
-        
-        Console.WriteLine(_stateService.Connections[socket.ConnectionInfo.Id].Username + " answered the question: " + dto.Answer + " in room: " + dto.RoomId + " to the question: " + dto.Question);
+
+        Console.WriteLine(_stateService.Connections[socket.ConnectionInfo.Id].Username + " answered the question: " + dto.Answer + " in room: " + dto.RoomId);
         Answer answer = new Answer { Text = dto.Answer };
-        Question question = new Question { Text = dto.Question };
+        // Get the current question for the room from the state service
+        Question question = _stateService.GetCurrentQuestion(dto.RoomId);
         _stateService.AddAnswer(_stateService.Connections[socket.ConnectionInfo.Id].Username, dto.RoomId, question, answer);
 
         return Task.CompletedTask;
