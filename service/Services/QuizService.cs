@@ -34,9 +34,9 @@ public class QuizService
     {
         return _quizRepository.GetQuizById(id);
     }
-
-    public void StartQuiz(string id)
+    public List<Question> GetQuestionsByQuizId(string id)
     {
+
         Quiz quiz = GetQuizById(id);
         
         List<Question> questions = _quizRepository.GetQuestionsByQuizId(id);
@@ -50,6 +50,13 @@ public class QuizService
                 Console.WriteLine(answer.Text);
             }
         }
+
+        return _quizRepository.GetQuestionsByQuizId(id);
+    }
+    public List<Answer> GetAnswersByQuestionId(int id)
+    {
+        return _quizRepository.GetAnswersByQuestionId(id);
+
     }
 
     public List<Quiz> GetNewestQuizzes()

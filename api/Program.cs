@@ -1,5 +1,7 @@
 using System.Reflection;
+using System.Text.Json;
 using api;
+using api.ClientEventHandlers;
 using api.Middleware;
 using api.State;
 using Fleck;
@@ -41,6 +43,9 @@ public static class ApiStartUp
         builder.Services.AddSingleton<QuizRepository>();
         builder.Services.AddSingleton<QuizService>();
         
+        builder.Services.AddSingleton<QuizManagerService>();
+        builder.Services.AddSingleton<StateService>();
+        
         builder.Services.AddSingleton<PasswordHashAlgorithm, Argon2IdPasswordHashAlgorithm>();
 
         var clientEventHandlers = builder.FindAndInjectClientEventHandlers(Assembly.GetExecutingAssembly());
@@ -49,10 +54,13 @@ public static class ApiStartUp
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         
+
         builder.Services.AddJwtHelper();
+
         
         var app = builder.Build();
 
+        app.UseMiddleware<GlobalExceptionHandler>();
         app.UseMiddleware<JwtBearerHandler>();
         
         var server = new WebSocketServer("ws://0.0.0.0:8181");
@@ -60,7 +68,8 @@ public static class ApiStartUp
         {
             socket.OnOpen = async () =>
             {
-                StateService.AddConnection(socket);
+                var stateService = app.Services.GetService<StateService>();
+                stateService.AddConnection(socket);
                 Console.WriteLine("Open!");
                 Connections.allSockets.Add(socket);
                 
@@ -89,16 +98,29 @@ public static class ApiStartUp
                 Console.WriteLine();
                 try
                 {
-                    await app.InvokeClientEventHandler(clientEventHandlers, socket, message);
-
+                    var dto = JsonSerializer.Deserialize<BaseDto>(message);
+                    if (dto?.eventType == "ClientWantsToStartQuiz")
+                    {
+                        var clientWantsToStartQuizDto = JsonSerializer.Deserialize<ClientWantsToStartQuizDto>(message);
+                        if (clientWantsToStartQuizDto != null)
+                        {
+                            var clientWantsToStartQuiz = app.Services.GetService<ClientWantsToStartQuiz>();
+                            if (clientWantsToStartQuiz != null)
+                            {
+                                await clientWantsToStartQuiz.Handle(clientWantsToStartQuizDto, socket);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        await app.InvokeClientEventHandler(clientEventHandlers, socket, message);
+                    }
                 }
                 catch (Exception e)
                 {
-
                     Console.WriteLine(e.Message);
                     Console.WriteLine(e.InnerException);
                     Console.WriteLine(e.StackTrace);
-                    // Write exception here
                 }
             };
         });

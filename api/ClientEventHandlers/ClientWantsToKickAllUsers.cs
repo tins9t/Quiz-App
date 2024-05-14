@@ -14,9 +14,16 @@ public class ClientWantsToRemoveRoomDto: BaseDto
 
 public class ClientWantsToKickAllUsers() : BaseEventHandler<ClientWantsToRemoveRoomDto>
 {
+    
+    private readonly StateService _stateService;
+    
+    public ClientWantsToKickAllUsers(StateService stateService): this()
+    {
+        _stateService = stateService;
+    }
     public override Task Handle(ClientWantsToRemoveRoomDto dto, IWebSocketConnection socket)
     {
-        StateService.KickAllUsersFromRoom(dto.RoomId);
+        _stateService.KickAllUsersFromRoom(dto.RoomId);
         socket.Send(JsonSerializer.Serialize(new ServerRemovesAllUserFromRoomDto()
         {
             eventType = "ServerRemovesClientFromRoom",

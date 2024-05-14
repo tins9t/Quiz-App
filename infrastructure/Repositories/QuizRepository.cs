@@ -65,7 +65,7 @@ public class QuizRepository
         is_private as {nameof(Quiz.IsPrivate)} FROM quiz WHERE id = @id;"; 
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
-            return conn.QueryFirstOrDefault<Quiz>(sql, new { id });
+            return conn.QueryFirst<Quiz>(sql, new { id });
         }
     }
 

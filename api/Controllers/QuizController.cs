@@ -55,7 +55,7 @@ public class QuizController : ControllerBase
     [HttpGet]
     public void StartQuiz([FromRoute] string quizId)
     {
-        _quizService.StartQuiz(quizId);
+       // _quizService.StartQuiz(quizId);
     }
 
     [Route("api/quiz/get/newest")]
