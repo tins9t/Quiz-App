@@ -9,8 +9,9 @@ public class WebSocketMetaData(IWebSocketConnection connection)
 
 public static class StateService
 {
-    public static Dictionary<Guid, WebSocketMetaData> Connections = new();
-    public static Dictionary<int, HashSet<Guid>> Rooms = new();
+    public static readonly Dictionary<Guid, WebSocketMetaData> Connections = new();
+
+    private static readonly Dictionary<int, HashSet<Guid>> Rooms = new();
 
     public static bool AddConnection(IWebSocketConnection socket)
     {
@@ -50,22 +51,5 @@ public static class StateService
             return true;
         }
         return false;
-    }
-
-    public static bool StartTimer(int room, int seconds)
-    {
-        Task.Run(async () =>
-        {
-            await Task.Delay(seconds * 1000);
-            if(Rooms.TryGetValue(room, out var guids))
-            {
-                foreach (var guid in guids)
-                {
-                    if (Connections.TryGetValue(guid, out var ws))
-                        ws.Connection.Send("Time's up!");
-                }
-            }
-        });
-        return true;
     }
 }
