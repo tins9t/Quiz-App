@@ -8,7 +8,13 @@ public class QuizRepository
     public Quiz CreateQuiz(Quiz quiz)
     {
         var sql = $@"INSERT INTO quiz(id, name, description, time_created, user_id, is_private)
-        VALUES (@id, @name, @description, @time_created, @user_id, @is_private) RETURNING *;";
+        VALUES (@id, @name, @description, @time_created, @user_id, @is_private) RETURNING 
+        id as {nameof(Quiz.Id)},
+        name as {nameof(Quiz.Name)},
+        description as {nameof(Quiz.Description)},
+        time_created as {nameof(Quiz.TimeCreated)},
+        user_id as {nameof(Quiz.UserId)},
+        is_private as {nameof(Quiz.IsPrivate)};";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<Quiz>(sql, new
