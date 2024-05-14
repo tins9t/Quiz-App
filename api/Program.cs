@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json;
 using api;
 using api.ClientEventHandlers;
+using api.Middleware;
 using api.State;
 using Fleck;
 using infrastructure.Repositories;
@@ -53,7 +54,9 @@ public static class ApiStartUp
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         
+        
         var app = builder.Build();
+        app.UseMiddleware<GlobalExceptionHandler>();
         
 
         var server = new WebSocketServer("ws://0.0.0.0:8181");
