@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../bloc/manage_quiz_cubit.dart';
 import '../models/entities.dart';
-import 'AnswerField.dart';
+import 'answer_field.dart';
 
 class QuestionField extends StatefulWidget {
   const QuestionField(this.question, this.index, this.isSmallScreen, {super.key});
