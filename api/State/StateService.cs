@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using api.ClientEventHandlers;
 using infrastructure.QueryModels;
 using service;
@@ -21,18 +22,20 @@ public class StateService {
     }
     
     private readonly QuizManagerService _quizManagerService;
-    public Dictionary<Guid, WebSocketMetaData> Connections { get; } = new();
-    private Dictionary<int, HashSet<Guid>> Rooms { get; } = new();
-    public Dictionary<int, Timer> SetupTimers { get; } = new Dictionary<int, Timer>();
-    private Dictionary<int, Dictionary<string, Dictionary<Question, Answer>>> _userAnswersPerRoom = new();
-    public delegate void ClientWantsToAnswerQuestionHandler(string Username, int room, Question question, Answer answer);
-    public event ClientWantsToAnswerQuestionHandler ClientWantsToAnswerQuestion;
-    private Dictionary<int, Question> _currentQuestionsPerRoom = new();
-   
+    public ConcurrentDictionary<Guid, WebSocketMetaData> Connections { get; } = new();
+    private ConcurrentDictionary<int, HashSet<Guid>> Rooms { get; } = new();
+    public ConcurrentDictionary<int, Timer> SetupTimers { get; } = new ConcurrentDictionary<int, Timer>();
+    private readonly ConcurrentDictionary<int, Dictionary<string, Dictionary<Question, Answer>>> _userAnswersPerRoom = new();
+    private readonly ConcurrentDictionary<int, Question> _currentQuestionsPerRoom = new();
+      public delegate void ClientWantsToAnswerQuestionHandler(string Username, int room, Question question, Answer answer);
+       public event ClientWantsToAnswerQuestionHandler ClientWantsToAnswerQuestion;
     
     public void GetNumberOfConnectionsInRoom(int room)
     {
-        Console.WriteLine("Number of connections in room: " + room + " is " + Rooms[room].Count);
+        if (Rooms.TryGetValue(room, out var connections))
+        {
+            Console.WriteLine($"Number of connections in room: {room} is {connections.Count}");
+        }
     }
     
     
@@ -44,17 +47,19 @@ public class StateService {
 
     public bool AddToRoom(IWebSocketConnection socket, int room)
     {
-        Rooms[room].Add(socket.ConnectionInfo.Id);
-        Console.WriteLine("joined room:  " + room);
-        return Rooms[room].Add(socket.ConnectionInfo.Id);
+        return AddConnectionToRoom(socket.ConnectionInfo.Id, room);
     }
+
     public bool CreateRoom(IWebSocketConnection socket, int room)
     {
         if(!Rooms.ContainsKey(room))
-            Rooms.Add(room, new HashSet<Guid>());
-        
-        Rooms[room].Add(socket.ConnectionInfo.Id);
-        return Rooms[room].Add(socket.ConnectionInfo.Id);
+            Rooms.TryAdd(room, new HashSet<Guid>());
+
+        return AddConnectionToRoom(socket.ConnectionInfo.Id, room);
+    }
+    private bool AddConnectionToRoom(Guid connectionId, int room)
+    {
+        return Rooms[room].Add(connectionId);
     }
     
     public bool RemoveFromRoom(IWebSocketConnection socket, int room)
@@ -85,11 +90,15 @@ public class StateService {
     public void BroadcastToRoom(int room, string message, IWebSocketConnection? dontSentToThis = null)
     {
         if (Rooms.TryGetValue(room, out var guids))
+        {
             foreach (var guid in guids)
             {
-                if (Connections.TryGetValue(guid, out var ws) && ws != null && ws.Connection != dontSentToThis)
+                if (Connections.TryGetValue(guid, out var ws) && ws.Connection != dontSentToThis)
+                {
                     ws.Connection.Send(message);
+                }
             }
+        }
     }
     
     public void AddAnswer(String Username, Int32 room, Question question, Answer answer)
@@ -98,53 +107,53 @@ public class StateService {
         {
             throw new ArgumentNullException(nameof(Username), "Username cannot be null.");
         }
-        if (!_userAnswersPerRoom.ContainsKey(room))
+
+        if (!_userAnswersPerRoom.TryGetValue(room, out var roomAnswers))
         {
-            _userAnswersPerRoom[room] = new Dictionary<string, Dictionary<Question, Answer>>();
+            roomAnswers = new Dictionary<string, Dictionary<Question, Answer>>();
+            _userAnswersPerRoom[room] = roomAnswers;
         }
 
-        if (!_userAnswersPerRoom[room].ContainsKey(Username))
+        if (!roomAnswers.TryGetValue(Username, out var userAnswers))
         {
-            _userAnswersPerRoom[room][Username] = new Dictionary<Question, Answer>();
+            userAnswers = new Dictionary<Question, Answer>();
+            roomAnswers[Username] = userAnswers;
         }
+
         ClientWantsToAnswerQuestion?.Invoke(Username, room, question, answer);
-        _userAnswersPerRoom[room][Username][question] = answer;
+        userAnswers[question] = answer;
     }
 
     private async Task WaitForAnswers(int room, Question question)
     {
-        
-        await Task.Run(() =>
+        // Update the current question for the room
+        SetCurrentQuestion(room, question);
+        Timer timer = new Timer(QuizManagerService.DelayTimeMilliseconds);
+        TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+
+        timer.Elapsed += (sender, e) => tcs.TrySetResult(true);
+        timer.Start();
+
+        // Check if the room key exists in the dictionary, if not add it
+        if (!_userAnswersPerRoom.TryGetValue(room, out var roomAnswers))
         {
-            // Update the current question for the room
-            SetCurrentQuestion(room, question);
-            Timer timer = new Timer(QuizManagerService.DelayTime);
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            roomAnswers = new Dictionary<string, Dictionary<Question, Answer>>();
+            _userAnswersPerRoom[room] = roomAnswers;
+        }
 
-            timer.Elapsed += (sender, e) => tcs.TrySetResult(true);
-            timer.Start();
-
-            // Check if the room key exists in the dictionary, if not add it
-            if (!_userAnswersPerRoom.ContainsKey(room))
+        // This loop checks every second if all users have answered
+        while (roomAnswers.Count != Rooms[room].Count - 1) // Check if all users have answered
+        {
+            if (await Task.WhenAny(Task.Delay(1000), tcs.Task) == tcs.Task)
             {
-                _userAnswersPerRoom[room] = new Dictionary<string, Dictionary<Question, Answer>>();
+                break; // The timer has run out
             }
+        }
 
-            // This loop checks every second if all users have answered
-            while (_userAnswersPerRoom[room].Count != Rooms[room].Count - 1) // Check if all users have answered
-            {
-                if (Task.WhenAny(Task.Delay(1000), tcs.Task).Result == tcs.Task)
-                {
-                    break; // The timer has run out
-                }
-            }
+        timer.Stop();
 
-            timer.Stop();
-
-            // Print out the number of people who answered the question
-            Console.WriteLine(_userAnswersPerRoom[room].Count + " people answered the question.");
-            
-        });
+        // Print out the number of people who answered the question
+        Console.WriteLine($"{roomAnswers.Count} people answered the question.");
     }
     
     public void StartQuiz(string Username, int quizRoomId, string quizId)
@@ -170,7 +179,7 @@ public class StateService {
         }
         else
         {
-            _currentQuestionsPerRoom.Add(roomId, question);
+            _currentQuestionsPerRoom.TryAdd(roomId, question);
         }
     }
 

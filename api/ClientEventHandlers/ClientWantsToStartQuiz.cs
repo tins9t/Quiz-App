@@ -31,6 +31,7 @@ public class ClientWantsToStartQuiz : BaseEventHandler<ClientWantsToStartQuizDto
                 timer?.Stop(); // Stop the timer if it's running
                 timer?.Dispose(); // Dispose the timer
             }
+            
             _stateService.StartQuiz(dto.Username, dto.QuizRoomId, dto.QuizId);
             Console.WriteLine("Quiz has started.");
         }
