@@ -51,14 +51,21 @@ public static class StateService
         }
         return false;
     }
-    
-    public static void BroadcastToRoom(int room, string message, IWebSocketConnection? dontSentToThis = null)
+
+    public static bool StartTimer(int room, int seconds)
     {
-        if (Rooms.TryGetValue(room, out var guids))
-            foreach (var guid in guids)
+        Task.Run(async () =>
+        {
+            await Task.Delay(seconds * 1000);
+            if(Rooms.TryGetValue(room, out var guids))
             {
-                if (Connections.TryGetValue(guid, out var ws) && ws != null && ws.Connection != dontSentToThis)
-                    ws.Connection.Send(message);
+                foreach (var guid in guids)
+                {
+                    if (Connections.TryGetValue(guid, out var ws))
+                        ws.Connection.Send("Time's up!");
+                }
             }
+        });
+        return true;
     }
 }
