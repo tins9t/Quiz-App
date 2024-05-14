@@ -43,12 +43,7 @@ public class QuizService
         
         foreach (var question in questions)
         {
-            Console.WriteLine(question.Text);
             List<Answer> answers = _quizRepository.GetAnswersByQuestionId(question.Id);
-            foreach (var answer in answers)
-            {
-                Console.WriteLine(answer.Text);
-            }
         }
 
         return _quizRepository.GetQuestionsByQuizId(id);

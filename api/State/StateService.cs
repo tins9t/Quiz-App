@@ -19,14 +19,6 @@ public class StateService {
         //In this code, an async lambda function is used as the event handler for QuestionAsked. This lambda function matches the event signature and calls WaitForAnswers inside it.
         _quizManagerService.QuizStarted += GetNumberOfConnectionsInRoom;
 
-
-public static class StateService
-{
-    public static readonly Dictionary<Guid, WebSocketMetaData> Connections = new();
-
-    private static readonly Dictionary<int, HashSet<Guid>> Rooms = new();
-
-    public static bool AddConnection(IWebSocketConnection socket)
     }
     
     private readonly QuizManagerService _quizManagerService;
@@ -48,7 +40,6 @@ public static class StateService
     
     
     public bool AddConnection(IWebSocketConnection socket)
-
     {
         return Connections.TryAdd(socket.ConnectionInfo.Id, 
             new WebSocketMetaData(socket));
@@ -94,6 +85,20 @@ public static class StateService
             return true;
         }
         return false;
+    }
+    
+    public void BroadcastToRoom(int room, string message, IWebSocketConnection? dontSentToThis = null)
+    {
+        if (Rooms.TryGetValue(room, out var guids))
+        {
+            foreach (var guid in guids)
+            {
+                if (Connections.TryGetValue(guid, out var ws) && ws.Connection != dontSentToThis)
+                {
+                    ws.Connection.Send(message);
+                }
+            }
+        }
     }
     
     public void AddAnswer(String Username, Int32 room, Question question, Answer answer)
@@ -189,5 +194,4 @@ public static class StateService
             throw new Exception("No current question for room " + roomId);
         }
     }
-
 }

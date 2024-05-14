@@ -37,7 +37,7 @@ public class QuizManagerService
         for (int i = 0; i < questions.Count; i++)
         {
             Console.WriteLine("Asking question " + (i + 1) + " of " + questions.Count);
-            Console.WriteLine("Question: " + questions[i].Text);
+            Console.WriteLine("Question: " + questions[i].Text.Trim());
             var question = questions[i];
             List<Answer> answers = _quizService.GetAnswersByQuestionId(question.Id);
             _quizData[question] = answers;
