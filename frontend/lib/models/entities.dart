@@ -21,7 +21,7 @@ class Question with _$Question {
   const factory Question({
     required int id,
     required String quizId,
-    required String Text,
+    required String text,
   }) = _Question;
 
   factory Question.fromJson(Map<String, Object?> json) =>
@@ -38,6 +38,16 @@ class Answer with _$Answer {
   }) = _Answer;
 
   factory Answer.fromJson(Map<String, Object?> json) => _$AnswerFromJson(json);
+}
+
+@freezed
+class QuestionWithAnswers with _$QuestionWithAnswers {
+  const factory QuestionWithAnswers({
+    required Question question,
+    required List<Answer> answers,
+  }) = _QuestionWithAnswers;
+
+  factory QuestionWithAnswers.fromJson(Map<String, Object?> json) => _$QuestionWithAnswersFromJson(json);
 }
 
 @freezed

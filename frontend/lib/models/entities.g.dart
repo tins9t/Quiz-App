@@ -29,14 +29,14 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
     _$QuestionImpl(
       id: (json['id'] as num).toInt(),
       quizId: json['quizId'] as String,
-      Text: json['Text'] as String,
+      text: json['text'] as String,
     );
 
 Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'quizId': instance.quizId,
-      'Text': instance.Text,
+      'text': instance.text,
     };
 
 _$AnswerImpl _$$AnswerImplFromJson(Map<String, dynamic> json) => _$AnswerImpl(
@@ -52,6 +52,22 @@ Map<String, dynamic> _$$AnswerImplToJson(_$AnswerImpl instance) =>
       'questionId': instance.questionId,
       'text': instance.text,
       'correct': instance.correct,
+    };
+
+_$QuestionWithAnswersImpl _$$QuestionWithAnswersImplFromJson(
+        Map<String, dynamic> json) =>
+    _$QuestionWithAnswersImpl(
+      question: Question.fromJson(json['question'] as Map<String, dynamic>),
+      answers: (json['answers'] as List<dynamic>)
+          .map((e) => Answer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$QuestionWithAnswersImplToJson(
+        _$QuestionWithAnswersImpl instance) =>
+    <String, dynamic>{
+      'question': instance.question,
+      'answers': instance.answers,
     };
 
 _$CredentialsImpl _$$CredentialsImplFromJson(Map<String, dynamic> json) =>

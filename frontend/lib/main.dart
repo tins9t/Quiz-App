@@ -1,11 +1,14 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:frontend/data/user_data_source.dart';
 import 'package:frontend/data/quiz_data_source.dart';
+import 'package:frontend/screens/answer_screen.dart';
+import 'package:frontend/screens/create_questions_and_answers.dart';
 import 'package:frontend/screens/create_quiz_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
+import 'package:frontend/screens/loading_question_screen.dart';
+import 'package:frontend/screens/quiz_screen.dart';
 import 'package:frontend/screens/register_screen.dart';
+import 'package:frontend/screens/scoreboard_screen.dart';
 import 'package:provider/provider.dart';
 import 'screens/login_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -40,7 +43,7 @@ class QuizApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: CreateQuestionsAndAnswersScreen(quizId: "not a real id",),
     );
   }
 }
