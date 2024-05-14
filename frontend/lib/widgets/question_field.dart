@@ -6,7 +6,9 @@ import 'answer_field.dart';
 
 class QuestionField extends StatefulWidget {
   const QuestionField(this.question, this.index, this.isSmallScreen, {super.key});
-  final QuestionWithAnswers question;final int index; final bool isSmallScreen;
+  final QuestionWithAnswers question;
+  final int index;
+  final bool isSmallScreen;
   @override
   State<QuestionField> createState() => _QuestionFieldState();
 }
@@ -19,6 +21,12 @@ class _QuestionFieldState extends State<QuestionField> {
   void initState() {
    controller = TextEditingController(text: widget.question.question.text);
    super.initState();
+ }
+
+ @override
+ void didUpdateWidget(covariant QuestionField oldWidget){
+   super.didUpdateWidget(oldWidget);
+   controller.text = widget.question.question.text;
  }
 
  @override
@@ -42,8 +50,8 @@ class _QuestionFieldState extends State<QuestionField> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                //'Question ${widget.index + 1}',
-                "Question ${widget.question.question.text}",
+                'Question ${widget.index + 1}',
+                //"Question ${widget.question.question.text}",
                 style: TextStyle(
                   fontSize: widget.isSmallScreen ? 16 : 20,
                   fontWeight: FontWeight.bold,

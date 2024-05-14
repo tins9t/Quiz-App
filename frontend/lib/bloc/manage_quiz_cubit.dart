@@ -1,10 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/manage_quiz_state.dart';
+import 'package:frontend/data/question_data_source.dart';
 import 'package:frontend/models/entities.dart';
 
 class ManageQuizCubit extends Cubit<ManageQuizState> {
-  ManageQuizCubit(String quizId) : super(ManageQuizState.initial(quizId));
-
+  ManageQuizCubit({required String quizId, required this.dataSource}) : super(ManageQuizState.initial(quizId));
+final QuestionDataSource dataSource;
   void addQuestion() {
     final newQuestions = [
       ...state.questionWithAnswers,
@@ -60,5 +61,13 @@ class ManageQuizCubit extends Cubit<ManageQuizState> {
     );
     newQuestions[questionIndex] = question.copyWith(answers: newAnswers);
     emit(state.copyWith(questionWithAnswers: newQuestions));
+  }
+
+  Future<void> saveQuiz() async{
+    emit(state.copyWith(isSaving: true));
+    for (final question in state.questionWithAnswers) {
+      await dataSource.createQuestionWithAnswers(questionWithAnswers: question);
+    }
+    emit(state.copyWith(isSaving: false));
   }
 }

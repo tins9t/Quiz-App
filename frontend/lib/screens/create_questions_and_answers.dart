@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/manage_quiz_cubit.dart';
+import 'package:frontend/data/question_data_source.dart';
 import 'package:frontend/widgets/question_field.dart';
 import '../bloc/manage_quiz_state.dart';
 import 'home_screen.dart';
@@ -34,7 +35,10 @@ class CreateQuestionsAndAnswersScreen extends StatelessWidget {
         ),
       ),
       body: BlocProvider<ManageQuizCubit>(
-        create: (context) => ManageQuizCubit(quizId),
+        create: (context) {
+          final dataSource = context.read<QuestionDataSource>();
+          return ManageQuizCubit(quizId: quizId, dataSource: dataSource);
+        },
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -102,8 +106,9 @@ class CreateQuestionsAndAnswersScreen extends StatelessWidget {
     );
   }
 
-  void _saveQuizAndNavigateToHomeScreen(BuildContext context) {
-    Future.delayed(Duration(seconds: 2), () {
+  void _saveQuizAndNavigateToHomeScreen(BuildContext context) async {
+    await context.read<ManageQuizCubit>().saveQuiz();
+    if (context.mounted) {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -111,6 +116,6 @@ class CreateQuestionsAndAnswersScreen extends StatelessWidget {
         ),
         (route) => false,
       );
-    });
+    }
   }
 }

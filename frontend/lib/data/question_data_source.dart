@@ -9,12 +9,12 @@ class QuestionDataSource {
   final headers = {"Content-Type": "application/json"};
 
   Future<bool> createQuestionWithAnswers(
-      {required Question question, required List<Answer> answers}) async {
+      {required QuestionWithAnswers questionWithAnswers}) async {
     final response = await http.Client().post(
         Uri.parse("$baseUrl/api/question/createWithAnswers"),
-        body: jsonEncode({"question": question, "answers": answers}),
+        body: jsonEncode(questionWithAnswers.toJson()),
         headers: headers);
     final respDto = jsonDecode(response.body);
-    return respDto;
+    return true;
   }
 }
