@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
-using api.ClientEventHandlers;
 using infrastructure.QueryModels;
-using service;
+using service.Services;
 
 namespace api.State;
 using Fleck;

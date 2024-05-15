@@ -8,6 +8,7 @@ using Fleck;
 using infrastructure.Repositories;
 using lib;
 using service;
+using service.Services;
 
 var app = await ApiStartUp.StartApi();
 app.UseSwagger();

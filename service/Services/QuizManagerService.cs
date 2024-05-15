@@ -1,8 +1,7 @@
 using System.Collections.Concurrent;
-using System.Timers;
 using infrastructure.QueryModels;
 
-namespace service;
+namespace service.Services;
 
 public class QuizManagerService
 {
@@ -81,7 +80,7 @@ public class QuizManagerService
             if (_quizData.TryGetValue(question, out var correctAnswers))
             {
                 // Check if the user's answer matches any of the correct answers
-                var matchingAnswer = correctAnswers.FirstOrDefault(a => string.Equals(a.Text.Trim(), userAnswer.Text.Trim(), StringComparison.CurrentCultureIgnoreCase));
+                var matchingAnswer = correctAnswers.FirstOrDefault(a => a.Id == userAnswer.Id);
                 if (matchingAnswer != null && matchingAnswer.Correct)
                 {
                     // If the user's answer is correct, increment the user's score

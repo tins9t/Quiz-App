@@ -1,7 +1,7 @@
 ﻿using infrastructure.QueryModels;
 using infrastructure.Repositories;
 
-namespace service;
+namespace service.Services;
 
 public class QuizService
 {
@@ -36,14 +36,12 @@ public class QuizService
     }
     public List<Question> GetQuestionsByQuizId(string id)
     {
-
-        Quiz quiz = GetQuizById(id);
         
         List<Question> questions = _quizRepository.GetQuestionsByQuizId(id);
         
         foreach (var question in questions)
         {
-            List<Answer> answers = _quizRepository.GetAnswersByQuestionId(question.Id);
+            _quizRepository.GetAnswersByQuestionId(question.Id);
         }
 
         return _quizRepository.GetQuestionsByQuizId(id);
