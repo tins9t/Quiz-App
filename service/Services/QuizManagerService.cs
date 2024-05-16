@@ -51,6 +51,9 @@ public class QuizManagerService
     }
     public void CalculateScore(Dictionary<string, Dictionary<Question, Answer>> allUserAnswers)
     {
+        // Create a dictionary to store the scores for each user
+        Dictionary<string, int> userScores = new Dictionary<string, int>();
+
         // Iterate over each user's answers
         foreach (var userAnswers in allUserAnswers)
         {
@@ -61,14 +64,28 @@ public class QuizManagerService
             // Calculate the user's score
             int userScore = CalculateUserScore(answers);
 
+            // Add the user's score to the dictionary
+            userScores[userId] = userScore;
+
             // Print out the final score for the user
             Console.WriteLine("Final score for user " + userId + ": " + userScore);
+        }
+
+        // Convert the dictionary to a list and sort it in descending order based on the score
+        var sortedScores = userScores.ToList();
+        sortedScores.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
+
+        // Print out the scores in sorted order
+        foreach (var score in sortedScores)
+        {
+            Console.WriteLine("User: " + score.Key + ", Score: " + score.Value);
         }
     }
 
     private int CalculateUserScore(Dictionary<Question, Answer> userAnswers)
     {
         int userScore = 0;
+        int winStreak = 0;
 
         // Iterate over each answer
         foreach (var answer in userAnswers)
@@ -83,8 +100,25 @@ public class QuizManagerService
                 var matchingAnswer = correctAnswers.FirstOrDefault(a => a.Id == userAnswer.Id);
                 if (matchingAnswer != null && matchingAnswer.Correct)
                 {
-                    // If the user's answer is correct, increment the user's score
-                    userScore++;
+                    // If the user's answer is correct, increment the win streak
+                    winStreak++;
+
+                    // If the win streak is 3 or more, increase the score by 2
+                    if (winStreak >= 3)
+                    {
+                        userScore ++;
+                        userScore ++;
+                    }
+                    else
+                    {
+                        // If the win streak is less than 3, just increment the score by 1
+                        userScore++;
+                    }
+                }
+                else
+                {
+                    // If the user's answer is incorrect, reset the win streak
+                    winStreak = 0;
                 }
             }
         }
