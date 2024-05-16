@@ -61,4 +61,9 @@ public class QuizService
     {
         return _quizRepository.GetQuizzesByUser(userId);
     }
+
+    public List<Quiz> GetQuizzesByName(string name)
+    {
+        return _quizRepository.GetQuizzesByName(name);
+    }
 }

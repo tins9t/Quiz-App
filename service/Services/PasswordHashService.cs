@@ -52,15 +52,23 @@ public class PasswordHashService
     {
         try
         {
+            Console.WriteLine($"NewPassword: {newPassword}, Password: {password}");
+            Console.WriteLine($"User ID: {user.Id}");
             var passwordHash = _passwordHashRepository.GetPasswordHashByUserId(user.Id);
+            Console.WriteLine($"Password Hash: {passwordHash.Hash}");
 
-            if (_passwordHashAlgorithm.VerifyHashedPassword(user.Email, password, passwordHash.Hash, passwordHash.Salt))
+
+            if (!_passwordHashAlgorithm.VerifyHashedPassword(user.Email, password, passwordHash.Hash,
+                    passwordHash.Salt))
+            {
+                Console.WriteLine("Error");
+            }
+            else
             {
                 var salt = _passwordHashAlgorithm.GenerateSalt();
                 var hash = _passwordHashAlgorithm.HashPassword(newPassword, salt);
-                _passwordHashRepository.UpdatePassword(user.Id, newPassword, salt);
+                _passwordHashRepository.UpdatePassword(user.Id, hash, salt);
             }
-
         }
         catch (Exception e)
         {

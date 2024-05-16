@@ -96,4 +96,23 @@ class QuizDataSource {
       throw Exception('Failed to load user quizzes');
     }
   }
+
+  Future<List<Quiz>> getQuizzesByName({required String query}) async {
+    final response = await http.Client().get(
+      Uri.parse("$baseUrl/api/quiz/get/by/$query"),
+      headers: headers,
+    );
+    print("Response Status Code: ${response.statusCode}");
+    if (response.statusCode == 200) {
+      List<dynamic> quizJsonList = jsonDecode(response.body);
+      print("Quiz json List: $quizJsonList");
+      List<Quiz> quizzes = quizJsonList
+          .map((quizJson) => Quiz.fromJson(quizJson))
+          .toList();
+      print("Quizzes: $quizzes");
+      return quizzes;
+    } else {
+      throw Exception('Failed to load quizzes');
+    }
+  }
 }

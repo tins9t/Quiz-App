@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/discover_widget.dart';
+import 'package:frontend/widgets/quiz_list_widget.dart';
+import 'package:frontend/widgets/user_quiz_list_widget.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import '../data/quiz_data_source.dart';
-import '../models/entities.dart';
 import 'account_settings_screen.dart';
 import 'create_quiz_screen.dart';
 
@@ -184,7 +184,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _buildSelectedOptionWidget(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        // Fixed
         backgroundColor: Colors.indigo[300],
         items: [
           BottomNavigationBarItem(
@@ -222,114 +221,16 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (_selectedOption) {
       case 'Discover':
         print("Discover");
-        return Container();
+        return DiscoverWidget();
       case 'Library':
         print("Library");
-        return _buildUserQuizzesListWidget(context);
+        return UserQuizListWidget();
       case 'Sessions':
         print("Sessions");
         return Container(); // TODO
       default:
         print("Home");
-        return _buildQuizzesListWidget(context);
+        return QuizListWidget();
     }
-  }
-
-  Widget _buildBox(Quiz quiz, {bool showTrashIcon = false}) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      padding: EdgeInsets.all(16.0),
-      height: 120,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.indigo, Colors.white],
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(quiz.name, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white)),
-              SizedBox(height: 20),
-              Text(quiz.description, style: TextStyle(color: Colors.white)),
-            ],
-          ),
-          if (showTrashIcon)
-            GestureDetector(
-              onTap: () {
-                // TODO
-              },
-              child: Icon(Icons.delete, color: Colors.white),
-            ),
-        ],
-      ),
-    );
-  }
-
-
-
-  Widget _buildQuizzesListWidget(BuildContext context) {
-    return FutureBuilder<List<Quiz>>(
-      future: context.read<QuizDataSource>().getNewestQuizzes(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No quizzes available'));
-        } else {
-          return Column(
-            children: [
-              Text('Newest Quizzes:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final Quiz quiz = snapshot.data![index];
-                    return _buildBox(quiz);
-                  },
-                ),
-              ),
-            ],
-          );
-        }
-      },
-    );
-  }
-
-  Widget _buildUserQuizzesListWidget(BuildContext context) {
-    return FutureBuilder<List<Quiz>>(
-      future: context.read<QuizDataSource>().getQuizzesByUser(context: context),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No quizzes available'));
-        } else {
-          return Column(
-            children: [
-              Text('Library:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final Quiz quiz = snapshot.data![index];
-                    return _buildBox(quiz, showTrashIcon: true);
-                  },
-                ),
-              ),
-            ],
-          );
-        }
-      },
-    );
   }
 }

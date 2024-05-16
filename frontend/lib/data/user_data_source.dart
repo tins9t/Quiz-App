@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:frontend/models/entities.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -66,11 +68,12 @@ class UserDataSource {
 
 
   Future<bool> updateUser(
-      {required String id,
+      {required BuildContext context,
       required String username,
       required String email}) async {
+    User user = await context.read<UserDataSource>().getUser(context);
     final response = await http.Client().put(
-        Uri.parse("$baseUrl/api/update/user/$id"),
+        Uri.parse("$baseUrl/api/update/user/${user.id}"),
         body: jsonEncode({"username": username, "email": email}),
         headers: headers);
     final respDto = jsonDecode(response.body);
@@ -78,20 +81,22 @@ class UserDataSource {
   }
 
   Future<bool> updatePassword(
-      {required String id,
+      {required BuildContext context,
       required String password,
       required String newPassword}) async {
+    User user = await context.read<UserDataSource>().getUser(context);
     final response = await http.Client().put(
-        Uri.parse("$baseUrl/api/update/password/$id"),
+        Uri.parse("$baseUrl/api/update/password/${user.id}"),
         body: jsonEncode({"password": password, "newPassword": newPassword}),
         headers: headers);
     final respDto = jsonDecode(response.body);
     return respDto;
   }
 
-  Future<bool> deleteUser({required String id}) async {
+  Future<bool> deleteUser({required BuildContext context}) async {
+    User user = await context.read<UserDataSource>().getUser(context);
     final response = await http.Client()
-        .delete(Uri.parse("$baseUrl/api/delete/user/$id"), headers: headers);
+        .delete(Uri.parse("$baseUrl/api/delete/user/${user.id}"), headers: headers);
     final respDto = jsonDecode(response.body);
     return respDto;
   }
