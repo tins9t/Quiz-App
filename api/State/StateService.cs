@@ -1,5 +1,8 @@
 using System.Collections.Concurrent;
+using System.Text.Json;
+using api.Models.ServerEvents;
 using infrastructure.QueryModels;
+using lib;
 using service.Services;
 
 namespace api.State;
@@ -14,9 +17,10 @@ public class StateService {
     public StateService(QuizManagerService quizManagerService)
     {
         _quizManagerService = quizManagerService;
-        _quizManagerService.QuestionAsked += async (room, question) => await WaitForAnswers(room, question);
+        _quizManagerService.QuestionAsked += async (room, question, answer) => await WaitForAnswers(room, question, answer);
         //In this code, an async lambda function is used as the event handler for QuestionAsked. This lambda function matches the event signature and calls WaitForAnswers inside it.
         _quizManagerService.QuizStarted += GetNumberOfConnectionsInRoom;
+        _quizManagerService.ScoreCalculated += (room, scores) => SendScore(room, scores);
 
     }
     
@@ -27,7 +31,7 @@ public class StateService {
     private readonly ConcurrentDictionary<int, Dictionary<string, Dictionary<Question, Answer>>> _userAnswersPerRoom = new();
     private readonly ConcurrentDictionary<int, Question> _currentQuestionsPerRoom = new();
       public delegate void ClientWantsToAnswerQuestionHandler(string Username, int room, Question question, Answer answer);
-       public event ClientWantsToAnswerQuestionHandler ClientWantsToAnswerQuestion;
+       
     
     public void GetNumberOfConnectionsInRoom(int room)
     {
@@ -118,21 +122,26 @@ public class StateService {
             userAnswers = new Dictionary<Question, Answer>();
             roomAnswers[Username] = userAnswers;
         }
-
-        ClientWantsToAnswerQuestion?.Invoke(Username, room, question, answer);
         userAnswers[question] = answer;
     }
 
-    private async Task WaitForAnswers(int room, Question question)
+    private async Task WaitForAnswers(int room, Question question, List<Answer> answers)
     {
         // Update the current question for the room
-        SetCurrentQuestion(room, question);
+        SetCurrentQuestion(room, question, answers);
         Timer timer = new Timer(QuizManagerService.DelayTimeMilliseconds);
         TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
-
+        
         timer.Elapsed += (sender, e) => tcs.TrySetResult(true);
         timer.Start();
-
+        // Send the initial ServerTimeRemaining response
+        var initialResponse = new ServerMessage.ServerTimeRemaining
+        {
+            eventType = "ServerTimeRemaining",
+            timeRemaining = QuizManagerService.DelayTimeMilliseconds
+        };
+        SendServerResponse(room, initialResponse);
+        
         // Check if the room key exists in the dictionary, if not add it
         if (!_userAnswersPerRoom.TryGetValue(room, out var roomAnswers))
         {
@@ -152,6 +161,14 @@ public class StateService {
         timer.Stop();
 
         // Print out the number of people who answered the question
+        var response = new ServerMessage.ServerTellsHowManyPeopleAnswered
+        {
+            eventType = "ServerTellsHowManyPeopleAnswered",
+            peopleAnswered = roomAnswers.Count
+        };
+
+        // Send the response to the room
+        SendServerResponse(room, response);
         Console.WriteLine($"{roomAnswers.Count} people answered the question.");
     }
     
@@ -170,7 +187,7 @@ public class StateService {
         return answers[0];
     }
     
-    public void SetCurrentQuestion(int roomId, Question question)
+    public void SetCurrentQuestion(int roomId, Question question, List<Answer> answers)
     {
         if (_currentQuestionsPerRoom.ContainsKey(roomId))
         {
@@ -180,6 +197,17 @@ public class StateService {
         {
             _currentQuestionsPerRoom.TryAdd(roomId, question);
         }
+
+        // Create a new ServerSetCurrentQuestion response
+        var response = new ServerMessage.ServerSetCurrentQuestion
+        {
+            eventType = "ServerSetCurrentQuestion",
+            question = question,
+            answers = answers // Assuming the Question class has an Answers property
+        };
+
+        // Send the response to the room
+        SendServerResponse(roomId, response);
     }
 
     public Question GetCurrentQuestion(int roomId)
@@ -192,5 +220,24 @@ public class StateService {
         {
             throw new Exception("No current question for room " + roomId);
         }
+    }
+    private void SendScore(int roomId, Dictionary<string, int> scores)
+    {
+        var response = new ServerMessage.ServerShowScore
+        {
+            eventType = "ServerShowScore",
+            scores = scores
+        };
+
+        SendServerResponse(roomId, response);
+    }
+    public void SendServerResponse<T>(int room, T response) where T : BaseDto
+    {
+        // Can take any BaseDto object and send it to the room
+        // Serialize the response to a JSON string
+        var message = JsonSerializer.Serialize(response);
+
+        // Broadcast the message to the room
+        BroadcastToRoom(room, message);
     }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/quiz_bloc.dart';
+import '../bloc/quiz_state.dart';
 
 class QuizScreen extends StatelessWidget {
   Widget _buildOption(Color color, IconData iconData, String answerText, VoidCallback onTap) {
@@ -44,43 +48,30 @@ class QuizScreen extends StatelessWidget {
         title: Text(''),
         backgroundColor: Colors.indigo[300],
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 20.0),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'What is your question?',
-                style: TextStyle(fontSize: 24.0),
-              ),
-            ),
-            SizedBox(height: 400.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: BlocBuilder<QuizBloc, QuizState>(
+        builder: (context, state) {
+          print('Rebuilding QuizScreen with state: $state');
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _buildOption(Colors.blue, Icons.square, 'Option 1', () {
-                  // TODO
-                }),
-                _buildOption(Colors.green, Icons.star, 'Option 2', () {
-                  // TODO
-                }),
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                    state.currentQuestion.text, // Display the current question
+                    style: TextStyle(fontSize: 24.0),
+                  ),
+                ),
+                SizedBox(height: 400.0),
+                for (var answer in state.answersForCurrentQuestion) // Display each answer
+                  _buildOption(Colors.blue, Icons.square, answer.text, () {
+                    // TODO: Handle answer selection
+                  }),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildOption(Colors.red, Icons.favorite, 'Option 3', () {
-                  // TODO
-                }),
-                _buildOption(Colors.orange, Icons.circle, 'Option 4', () {
-                  // TODO
-                }),
-              ],
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

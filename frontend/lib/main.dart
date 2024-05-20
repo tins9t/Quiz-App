@@ -1,21 +1,15 @@
 import 'dart:js';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/data/question_data_source.dart';
 import 'package:frontend/data/user_data_source.dart';
 import 'package:frontend/data/quiz_data_source.dart';
-import 'package:frontend/screens/answer_screen.dart';
-import 'package:frontend/screens/create_questions_and_answers.dart';
-import 'package:frontend/screens/create_quiz_screen.dart';
-import 'package:frontend/screens/home_screen.dart';
-import 'package:frontend/screens/loading_question_screen.dart';
 import 'package:frontend/screens/quiz_screen.dart';
-import 'package:frontend/screens/register_screen.dart';
-import 'package:frontend/screens/scoreboard_screen.dart';
+import 'package:frontend/websocket_channel_wrapper.dart';
 import 'package:provider/provider.dart';
-import 'screens/login_screen.dart';
+import 'bloc/quiz_bloc.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'services/token_service.dart';
 
 void main() {
@@ -44,10 +38,14 @@ class QuizApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Quiz App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: LoginScreen());
+      title: 'Quiz App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: BlocProvider(
+        create: (context) => QuizBloc(channel: WebSocketChannelWrapper().connect('ws://127.0.0.1:8181')),
+        child: QuizScreen(),
+      ),
+    );
   }
 }

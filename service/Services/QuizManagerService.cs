@@ -9,8 +9,9 @@ public class QuizManagerService
     private readonly QuizService _quizService;
     private readonly ConcurrentDictionary<Question, List<Answer>> _quizData = new ConcurrentDictionary<Question, List<Answer>>();
 
-    public event Action<int, Question> QuestionAsked;
+    public event Action<int, Question, List<Answer>> QuestionAsked;
     public event Action<int> QuizStarted;
+    public event Action<int, Dictionary<string, int>> ScoreCalculated;
 
     public delegate Task<Answer> GetUserInputCallback(Question question, List<Answer> answers);
 
@@ -28,7 +29,7 @@ public class QuizManagerService
 
         QuizStarted?.Invoke(quizRoomId);
         await AskQuestions(questions, quizRoomId, userAnswers, getUserInput);
-        CalculateScore(userAnswersPerRoom[quizRoomId]);
+        CalculateScore(userAnswersPerRoom[quizRoomId], quizRoomId);
     }
 
     private async Task AskQuestions(List<Question> questions, int quizRoomId, Dictionary<Question, Answer> userAnswers, GetUserInputCallback getUserInput)
@@ -41,7 +42,7 @@ public class QuizManagerService
             List<Answer> answers = _quizService.GetAnswersByQuestionId(question.Id);
             _quizData[question] = answers;
 
-            QuestionAsked?.Invoke(quizRoomId, question);
+            QuestionAsked?.Invoke(quizRoomId, question, answers);
 
             Answer userAnswer = await getUserInput(question, answers);
             userAnswers[question] = userAnswer;
@@ -49,7 +50,7 @@ public class QuizManagerService
             await Task.Delay(DelayTimeMilliseconds);
         }
     }
-    public void CalculateScore(Dictionary<string, Dictionary<Question, Answer>> allUserAnswers)
+    public void CalculateScore(Dictionary<string, Dictionary<Question, Answer>> allUserAnswers, int quizRoomId)
     {
         // Create a dictionary to store the scores for each user
         Dictionary<string, int> userScores = new Dictionary<string, int>();
@@ -69,6 +70,7 @@ public class QuizManagerService
 
             // Print out the final score for the user
             Console.WriteLine("Final score for user " + userId + ": " + userScore);
+            
         }
 
         // Convert the dictionary to a list and sort it in descending order based on the score
@@ -80,6 +82,7 @@ public class QuizManagerService
         {
             Console.WriteLine("User: " + score.Key + ", Score: " + score.Value);
         }
+        ScoreCalculated?.Invoke(quizRoomId, userScores);
     }
 
     private int CalculateUserScore(Dictionary<Question, Answer> userAnswers)

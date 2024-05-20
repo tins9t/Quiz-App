@@ -73,6 +73,12 @@ class User with _$User {
       _$UserFromJson(json);
 }
 
+enum QuizStatus {
+  notStarted,
+  inProgress,
+  finished,
+}
+
 @freezed
 class ApiError with _$ApiError {
   const factory ApiError({

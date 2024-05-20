@@ -44,6 +44,7 @@ dependencies:
   foundation: ^0.0.5
   flutter_secure_storage: 9.0.0
   flutter_bloc: ^8.1.5
+  web_socket_channel: ^2.1.0
 
 
 dev_dependencies:
