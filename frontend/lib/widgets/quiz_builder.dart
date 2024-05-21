@@ -14,9 +14,9 @@ class EditingAnswer {
 }
 
 class ExistingQuestion {
-  final String id;
+  final int id;
   final String text;
-  final List<String> existingAnswers;
+  final List<ExistingAnswer> existingAnswers;
 
   ExistingQuestion({
     required this.id,
@@ -26,8 +26,8 @@ class ExistingQuestion {
 }
 
 class ExistingAnswer {
-  final String id;
-  final String questionId;
+  final int id;
+  final int questionId;
   final String text;
   final bool correct;
 
@@ -151,11 +151,19 @@ class QuizBuilderState extends State<QuizBuilder> {
 
       final existingQuestions = existingQuestionsWithAnswers.map((qwa) {
         return ExistingQuestion(
-          id: qwa.question.id.toString(),
+          id: qwa.question.id,
           text: qwa.question.text,
-          existingAnswers: qwa.answers.map((a) => a.text).toList(),
+          existingAnswers: qwa.answers.map((a) {
+            return ExistingAnswer(
+              id: a.id,
+              questionId: a.questionId,
+              text: a.text,
+              correct: a.correct,
+            );
+          }).toList(),
         );
       }).toList();
+
       print('Existing questions: $existingQuestions');
       setState(() {
         this.existingQuestions = existingQuestions;
