@@ -174,7 +174,7 @@ public class StateService {
     
     public void StartQuiz(string Username, int quizRoomId, string quizId)
     {
-        _quizManagerService.RunQuiz(Username, quizRoomId, quizId, GetUserInput, _userAnswersPerRoom);
+        _quizManagerService.RunQuiz(quizRoomId, quizId, GetUserInput, _userAnswersPerRoom);
     }
     public async Task<Answer> GetUserInput(Question question, List<Answer> answers)
     {
@@ -197,7 +197,7 @@ public class StateService {
         {
             _currentQuestionsPerRoom.TryAdd(roomId, question);
         }
-
+        question.QuizId = "";
         // Create a new ServerSetCurrentQuestion response
         var response = new ServerMessage.ServerSetCurrentQuestion
         {

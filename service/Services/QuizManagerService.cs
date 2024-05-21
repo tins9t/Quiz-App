@@ -21,7 +21,7 @@ public class QuizManagerService
     }
 
 
-    public async Task RunQuiz(string username, int quizRoomId, string quizId, GetUserInputCallback getUserInput, ConcurrentDictionary<int, Dictionary<string, Dictionary<Question, Answer>>> userAnswersPerRoom)
+    public async Task RunQuiz(int quizRoomId, string quizId, GetUserInputCallback getUserInput, ConcurrentDictionary<int, Dictionary<string, Dictionary<Question, Answer>>> userAnswersPerRoom)
     {
         Quiz quiz = _quizService.GetQuizById(quizId);
         List<Question> questions = _quizService.GetQuestionsByQuizId(quizId);

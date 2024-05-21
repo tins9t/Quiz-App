@@ -15,23 +15,23 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ClientEvent _$ClientEventFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType']) {
-    case 'clientWantsToEnterRoom':
+  switch (json['eventType']) {
+    case 'ClientWantsToEnterRoom':
       return ClientWantsToEnterRoom.fromJson(json);
-    case 'clientWantsToAnswerQuestion':
+    case 'ClientWantsToAnswerQuestion':
       return ClientWantsToAnswerQuestion.fromJson(json);
-    case 'clientWantsToKickAllUsers':
+    case 'ClientWantsToKickAllUsers':
       return ClientWantsToKickAllUsers.fromJson(json);
-    case 'clientWantsToLeaveRoom':
+    case 'ClientWantsToLeaveRoom':
       return ClientWantsToLeaveRoom.fromJson(json);
-    case 'clientWantsToSetupQuiz':
+    case 'ClientWantsToSetupQuiz':
       return ClientWantsToSetupQuiz.fromJson(json);
-    case 'clientWantsToStartQuiz':
+    case 'ClientWantsToStartQuiz':
       return ClientWantsToStartQuiz.fromJson(json);
 
     default:
-      throw CheckedFromJsonException(json, 'runtimeType', 'ClientEvent',
-          'Invalid union type "${json['runtimeType']}"!');
+      throw CheckedFromJsonException(json, 'eventType', 'ClientEvent',
+          'Invalid union type "${json['eventType']}"!');
   }
 }
 
@@ -185,7 +185,7 @@ class _$ClientWantsToEnterRoomImpl
     implements ClientWantsToEnterRoom {
   const _$ClientWantsToEnterRoomImpl(
       {required this.roomId, required this.username, final String? $type})
-      : $type = $type ?? 'clientWantsToEnterRoom';
+      : $type = $type ?? 'ClientWantsToEnterRoom';
 
   factory _$ClientWantsToEnterRoomImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientWantsToEnterRoomImplFromJson(json);
@@ -195,7 +195,7 @@ class _$ClientWantsToEnterRoomImpl
   @override
   final String username;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -415,7 +415,7 @@ class _$ClientWantsToAnswerQuestionImpl
       required this.username,
       required this.roomId,
       final String? $type})
-      : $type = $type ?? 'clientWantsToAnswerQuestion';
+      : $type = $type ?? 'ClientWantsToAnswerQuestion';
 
   factory _$ClientWantsToAnswerQuestionImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -428,7 +428,7 @@ class _$ClientWantsToAnswerQuestionImpl
   @override
   final int roomId;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -641,7 +641,7 @@ class _$ClientWantsToKickAllUsersImpl
     implements ClientWantsToKickAllUsers {
   const _$ClientWantsToKickAllUsersImpl(
       {required this.roomId, final String? $type})
-      : $type = $type ?? 'clientWantsToKickAllUsers';
+      : $type = $type ?? 'ClientWantsToKickAllUsers';
 
   factory _$ClientWantsToKickAllUsersImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientWantsToKickAllUsersImplFromJson(json);
@@ -649,7 +649,7 @@ class _$ClientWantsToKickAllUsersImpl
   @override
   final int roomId;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -852,7 +852,7 @@ class _$ClientWantsToLeaveRoomImpl
     implements ClientWantsToLeaveRoom {
   const _$ClientWantsToLeaveRoomImpl(
       {required this.roomId, final String? $type})
-      : $type = $type ?? 'clientWantsToLeaveRoom';
+      : $type = $type ?? 'ClientWantsToLeaveRoom';
 
   factory _$ClientWantsToLeaveRoomImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientWantsToLeaveRoomImplFromJson(json);
@@ -860,7 +860,7 @@ class _$ClientWantsToLeaveRoomImpl
   @override
   final int roomId;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -1075,7 +1075,7 @@ class _$ClientWantsToSetupQuizImpl
       required this.username,
       required this.setupTimer,
       final String? $type})
-      : $type = $type ?? 'clientWantsToSetupQuiz';
+      : $type = $type ?? 'ClientWantsToSetupQuiz';
 
   factory _$ClientWantsToSetupQuizImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientWantsToSetupQuizImplFromJson(json);
@@ -1087,7 +1087,7 @@ class _$ClientWantsToSetupQuizImpl
   @override
   final int setupTimer;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -1312,7 +1312,7 @@ class _$ClientWantsToStartQuizImpl
       required this.quizId,
       required this.quizRoomId,
       final String? $type})
-      : $type = $type ?? 'clientWantsToStartQuiz';
+      : $type = $type ?? 'ClientWantsToStartQuiz';
 
   factory _$ClientWantsToStartQuizImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientWantsToStartQuizImplFromJson(json);
@@ -1324,7 +1324,7 @@ class _$ClientWantsToStartQuizImpl
   @override
   final int quizRoomId;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -1497,29 +1497,29 @@ abstract class ClientWantsToStartQuiz implements ClientEvent {
 }
 
 ServerEvent _$ServerEventFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType']) {
-    case 'serverAddsClientToRoom':
+  switch (json['eventType']) {
+    case 'ServerAddsClientToRoom':
       return ServerAddsClientToRoom.fromJson(json);
-    case 'serverRemovesClientFromRoom':
+    case 'ServerRemovesClientFromRoom':
       return ServerRemovesClientFromRoom.fromJson(json);
-    case 'serverStartsQuiz':
+    case 'ServerStartsQuiz':
       return ServerStartsQuiz.fromJson(json);
-    case 'serverFinishesQuiz':
+    case 'ServerFinishesQuiz':
       return ServerFinishesQuiz.fromJson(json);
-    case 'serverResetsQuiz':
+    case 'ServerResetsQuiz':
       return ServerResetsQuiz.fromJson(json);
-    case 'serverSetCurrentQuestion':
+    case 'ServerSetCurrentQuestion':
       return ServerSetCurrentQuestion.fromJson(json);
-    case 'serverTimeRemaining':
+    case 'ServerTimeRemaining':
       return ServerTimeRemaining.fromJson(json);
-    case 'serverShowScore':
+    case 'ServerShowScore':
       return ServerShowScore.fromJson(json);
-    case 'serverTellsHowManyPeopleAnswered':
+    case 'ServerTellsHowManyPeopleAnswered':
       return ServerTellsHowManyPeopleAnswered.fromJson(json);
 
     default:
-      throw CheckedFromJsonException(json, 'runtimeType', 'ServerEvent',
-          'Invalid union type "${json['runtimeType']}"!');
+      throw CheckedFromJsonException(json, 'eventType', 'ServerEvent',
+          'Invalid union type "${json['eventType']}"!');
   }
 }
 
@@ -1689,7 +1689,7 @@ class _$ServerAddsClientToRoomImpl
       {required this.roomId,
       required this.liveConnections,
       final String? $type})
-      : $type = $type ?? 'serverAddsClientToRoom';
+      : $type = $type ?? 'ServerAddsClientToRoom';
 
   factory _$ServerAddsClientToRoomImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServerAddsClientToRoomImplFromJson(json);
@@ -1699,7 +1699,7 @@ class _$ServerAddsClientToRoomImpl
   @override
   final int liveConnections;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -1927,7 +1927,7 @@ class _$ServerRemovesClientFromRoomImpl
       {required this.roomId,
       required this.liveConnections,
       final String? $type})
-      : $type = $type ?? 'serverRemovesClientFromRoom';
+      : $type = $type ?? 'ServerRemovesClientFromRoom';
 
   factory _$ServerRemovesClientFromRoomImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -1938,7 +1938,7 @@ class _$ServerRemovesClientFromRoomImpl
   @override
   final int liveConnections;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -2157,7 +2157,7 @@ class _$ServerStartsQuizImpl
     with DiagnosticableTreeMixin
     implements ServerStartsQuiz {
   const _$ServerStartsQuizImpl({required this.status, final String? $type})
-      : $type = $type ?? 'serverStartsQuiz';
+      : $type = $type ?? 'ServerStartsQuiz';
 
   factory _$ServerStartsQuizImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServerStartsQuizImplFromJson(json);
@@ -2165,7 +2165,7 @@ class _$ServerStartsQuizImpl
   @override
   final QuizStatus status;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -2378,7 +2378,7 @@ class _$ServerFinishesQuizImpl
     with DiagnosticableTreeMixin
     implements ServerFinishesQuiz {
   const _$ServerFinishesQuizImpl({required this.status, final String? $type})
-      : $type = $type ?? 'serverFinishesQuiz';
+      : $type = $type ?? 'ServerFinishesQuiz';
 
   factory _$ServerFinishesQuizImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServerFinishesQuizImplFromJson(json);
@@ -2386,7 +2386,7 @@ class _$ServerFinishesQuizImpl
   @override
   final QuizStatus status;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -2599,7 +2599,7 @@ class _$ServerResetsQuizImpl
     with DiagnosticableTreeMixin
     implements ServerResetsQuiz {
   const _$ServerResetsQuizImpl({required this.status, final String? $type})
-      : $type = $type ?? 'serverResetsQuiz';
+      : $type = $type ?? 'ServerResetsQuiz';
 
   factory _$ServerResetsQuizImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServerResetsQuizImplFromJson(json);
@@ -2607,7 +2607,7 @@ class _$ServerResetsQuizImpl
   @override
   final QuizStatus status;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -2841,7 +2841,7 @@ class _$ServerSetCurrentQuestionImpl
       required final List<Answer> answers,
       final String? $type})
       : _answers = answers,
-        $type = $type ?? 'serverSetCurrentQuestion';
+        $type = $type ?? 'ServerSetCurrentQuestion';
 
   factory _$ServerSetCurrentQuestionImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServerSetCurrentQuestionImplFromJson(json);
@@ -2856,7 +2856,7 @@ class _$ServerSetCurrentQuestionImpl
     return EqualUnmodifiableListView(_answers);
   }
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -3076,7 +3076,7 @@ class _$ServerTimeRemainingImpl
     implements ServerTimeRemaining {
   const _$ServerTimeRemainingImpl(
       {required this.timeRemaining, final String? $type})
-      : $type = $type ?? 'serverTimeRemaining';
+      : $type = $type ?? 'ServerTimeRemaining';
 
   factory _$ServerTimeRemainingImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServerTimeRemainingImplFromJson(json);
@@ -3084,7 +3084,7 @@ class _$ServerTimeRemainingImpl
   @override
   final int timeRemaining;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -3300,7 +3300,7 @@ class _$ServerShowScoreImpl
   const _$ServerShowScoreImpl(
       {required final Map<String, int> scores, final String? $type})
       : _scores = scores,
-        $type = $type ?? 'serverShowScore';
+        $type = $type ?? 'ServerShowScore';
 
   factory _$ServerShowScoreImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServerShowScoreImplFromJson(json);
@@ -3313,7 +3313,7 @@ class _$ServerShowScoreImpl
     return EqualUnmodifiableMapView(_scores);
   }
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override
@@ -3531,7 +3531,7 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
     implements ServerTellsHowManyPeopleAnswered {
   const _$ServerTellsHowManyPeopleAnsweredImpl(
       {required this.peopleAnswered, final String? $type})
-      : $type = $type ?? 'serverTellsHowManyPeopleAnswered';
+      : $type = $type ?? 'ServerTellsHowManyPeopleAnswered';
 
   factory _$ServerTellsHowManyPeopleAnsweredImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -3540,7 +3540,7 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
   @override
   final int peopleAnswered;
 
-  @JsonKey(name: 'runtimeType')
+  @JsonKey(name: 'eventType')
   final String $type;
 
   @override

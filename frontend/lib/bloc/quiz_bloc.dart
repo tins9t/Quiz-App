@@ -13,8 +13,11 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
       : _channel = channel,
         super(QuizState.empty()) {
     print('WebSocket connection established');
+
     // Handler for client events
     on<ClientEvent>(_onClientEvent);
+    clientWantsToEnterRoom(0, "FrontEndHost");
+    print('joined room 0 as FrontEndHost');
 
     // Handler for server events
     on<ServerAddsClientToRoom>(_onServerAddsClientToRoom);
@@ -28,11 +31,13 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
 
     // Feed deserialized events from server into this bloc
     _channelSubscription = _channel.stream
-        .map((event) {
-      print('Received message: $event'); // Print out any message received
-      return jsonDecode(event);
-    })
-        .map((event) => ServerEvent.fromJson(event))
+        .map((event) {return jsonDecode(event);})
+        .map((event){ try{
+          return ServerEvent.fromJson(event);}catch (e){
+          print(e);
+          rethrow;
+    }
+        })
         .listen(add, onError: addError);
   }
 
@@ -46,15 +51,16 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
   }
 
   /// Sends ClientWantsToEnterRoom event to server
-  void clientWantsToEnterRoom(int roomId, String username) {
-    add(ClientEvent.clientWantsToEnterRoom(roomId: roomId, username: username));
-  }
+
   FutureOr<void> _onClientEvent(ClientEvent event, Emitter<QuizState> emit) {
     _channel.sink.add(jsonEncode(event.toJson()));
   }
+  void clientWantsToEnterRoom(int roomId, String username) {
+    add(ClientEvent.clientWantsToEnterRoom(roomId: roomId, username: username));
+  }
   // Sends ClientWantsToAnswerQuestion event to server
   void clientWantsToAnswerQuestion(int answerId, String username, int roomId) {
-    clientWantsToAnswerQuestion(answerId, username, roomId);
+    add(ClientEvent.clientWantsToAnswerQuestion(answerId: answerId, username: username, roomId: roomId));
   }
 
 // Sends ClientWantsToKickAllUsers event to server
@@ -109,12 +115,12 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
   }
   Future<void> _onServerSetCurrentQuestion(
       ServerSetCurrentQuestion event, Emitter<QuizState> emit) async {
-    print('Rebuilding QuizScreen with state: $state');
+    print('Emitted new state with currentQuestion: ${event.question} and answersForCurrentQuestion: ${event.answers}');
     emit(state.copyWith(
       currentQuestion: event.question,
       answersForCurrentQuestion: event.answers // Reset selected answers for the new question
     ));
-    print('Emitted new state with currentQuestion: ${event.question} and answersForCurrentQuestion: ${event.answers}');
+
   }
   Future<void> _onServerTimeRemaining(
       ServerTimeRemaining event, Emitter<QuizState> emit) async {

@@ -8,8 +8,8 @@ part 'events.g.dart';
 
 abstract class BaseEvent {}
 
-@freezed
-class ClientEvent with _$ClientEvent implements BaseEvent {
+@Freezed(unionKey: 'eventType', unionValueCase: FreezedUnionCase.pascal)
+sealed class ClientEvent with _$ClientEvent implements BaseEvent {
   const factory ClientEvent.clientWantsToEnterRoom({
     required int roomId,
     required String username,
@@ -45,8 +45,8 @@ class ClientEvent with _$ClientEvent implements BaseEvent {
       _$ClientEventFromJson(json);
 }
 
-@freezed
-class ServerEvent with _$ServerEvent implements BaseEvent {
+@Freezed(unionKey: 'eventType', unionValueCase: FreezedUnionCase.pascal)
+sealed class ServerEvent with _$ServerEvent implements BaseEvent {
   const factory ServerEvent.serverAddsClientToRoom({
     required int roomId,
     required int liveConnections,

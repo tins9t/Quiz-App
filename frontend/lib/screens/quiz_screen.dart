@@ -5,37 +5,38 @@ import '../bloc/quiz_bloc.dart';
 import '../bloc/quiz_state.dart';
 
 class QuizScreen extends StatelessWidget {
+  final List<Color> buttonColors = [Colors.blue, Colors.red, Colors.green, Colors.yellow];
+  final List<IconData> buttonIcons = [Icons.monitor_heart, Icons.star, Icons.add_card, Icons.work];
+
   Widget _buildOption(Color color, IconData iconData, String answerText, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
-      child: Expanded(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          margin: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          height: 100,
-          width: 800,
-          child: Row(
-            children: [
-              Icon(
-                iconData,
-                color: Colors.white,
-              ),
-              Expanded(
-                child: Text(
-                  answerText,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                  ),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        margin: EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        height: 100,
+        width: 800,
+        child: Row(
+          children: [
+            Icon(
+              iconData,
+              color: Colors.white,
+            ),
+            Expanded(
+              child: Text(
+                answerText,
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24.0,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -63,11 +64,20 @@ class QuizScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 24.0),
                   ),
                 ),
-                SizedBox(height: 400.0),
-                for (var answer in state.answersForCurrentQuestion) // Display each answer
-                  _buildOption(Colors.blue, Icons.square, answer.text, () {
-                    // TODO: Handle answer selection
-                  }),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      for (var i = 0; i < state.answersForCurrentQuestion.length; i++) // Display each answer
+                        _buildOption(
+                            buttonColors[i % buttonColors.length],
+                            buttonIcons[i % buttonIcons.length],
+                            state.answersForCurrentQuestion[i].text,
+                                () {
+                            }
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
           );

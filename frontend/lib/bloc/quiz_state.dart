@@ -23,6 +23,8 @@ class QuizState with _$QuizState {
     required int timeRemaining,
     required Map<String, int> scores, // Changed from int score to Map<String, int> scores
     required int peopleAnswered,
+    required String Username,
+    required int roomId,
   }) = _QuizState;
 
   static QuizState empty() =>
@@ -35,5 +37,7 @@ class QuizState with _$QuizState {
         timeRemaining: 0,
         scores: {}, // Default is an empty map
         peopleAnswered: 0,
+        Username: 'Host',
+        roomId: 0,
       );
 }

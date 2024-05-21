@@ -10,6 +10,7 @@ import 'package:frontend/websocket_channel_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'bloc/quiz_bloc.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'screens/answer_screen.dart';
 import 'services/token_service.dart';
 
 void main() {

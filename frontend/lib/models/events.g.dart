@@ -11,7 +11,7 @@ _$ClientWantsToEnterRoomImpl _$$ClientWantsToEnterRoomImplFromJson(
     _$ClientWantsToEnterRoomImpl(
       roomId: (json['roomId'] as num).toInt(),
       username: json['username'] as String,
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ClientWantsToEnterRoomImplToJson(
@@ -19,7 +19,7 @@ Map<String, dynamic> _$$ClientWantsToEnterRoomImplToJson(
     <String, dynamic>{
       'roomId': instance.roomId,
       'username': instance.username,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ClientWantsToAnswerQuestionImpl _$$ClientWantsToAnswerQuestionImplFromJson(
@@ -28,7 +28,7 @@ _$ClientWantsToAnswerQuestionImpl _$$ClientWantsToAnswerQuestionImplFromJson(
       answerId: (json['answerId'] as num).toInt(),
       username: json['username'] as String,
       roomId: (json['roomId'] as num).toInt(),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ClientWantsToAnswerQuestionImplToJson(
@@ -37,35 +37,35 @@ Map<String, dynamic> _$$ClientWantsToAnswerQuestionImplToJson(
       'answerId': instance.answerId,
       'username': instance.username,
       'roomId': instance.roomId,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ClientWantsToKickAllUsersImpl _$$ClientWantsToKickAllUsersImplFromJson(
         Map<String, dynamic> json) =>
     _$ClientWantsToKickAllUsersImpl(
       roomId: (json['roomId'] as num).toInt(),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ClientWantsToKickAllUsersImplToJson(
         _$ClientWantsToKickAllUsersImpl instance) =>
     <String, dynamic>{
       'roomId': instance.roomId,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ClientWantsToLeaveRoomImpl _$$ClientWantsToLeaveRoomImplFromJson(
         Map<String, dynamic> json) =>
     _$ClientWantsToLeaveRoomImpl(
       roomId: (json['roomId'] as num).toInt(),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ClientWantsToLeaveRoomImplToJson(
         _$ClientWantsToLeaveRoomImpl instance) =>
     <String, dynamic>{
       'roomId': instance.roomId,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ClientWantsToSetupQuizImpl _$$ClientWantsToSetupQuizImplFromJson(
@@ -74,7 +74,7 @@ _$ClientWantsToSetupQuizImpl _$$ClientWantsToSetupQuizImplFromJson(
       quizId: json['quizId'] as String,
       username: json['username'] as String,
       setupTimer: (json['setupTimer'] as num).toInt(),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ClientWantsToSetupQuizImplToJson(
@@ -83,7 +83,7 @@ Map<String, dynamic> _$$ClientWantsToSetupQuizImplToJson(
       'quizId': instance.quizId,
       'username': instance.username,
       'setupTimer': instance.setupTimer,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ClientWantsToStartQuizImpl _$$ClientWantsToStartQuizImplFromJson(
@@ -92,7 +92,7 @@ _$ClientWantsToStartQuizImpl _$$ClientWantsToStartQuizImplFromJson(
       username: json['username'] as String,
       quizId: json['quizId'] as String,
       quizRoomId: (json['quizRoomId'] as num).toInt(),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ClientWantsToStartQuizImplToJson(
@@ -101,7 +101,7 @@ Map<String, dynamic> _$$ClientWantsToStartQuizImplToJson(
       'username': instance.username,
       'quizId': instance.quizId,
       'quizRoomId': instance.quizRoomId,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ServerAddsClientToRoomImpl _$$ServerAddsClientToRoomImplFromJson(
@@ -109,7 +109,7 @@ _$ServerAddsClientToRoomImpl _$$ServerAddsClientToRoomImplFromJson(
     _$ServerAddsClientToRoomImpl(
       roomId: (json['roomId'] as num).toInt(),
       liveConnections: (json['liveConnections'] as num).toInt(),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ServerAddsClientToRoomImplToJson(
@@ -117,7 +117,7 @@ Map<String, dynamic> _$$ServerAddsClientToRoomImplToJson(
     <String, dynamic>{
       'roomId': instance.roomId,
       'liveConnections': instance.liveConnections,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ServerRemovesClientFromRoomImpl _$$ServerRemovesClientFromRoomImplFromJson(
@@ -125,7 +125,7 @@ _$ServerRemovesClientFromRoomImpl _$$ServerRemovesClientFromRoomImplFromJson(
     _$ServerRemovesClientFromRoomImpl(
       roomId: (json['roomId'] as num).toInt(),
       liveConnections: (json['liveConnections'] as num).toInt(),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ServerRemovesClientFromRoomImplToJson(
@@ -133,21 +133,21 @@ Map<String, dynamic> _$$ServerRemovesClientFromRoomImplToJson(
     <String, dynamic>{
       'roomId': instance.roomId,
       'liveConnections': instance.liveConnections,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ServerStartsQuizImpl _$$ServerStartsQuizImplFromJson(
         Map<String, dynamic> json) =>
     _$ServerStartsQuizImpl(
       status: $enumDecode(_$QuizStatusEnumMap, json['status']),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ServerStartsQuizImplToJson(
         _$ServerStartsQuizImpl instance) =>
     <String, dynamic>{
       'status': _$QuizStatusEnumMap[instance.status]!,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 const _$QuizStatusEnumMap = {
@@ -160,28 +160,28 @@ _$ServerFinishesQuizImpl _$$ServerFinishesQuizImplFromJson(
         Map<String, dynamic> json) =>
     _$ServerFinishesQuizImpl(
       status: $enumDecode(_$QuizStatusEnumMap, json['status']),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ServerFinishesQuizImplToJson(
         _$ServerFinishesQuizImpl instance) =>
     <String, dynamic>{
       'status': _$QuizStatusEnumMap[instance.status]!,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ServerResetsQuizImpl _$$ServerResetsQuizImplFromJson(
         Map<String, dynamic> json) =>
     _$ServerResetsQuizImpl(
       status: $enumDecode(_$QuizStatusEnumMap, json['status']),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ServerResetsQuizImplToJson(
         _$ServerResetsQuizImpl instance) =>
     <String, dynamic>{
       'status': _$QuizStatusEnumMap[instance.status]!,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ServerSetCurrentQuestionImpl _$$ServerSetCurrentQuestionImplFromJson(
@@ -191,7 +191,7 @@ _$ServerSetCurrentQuestionImpl _$$ServerSetCurrentQuestionImplFromJson(
       answers: (json['answers'] as List<dynamic>)
           .map((e) => Answer.fromJson(e as Map<String, dynamic>))
           .toList(),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ServerSetCurrentQuestionImplToJson(
@@ -199,35 +199,35 @@ Map<String, dynamic> _$$ServerSetCurrentQuestionImplToJson(
     <String, dynamic>{
       'question': instance.question,
       'answers': instance.answers,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ServerTimeRemainingImpl _$$ServerTimeRemainingImplFromJson(
         Map<String, dynamic> json) =>
     _$ServerTimeRemainingImpl(
       timeRemaining: (json['timeRemaining'] as num).toInt(),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ServerTimeRemainingImplToJson(
         _$ServerTimeRemainingImpl instance) =>
     <String, dynamic>{
       'timeRemaining': instance.timeRemaining,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ServerShowScoreImpl _$$ServerShowScoreImplFromJson(
         Map<String, dynamic> json) =>
     _$ServerShowScoreImpl(
       scores: Map<String, int>.from(json['scores'] as Map),
-      $type: json['runtimeType'] as String?,
+      $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ServerShowScoreImplToJson(
         _$ServerShowScoreImpl instance) =>
     <String, dynamic>{
       'scores': instance.scores,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };
 
 _$ServerTellsHowManyPeopleAnsweredImpl
@@ -235,12 +235,12 @@ _$ServerTellsHowManyPeopleAnsweredImpl
             Map<String, dynamic> json) =>
         _$ServerTellsHowManyPeopleAnsweredImpl(
           peopleAnswered: (json['peopleAnswered'] as num).toInt(),
-          $type: json['runtimeType'] as String?,
+          $type: json['eventType'] as String?,
         );
 
 Map<String, dynamic> _$$ServerTellsHowManyPeopleAnsweredImplToJson(
         _$ServerTellsHowManyPeopleAnsweredImpl instance) =>
     <String, dynamic>{
       'peopleAnswered': instance.peopleAnswered,
-      'runtimeType': instance.$type,
+      'eventType': instance.$type,
     };

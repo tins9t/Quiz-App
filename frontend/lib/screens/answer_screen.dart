@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/bloc/quiz_bloc.dart';
+import 'package:frontend/bloc/quiz_state.dart';
 
-class AnswerScreen extends StatelessWidget {
-  Widget _buildAnswer(Color color, IconData iconData, VoidCallback onTap) {
+
+class AnswerButton extends StatelessWidget {
+  final Color color;
+  final IconData iconData;
+  final String answerText;
+  final VoidCallback onTap;
+
+  const AnswerButton({
+    required this.color,
+    required this.iconData,
+    required this.answerText,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -12,14 +29,28 @@ class AnswerScreen extends StatelessWidget {
         margin: EdgeInsets.all(10.0),
         width: 180.0,
         height: 330.0,
-        child: Icon(
-          iconData,
-          color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              iconData,
+              color: Colors.white,
+            ),
+            Text(
+              answerText,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24.0,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
+}
 
+class AnswerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,34 +58,27 @@ class AnswerScreen extends StatelessWidget {
         title: Text(''),
         backgroundColor: Colors.indigo[300],
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildAnswer(Colors.blue, Icons.square, () {
-                  // TODO
-                }),
-                _buildAnswer(Colors.green, Icons.star, () {
-                  // TODO
-                }),
-              ],
+      body: BlocBuilder<QuizBloc, QuizState>(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              itemCount: state.answersForCurrentQuestion.length,
+              itemBuilder: (context, i) => AnswerButton(
+                color: Colors.blue, // Replace with your color logic
+                iconData: Icons.square, // Replace with your icon logic
+                answerText: state.answersForCurrentQuestion[i].text,
+                onTap: () {
+                  context.read<QuizBloc>().clientWantsToAnswerQuestion(
+                    state.answersForCurrentQuestion[i].id,
+                    state.Username, // Replace with the actual username
+                    state.roomId, // Replace with the actual room id
+                  );
+                },
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildAnswer(Colors.red, Icons.favorite, () {
-                  // TODO
-                }),
-                _buildAnswer(Colors.orange, Icons.circle, () {
-                  // TODO
-                }),
-              ],
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
