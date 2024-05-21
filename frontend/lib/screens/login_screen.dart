@@ -15,8 +15,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isHidden = true;
   String errorMessage = '';
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController(text: 'mudkip@example.com');
+  final _passwordController = TextEditingController(text: 'mudkip123');
 
   void _toggleVisibility() {
     setState(() {
@@ -169,21 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onSubmitted: (value) async {
                                 final email = _emailController.value.text;
                                 final password = _passwordController.value.text;
-                                if (email.isEmpty || password.isEmpty)
-                                  return;
-                                try {
-                                  await context.read<UserDataSource>().login(
-                                    email: email,
-                                    password: password,
-                                    context: context,
-                                  );
-                                  if (context.mounted) {
-                                    _navigateToHomeScreen(context);
-                                  }
-                                } catch (e) {
-                                  print("Error: $e");
-                                  errorMessage = 'Invalid Credentials. Please try again.';
-                                }
+                                _login(email, password, context);
                               },
                             decoration: InputDecoration(
                                     hintText: 'Password',
@@ -211,7 +197,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(height: isSmallScreen ? 10 : 50),
                                 Center(
                                   child: TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      final email = _emailController.value.text;
+                                      final password = _passwordController.value.text;
+                                      _login(email, password, context);
+                                    },
                                     child: Text(
                                       'Login',
                                       style: TextStyle(color: Colors.white),
@@ -271,5 +261,22 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       resizeToAvoidBottomInset: false,
     );
+  }
+
+  void _login(String email, String password, BuildContext context) async {
+    if (email.isEmpty || password.isEmpty) return;
+    try {
+      await context.read<UserDataSource>().login(
+        email: email,
+        password: password,
+        context: context,
+      );
+      if (context.mounted) {
+        _navigateToHomeScreen(context);
+      }
+    } catch (e) {
+      print("Error: $e");
+      errorMessage = 'Invalid Credentials. Please try again.';
+    }
   }
 }

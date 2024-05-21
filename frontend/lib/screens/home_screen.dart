@@ -56,7 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateQuizScreen()),
+              MaterialPageRoute(builder: (context) => CreateQuizScreen(
+                isEditing: false,
+              )),
             );
           },
           child: Icon(Icons.add, color: Colors.white,),

@@ -15,14 +15,16 @@ class QuizDataSource {
       {required String name, required String description, required String? userId}) async {
     final response = await http.Client().post(
         Uri.parse("$baseUrl/api/quiz/create"),
-        body: jsonEncode({"name": name, "description": description, "userId": userId}),
+        body: jsonEncode(
+            {"name": name, "description": description, "userId": userId}),
         headers: headers);
     print('Response from backend: $response');
     if (response.statusCode == 200) {
       final respJson = jsonDecode(response.body);
       return Quiz.fromJson(respJson);
     } else {
-      throw Exception('Failed to create quiz. Status code: ${response.statusCode}');
+      throw Exception(
+          'Failed to create quiz. Status code: ${response.statusCode}');
     }
   }
 
@@ -33,15 +35,15 @@ class QuizDataSource {
     return respDto;
   }
 
-  Future<bool> updateQuiz(
-      {required String id, required String name, required String description, required bool isPrivate}) async {
+  Future<Quiz> updateQuiz(
+      {required String quizId, required String name, required String description, required bool isPrivate}) async {
     final response = await http.Client().put(
-        Uri.parse("$baseUrl/api/quiz/update/$id"),
+        Uri.parse("$baseUrl/api/quiz/update/$quizId"),
         body: jsonEncode(
             {"name": name, "description": description, "isPrivate": isPrivate}),
         headers: headers);
     final respDto = jsonDecode(response.body);
-    return respDto;
+    return Quiz.fromJson(respDto);
   }
 
   Future<bool> deleteQuiz({required String id}) async {
@@ -102,7 +104,6 @@ class QuizDataSource {
       Uri.parse("$baseUrl/api/quiz/get/by/$query"),
       headers: headers,
     );
-    print("Response Status Code: ${response.statusCode}");
     if (response.statusCode == 200) {
       List<dynamic> quizJsonList = jsonDecode(response.body);
       print("Quiz json List: $quizJsonList");
@@ -113,6 +114,34 @@ class QuizDataSource {
       return quizzes;
     } else {
       throw Exception('Failed to load quizzes');
+    }
+  }
+
+  Future<List<QuestionWithAnswers>> getQuestionsWithAnswersByQuizId({required String quizId}) async {
+    final response = await http.get(
+      Uri.parse("$baseUrl/api/quiz/get/questions/answers/$quizId"),
+      headers: headers,
+    );
+
+    print("Response Status Code: ${response.statusCode}");
+    if (response.statusCode == 200) {
+      final List<Map<String, dynamic>> jsonList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+      print("Quiz json List: $jsonList");
+
+      final List<QuestionWithAnswers> questionsWithAnswers = jsonList.map((json) {
+        final questionJson = json['question'] as Map<String, dynamic>;
+        final List<Map<String, dynamic>> answersJson = json['answers'] as List<Map<String, dynamic>>;
+
+        final Question question = Question.fromJson(questionJson);
+        final List<Answer> answers = answersJson.map((answerJson) => Answer.fromJson(answerJson)).toList();
+
+        return QuestionWithAnswers(question: question, answers: answers);
+      }).toList();
+
+      print("Questions with answers: $questionsWithAnswers");
+      return questionsWithAnswers;
+    } else {
+      throw Exception('Failed to load questions with answers');
     }
   }
 }

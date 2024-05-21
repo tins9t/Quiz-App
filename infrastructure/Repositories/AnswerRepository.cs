@@ -59,4 +59,16 @@ public class AnswerRepository
             return conn.Execute(sql, new { quizId }) > 0;
         }
     }
+
+    public List<Answer> GetAnswerByQuestionId(int questionId)
+    {
+        var sql = $@"SELECT id as {nameof(Answer.Id)}, 
+       question_id as {nameof(Answer.QuestionId)}, 
+       text as {nameof(Answer.Text)}, 
+       correct as {nameof(Answer.Correct)} FROM answer WHERE question_id = @question_id;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.Query<Answer>(sql, new { question_id = questionId }).ToList();
+        }
+    }
 }

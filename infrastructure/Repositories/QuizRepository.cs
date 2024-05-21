@@ -75,24 +75,6 @@ public class QuizRepository
         }
     }
 
-    public List<Question> GetQuestionsByQuizId(string quizId)
-    {
-        var sql = $@"SELECT * FROM question WHERE quiz_id = @quiz_id;";
-        using (var conn = DataConnection.DataSource.OpenConnection())
-        {
-            return conn.Query<Question>(sql, new { quiz_id = quizId }).ToList();
-        }
-    }
-
-    public List<Answer> GetAnswersByQuestionId(int questionId)
-    {
-        var sql = $@"SELECT * FROM answer WHERE question_id = @question_id;";
-        using (var conn = DataConnection.DataSource.OpenConnection())
-        {
-            return conn.Query<Answer>(sql, new { question_id = questionId }).ToList();
-        }
-    }
-    
     public List<Quiz> GetNewestQuizzes()
     {
         var sql = $@"SELECT * FROM quiz ORDER BY time_created DESC;";

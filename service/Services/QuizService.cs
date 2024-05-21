@@ -7,11 +7,13 @@ public class QuizService
 {
     private readonly QuizRepository _quizRepository;
     private readonly QuestionService _questionService;
+    private readonly AnswerService _answerService;
 
-    public QuizService(QuizRepository quizRepository, QuestionService questionService)
+    public QuizService(QuizRepository quizRepository, QuestionService questionService, AnswerService answerService)
     {
         _quizRepository = quizRepository;
         _questionService = questionService;
+        _answerService = answerService;
     }
 
     public Quiz CreateQuiz(Quiz quiz)
@@ -34,23 +36,6 @@ public class QuizService
     {
         return _quizRepository.GetQuizById(id);
     }
-    public List<Question> GetQuestionsByQuizId(string id)
-    {
-        
-        List<Question> questions = _quizRepository.GetQuestionsByQuizId(id);
-        
-        foreach (var question in questions)
-        {
-            _quizRepository.GetAnswersByQuestionId(question.Id);
-        }
-
-        return _quizRepository.GetQuestionsByQuizId(id);
-    }
-    public List<Answer> GetAnswersByQuestionId(int id)
-    {
-        return _quizRepository.GetAnswersByQuestionId(id);
-
-    }
 
     public List<Quiz> GetNewestQuizzes()
     {
@@ -65,5 +50,24 @@ public class QuizService
     public List<Quiz> GetQuizzesByName(string name)
     {
         return _quizRepository.GetQuizzesByName(name);
+    }
+    
+    public List<QuestionWithAnswers> GetQuestionsWithAnswersByQuizId(string quizId)
+    {
+        var questions = _questionService.GetQuestionsByQuizId(quizId);
+        var questionsWithAnswers = new List<QuestionWithAnswers>();
+
+        foreach (var question in questions)
+        {
+            var answers = _answerService.GetAnswersByQuestionId(question.Id);
+            var questionWithAnswers = new QuestionWithAnswers
+            {
+                Question = question,
+                Answers = answers
+            };
+            questionsWithAnswers.Add(questionWithAnswers);
+        }
+        
+        return questionsWithAnswers;
     }
 }

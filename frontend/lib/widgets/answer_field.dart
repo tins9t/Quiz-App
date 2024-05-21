@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../bloc/manage_quiz_cubit.dart';
-import '../models/entities.dart';
+import 'quiz_builder.dart';
 
 class AnswerField extends StatelessWidget {
-  const AnswerField(this.answer, this.questionIndex, this.answerIndex, this.isSmallScreen);
-  final Answer answer;
-  final int questionIndex;
-  final int answerIndex;
-  final bool isSmallScreen;
+  const AnswerField({Key? key, required this.answer, required this.index, required this.isEditing}) : super(key: key);
+
+  final EditingAnswer answer;
+  final int index;
+  final bool isEditing;
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +17,16 @@ class AnswerField extends StatelessWidget {
           Checkbox(
             value: answer.correct,
             onChanged: (isChecked) {
-              context.read<ManageQuizCubit>().changeAnswer(
-                  questionIndex, answerIndex,
-                  correct: isChecked ?? false);
+              QuizBuilder.of(context).setCorrect(answer, isChecked!);
             },
           ),
           SizedBox(width: 10),
           Expanded(
             child: TextFormField(
               onChanged: (value) {
-                context
-                    .read<ManageQuizCubit>()
-                    .changeAnswer(questionIndex, answerIndex, text: value);
+                answer.answer = value;
               },
+              initialValue: isEditing ? answer.answer : null,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
@@ -40,7 +34,7 @@ class AnswerField extends StatelessWidget {
                     color: Colors.indigo[900]!,
                   ),
                 ),
-                hintText: 'Enter answer ${answerIndex + 1}',
+                hintText: 'Enter answer ${index + 1}',
                 filled: true,
                 fillColor: Colors.grey[200],
               ),

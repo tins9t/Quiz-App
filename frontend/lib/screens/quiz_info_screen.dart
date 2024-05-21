@@ -1,0 +1,71 @@
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import '../models/entities.dart';
+
+class QuizInfoScreen extends StatelessWidget {
+  final Quiz quiz;
+
+  const QuizInfoScreen({required this.quiz, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+        primaryColor: Colors.indigo[300],
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+          bodyText1: TextStyle(fontSize: 16.0),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            textStyle: TextStyle(fontSize: 16),
+          ),
+        ),
+      ),
+      child: Scaffold(
+        body: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  quiz.name,
+                  style: Theme.of(context).textTheme.headline1,
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Time Created: ${quiz.timeCreated}',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'By: ',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                SizedBox(height: 8),
+                Text(
+                  quiz.description,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                SizedBox(height: 16),
+                Container(
+                  height: 200,
+                  width: double.infinity,
+                  child: Lottie.asset('assets/animations/people.json'),
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Start Quiz'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

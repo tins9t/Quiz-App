@@ -36,4 +36,10 @@ public class AnswerService
     {
         return _answerRepository.DeleteAnswersByQuizId(quizId);
     }
+    
+    public List<Answer> GetAnswersByQuestionId(int id)
+    {
+        return _answerRepository.GetAnswerByQuestionId(id);
+
+    }
 }
