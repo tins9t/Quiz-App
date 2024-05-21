@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/screens/scoreboard_screen.dart';
 
 import '../bloc/quiz_bloc.dart';
 import '../bloc/quiz_state.dart';
@@ -49,7 +50,15 @@ class QuizScreen extends StatelessWidget {
         title: Text(''),
         backgroundColor: Colors.indigo[300],
       ),
-      body: BlocBuilder<QuizBloc, QuizState>(
+      body: BlocConsumer<QuizBloc, QuizState>(
+        listener: (context, state) {
+          if (state.showScore) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ScoreboardScreen()),
+            );
+          }
+        },
         builder: (context, state) {
           print('Rebuilding QuizScreen with state: $state');
           return Center(

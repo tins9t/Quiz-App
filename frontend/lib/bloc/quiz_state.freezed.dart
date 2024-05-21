@@ -165,6 +165,75 @@ mixin _$QuizState {
   int get peopleAnswered => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   int get roomId => throw _privateConstructorUsedError;
+  bool get showScore => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            List<ConnectedRoom> connectedRooms,
+            Question currentQuestion,
+            List<Answer> selectedAnswers,
+            List<Answer> answersForCurrentQuestion,
+            QuizStatus status,
+            int timeRemaining,
+            Map<String, int> scores,
+            int peopleAnswered,
+            String username,
+            int roomId,
+            bool showScore)
+        quizScreen,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            List<ConnectedRoom> connectedRooms,
+            Question currentQuestion,
+            List<Answer> selectedAnswers,
+            List<Answer> answersForCurrentQuestion,
+            QuizStatus status,
+            int timeRemaining,
+            Map<String, int> scores,
+            int peopleAnswered,
+            String username,
+            int roomId,
+            bool showScore)?
+        quizScreen,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            List<ConnectedRoom> connectedRooms,
+            Question currentQuestion,
+            List<Answer> selectedAnswers,
+            List<Answer> answersForCurrentQuestion,
+            QuizStatus status,
+            int timeRemaining,
+            Map<String, int> scores,
+            int peopleAnswered,
+            String username,
+            int roomId,
+            bool showScore)?
+        quizScreen,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(QuizScreenState value) quizScreen,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(QuizScreenState value)? quizScreen,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(QuizScreenState value)? quizScreen,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuizStateCopyWith<QuizState> get copyWith =>
@@ -186,7 +255,8 @@ abstract class $QuizStateCopyWith<$Res> {
       Map<String, int> scores,
       int peopleAnswered,
       String username,
-      int roomId});
+      int roomId,
+      bool showScore});
 
   $QuestionCopyWith<$Res> get currentQuestion;
 }
@@ -214,6 +284,7 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
     Object? peopleAnswered = null,
     Object? username = null,
     Object? roomId = null,
+    Object? showScore = null,
   }) {
     return _then(_value.copyWith(
       connectedRooms: null == connectedRooms
@@ -256,6 +327,10 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
           ? _value.roomId
           : roomId // ignore: cast_nullable_to_non_nullable
               as int,
+      showScore: null == showScore
+          ? _value.showScore
+          : showScore // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -269,11 +344,11 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
 }
 
 /// @nodoc
-abstract class _$$QuizStateImplCopyWith<$Res>
+abstract class _$$QuizScreenStateImplCopyWith<$Res>
     implements $QuizStateCopyWith<$Res> {
-  factory _$$QuizStateImplCopyWith(
-          _$QuizStateImpl value, $Res Function(_$QuizStateImpl) then) =
-      __$$QuizStateImplCopyWithImpl<$Res>;
+  factory _$$QuizScreenStateImplCopyWith(_$QuizScreenStateImpl value,
+          $Res Function(_$QuizScreenStateImpl) then) =
+      __$$QuizScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -286,18 +361,19 @@ abstract class _$$QuizStateImplCopyWith<$Res>
       Map<String, int> scores,
       int peopleAnswered,
       String username,
-      int roomId});
+      int roomId,
+      bool showScore});
 
   @override
   $QuestionCopyWith<$Res> get currentQuestion;
 }
 
 /// @nodoc
-class __$$QuizStateImplCopyWithImpl<$Res>
-    extends _$QuizStateCopyWithImpl<$Res, _$QuizStateImpl>
-    implements _$$QuizStateImplCopyWith<$Res> {
-  __$$QuizStateImplCopyWithImpl(
-      _$QuizStateImpl _value, $Res Function(_$QuizStateImpl) _then)
+class __$$QuizScreenStateImplCopyWithImpl<$Res>
+    extends _$QuizStateCopyWithImpl<$Res, _$QuizScreenStateImpl>
+    implements _$$QuizScreenStateImplCopyWith<$Res> {
+  __$$QuizScreenStateImplCopyWithImpl(
+      _$QuizScreenStateImpl _value, $Res Function(_$QuizScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -313,8 +389,9 @@ class __$$QuizStateImplCopyWithImpl<$Res>
     Object? peopleAnswered = null,
     Object? username = null,
     Object? roomId = null,
+    Object? showScore = null,
   }) {
-    return _then(_$QuizStateImpl(
+    return _then(_$QuizScreenStateImpl(
       connectedRooms: null == connectedRooms
           ? _value._connectedRooms
           : connectedRooms // ignore: cast_nullable_to_non_nullable
@@ -355,14 +432,18 @@ class __$$QuizStateImplCopyWithImpl<$Res>
           ? _value.roomId
           : roomId // ignore: cast_nullable_to_non_nullable
               as int,
+      showScore: null == showScore
+          ? _value.showScore
+          : showScore // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-class _$QuizStateImpl implements _QuizState {
-  const _$QuizStateImpl(
+class _$QuizScreenStateImpl implements QuizScreenState {
+  const _$QuizScreenStateImpl(
       {required final List<ConnectedRoom> connectedRooms,
       required this.currentQuestion,
       required final List<Answer> selectedAnswers,
@@ -372,7 +453,8 @@ class _$QuizStateImpl implements _QuizState {
       required final Map<String, int> scores,
       required this.peopleAnswered,
       required this.username,
-      required this.roomId})
+      required this.roomId,
+      required this.showScore})
       : _connectedRooms = connectedRooms,
         _selectedAnswers = selectedAnswers,
         _answersForCurrentQuestion = answersForCurrentQuestion,
@@ -424,17 +506,19 @@ class _$QuizStateImpl implements _QuizState {
   final String username;
   @override
   final int roomId;
+  @override
+  final bool showScore;
 
   @override
   String toString() {
-    return 'QuizState(connectedRooms: $connectedRooms, currentQuestion: $currentQuestion, selectedAnswers: $selectedAnswers, answersForCurrentQuestion: $answersForCurrentQuestion, status: $status, timeRemaining: $timeRemaining, scores: $scores, peopleAnswered: $peopleAnswered, username: $username, roomId: $roomId)';
+    return 'QuizState.quizScreen(connectedRooms: $connectedRooms, currentQuestion: $currentQuestion, selectedAnswers: $selectedAnswers, answersForCurrentQuestion: $answersForCurrentQuestion, status: $status, timeRemaining: $timeRemaining, scores: $scores, peopleAnswered: $peopleAnswered, username: $username, roomId: $roomId, showScore: $showScore)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$QuizStateImpl &&
+            other is _$QuizScreenStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._connectedRooms, _connectedRooms) &&
             (identical(other.currentQuestion, currentQuestion) ||
@@ -451,7 +535,9 @@ class _$QuizStateImpl implements _QuizState {
                 other.peopleAnswered == peopleAnswered) &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            (identical(other.roomId, roomId) || other.roomId == roomId));
+            (identical(other.roomId, roomId) || other.roomId == roomId) &&
+            (identical(other.showScore, showScore) ||
+                other.showScore == showScore));
   }
 
   @override
@@ -466,17 +552,144 @@ class _$QuizStateImpl implements _QuizState {
       const DeepCollectionEquality().hash(_scores),
       peopleAnswered,
       username,
-      roomId);
+      roomId,
+      showScore);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$QuizStateImplCopyWith<_$QuizStateImpl> get copyWith =>
-      __$$QuizStateImplCopyWithImpl<_$QuizStateImpl>(this, _$identity);
+  _$$QuizScreenStateImplCopyWith<_$QuizScreenStateImpl> get copyWith =>
+      __$$QuizScreenStateImplCopyWithImpl<_$QuizScreenStateImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            List<ConnectedRoom> connectedRooms,
+            Question currentQuestion,
+            List<Answer> selectedAnswers,
+            List<Answer> answersForCurrentQuestion,
+            QuizStatus status,
+            int timeRemaining,
+            Map<String, int> scores,
+            int peopleAnswered,
+            String username,
+            int roomId,
+            bool showScore)
+        quizScreen,
+  }) {
+    return quizScreen(
+        connectedRooms,
+        currentQuestion,
+        selectedAnswers,
+        answersForCurrentQuestion,
+        status,
+        timeRemaining,
+        scores,
+        peopleAnswered,
+        username,
+        roomId,
+        showScore);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            List<ConnectedRoom> connectedRooms,
+            Question currentQuestion,
+            List<Answer> selectedAnswers,
+            List<Answer> answersForCurrentQuestion,
+            QuizStatus status,
+            int timeRemaining,
+            Map<String, int> scores,
+            int peopleAnswered,
+            String username,
+            int roomId,
+            bool showScore)?
+        quizScreen,
+  }) {
+    return quizScreen?.call(
+        connectedRooms,
+        currentQuestion,
+        selectedAnswers,
+        answersForCurrentQuestion,
+        status,
+        timeRemaining,
+        scores,
+        peopleAnswered,
+        username,
+        roomId,
+        showScore);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            List<ConnectedRoom> connectedRooms,
+            Question currentQuestion,
+            List<Answer> selectedAnswers,
+            List<Answer> answersForCurrentQuestion,
+            QuizStatus status,
+            int timeRemaining,
+            Map<String, int> scores,
+            int peopleAnswered,
+            String username,
+            int roomId,
+            bool showScore)?
+        quizScreen,
+    required TResult orElse(),
+  }) {
+    if (quizScreen != null) {
+      return quizScreen(
+          connectedRooms,
+          currentQuestion,
+          selectedAnswers,
+          answersForCurrentQuestion,
+          status,
+          timeRemaining,
+          scores,
+          peopleAnswered,
+          username,
+          roomId,
+          showScore);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(QuizScreenState value) quizScreen,
+  }) {
+    return quizScreen(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(QuizScreenState value)? quizScreen,
+  }) {
+    return quizScreen?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(QuizScreenState value)? quizScreen,
+    required TResult orElse(),
+  }) {
+    if (quizScreen != null) {
+      return quizScreen(this);
+    }
+    return orElse();
+  }
 }
 
-abstract class _QuizState implements QuizState {
-  const factory _QuizState(
+abstract class QuizScreenState implements QuizState {
+  const factory QuizScreenState(
       {required final List<ConnectedRoom> connectedRooms,
       required final Question currentQuestion,
       required final List<Answer> selectedAnswers,
@@ -486,7 +699,8 @@ abstract class _QuizState implements QuizState {
       required final Map<String, int> scores,
       required final int peopleAnswered,
       required final String username,
-      required final int roomId}) = _$QuizStateImpl;
+      required final int roomId,
+      required final bool showScore}) = _$QuizScreenStateImpl;
 
   @override
   List<ConnectedRoom> get connectedRooms;
@@ -509,7 +723,9 @@ abstract class _QuizState implements QuizState {
   @override
   int get roomId;
   @override
+  bool get showScore;
+  @override
   @JsonKey(ignore: true)
-  _$$QuizStateImplCopyWith<_$QuizStateImpl> get copyWith =>
+  _$$QuizScreenStateImplCopyWith<_$QuizScreenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

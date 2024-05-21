@@ -13,8 +13,8 @@ class ConnectedRoom with _$ConnectedRoom {
 }
 
 @freezed
-class QuizState with _$QuizState {
-  const factory QuizState({
+sealed class QuizState with _$QuizState {
+  const factory QuizState.quizScreen({
     required List<ConnectedRoom> connectedRooms,
     required Question currentQuestion,
     required List<Answer> selectedAnswers,
@@ -25,10 +25,11 @@ class QuizState with _$QuizState {
     required int peopleAnswered,
     required String username,
     required int roomId,
-  }) = _QuizState;
+    required bool showScore,
+  }) = QuizScreenState;
 
   static QuizState empty() =>
-      const QuizState(
+      const QuizState.quizScreen(
         connectedRooms: [],
         currentQuestion: Question(id: 0, quizId: '', text: ''), // Default is an empty question
         selectedAnswers: [], // Default is an empty list
@@ -39,5 +40,6 @@ class QuizState with _$QuizState {
         peopleAnswered: 0,
         username: 'Host',
         roomId: 0,
+        showScore: false,
       );
 }

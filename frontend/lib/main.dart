@@ -35,28 +35,20 @@ void main() {
     ),
   );
 }
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class QuizApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      title: 'Quiz App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) => QuizBloc(
+        channel: WebSocketChannelWrapper().connect('ws://127.0.0.1:8181'),
       ),
-      home: BlocProvider(
-        create: (context) => QuizBloc(
-          channel: WebSocketChannelWrapper().connect('ws://127.0.0.1:8181'),
-          context: context,
+      child: MaterialApp(
+        title: 'Quiz App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
-        child: MaterialApp(
-          initialRoute: '/',
-          routes: {
-            '/': (context) => QuizScreen(),
-            '/scoreboard': (context) => ScoreboardScreen(),
-          },
-        ),
+        home: QuizScreen(),
       ),
     );
   }

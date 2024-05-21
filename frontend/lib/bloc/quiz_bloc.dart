@@ -3,19 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/quiz_state.dart';
-import 'package:frontend/main.dart';
 import 'package:frontend/screens/scoreboard_screen.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../models/events.dart';
 
 class QuizBloc extends Bloc<BaseEvent, QuizState>{
   final WebSocketChannel _channel;
-  final BuildContext context;
   late StreamSubscription _channelSubscription;
 
   QuizBloc({
     required channel,
-    required this.context,
   })
       : _channel = channel,
         super(QuizState.empty()) {
@@ -23,7 +20,7 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
 
     // Handler for client events
     on<ClientEvent>(_onClientEvent);
-    clientWantsToEnterRoom(state.roomId, state.username);
+    clientWantsToEnterRoom(0, "Host");
     print('joined room 0 as FrontEndHost');
 
     // Handler for server events
@@ -139,8 +136,9 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
       ServerShowScore event, Emitter<QuizState> emit) async {
     emit(state.copyWith(
       scores: event.scores,
+      showScore: true,
     ));
-    navigatorKey.currentState!.pushNamed('/scoreboard');
+
   }
   Future<void> _onServerTellsHowManyPeopleAnswered(
       ServerTellsHowManyPeopleAnswered event, Emitter<QuizState> emit) async {
