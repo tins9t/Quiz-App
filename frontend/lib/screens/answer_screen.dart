@@ -71,7 +71,7 @@ class AnswerScreen extends StatelessWidget {
                 onTap: () {
                   context.read<QuizBloc>().clientWantsToAnswerQuestion(
                     state.answersForCurrentQuestion[i].id,
-                    state.Username, // Replace with the actual username
+                    state.username, // Replace with the actual username
                     state.roomId, // Replace with the actual room id
                   );
                 },

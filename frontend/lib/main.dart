@@ -6,6 +6,7 @@ import 'package:frontend/data/question_data_source.dart';
 import 'package:frontend/data/user_data_source.dart';
 import 'package:frontend/data/quiz_data_source.dart';
 import 'package:frontend/screens/quiz_screen.dart';
+import 'package:frontend/screens/scoreboard_screen.dart';
 import 'package:frontend/websocket_channel_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'bloc/quiz_bloc.dart';
@@ -34,18 +35,28 @@ void main() {
     ),
   );
 }
-
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 class QuizApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Quiz App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
-        create: (context) => QuizBloc(channel: WebSocketChannelWrapper().connect('ws://127.0.0.1:8181')),
-        child: QuizScreen(),
+        create: (context) => QuizBloc(
+          channel: WebSocketChannelWrapper().connect('ws://127.0.0.1:8181'),
+          context: context,
+        ),
+        child: MaterialApp(
+          initialRoute: '/',
+          routes: {
+            '/': (context) => QuizScreen(),
+            '/scoreboard': (context) => ScoreboardScreen(),
+          },
+        ),
       ),
     );
   }

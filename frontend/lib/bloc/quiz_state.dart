@@ -23,7 +23,7 @@ class QuizState with _$QuizState {
     required int timeRemaining,
     required Map<String, int> scores, // Changed from int score to Map<String, int> scores
     required int peopleAnswered,
-    required String Username,
+    required String username,
     required int roomId,
   }) = _QuizState;
 
@@ -35,9 +35,9 @@ class QuizState with _$QuizState {
         answersForCurrentQuestion: [], // Default is an empty list
         status: QuizStatus.notStarted,
         timeRemaining: 0,
-        scores: {}, // Default is an empty map
+        scores:  {}, // Default is an empty map
         peopleAnswered: 0,
-        Username: 'Host',
+        username: 'Host',
         roomId: 0,
       );
 }

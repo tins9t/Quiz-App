@@ -163,7 +163,7 @@ mixin _$QuizState {
   Map<String, int> get scores =>
       throw _privateConstructorUsedError; // Changed from int score to Map<String, int> scores
   int get peopleAnswered => throw _privateConstructorUsedError;
-  String get Username => throw _privateConstructorUsedError;
+  String get username => throw _privateConstructorUsedError;
   int get roomId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -185,7 +185,7 @@ abstract class $QuizStateCopyWith<$Res> {
       int timeRemaining,
       Map<String, int> scores,
       int peopleAnswered,
-      String Username,
+      String username,
       int roomId});
 
   $QuestionCopyWith<$Res> get currentQuestion;
@@ -212,7 +212,7 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
     Object? timeRemaining = null,
     Object? scores = null,
     Object? peopleAnswered = null,
-    Object? Username = null,
+    Object? username = null,
     Object? roomId = null,
   }) {
     return _then(_value.copyWith(
@@ -248,9 +248,9 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
           ? _value.peopleAnswered
           : peopleAnswered // ignore: cast_nullable_to_non_nullable
               as int,
-      Username: null == Username
-          ? _value.Username
-          : Username // ignore: cast_nullable_to_non_nullable
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String,
       roomId: null == roomId
           ? _value.roomId
@@ -285,7 +285,7 @@ abstract class _$$QuizStateImplCopyWith<$Res>
       int timeRemaining,
       Map<String, int> scores,
       int peopleAnswered,
-      String Username,
+      String username,
       int roomId});
 
   @override
@@ -311,7 +311,7 @@ class __$$QuizStateImplCopyWithImpl<$Res>
     Object? timeRemaining = null,
     Object? scores = null,
     Object? peopleAnswered = null,
-    Object? Username = null,
+    Object? username = null,
     Object? roomId = null,
   }) {
     return _then(_$QuizStateImpl(
@@ -347,9 +347,9 @@ class __$$QuizStateImplCopyWithImpl<$Res>
           ? _value.peopleAnswered
           : peopleAnswered // ignore: cast_nullable_to_non_nullable
               as int,
-      Username: null == Username
-          ? _value.Username
-          : Username // ignore: cast_nullable_to_non_nullable
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String,
       roomId: null == roomId
           ? _value.roomId
@@ -371,7 +371,7 @@ class _$QuizStateImpl implements _QuizState {
       required this.timeRemaining,
       required final Map<String, int> scores,
       required this.peopleAnswered,
-      required this.Username,
+      required this.username,
       required this.roomId})
       : _connectedRooms = connectedRooms,
         _selectedAnswers = selectedAnswers,
@@ -421,13 +421,13 @@ class _$QuizStateImpl implements _QuizState {
   @override
   final int peopleAnswered;
   @override
-  final String Username;
+  final String username;
   @override
   final int roomId;
 
   @override
   String toString() {
-    return 'QuizState(connectedRooms: $connectedRooms, currentQuestion: $currentQuestion, selectedAnswers: $selectedAnswers, answersForCurrentQuestion: $answersForCurrentQuestion, status: $status, timeRemaining: $timeRemaining, scores: $scores, peopleAnswered: $peopleAnswered, Username: $Username, roomId: $roomId)';
+    return 'QuizState(connectedRooms: $connectedRooms, currentQuestion: $currentQuestion, selectedAnswers: $selectedAnswers, answersForCurrentQuestion: $answersForCurrentQuestion, status: $status, timeRemaining: $timeRemaining, scores: $scores, peopleAnswered: $peopleAnswered, username: $username, roomId: $roomId)';
   }
 
   @override
@@ -449,8 +449,8 @@ class _$QuizStateImpl implements _QuizState {
             const DeepCollectionEquality().equals(other._scores, _scores) &&
             (identical(other.peopleAnswered, peopleAnswered) ||
                 other.peopleAnswered == peopleAnswered) &&
-            (identical(other.Username, Username) ||
-                other.Username == Username) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
             (identical(other.roomId, roomId) || other.roomId == roomId));
   }
 
@@ -465,7 +465,7 @@ class _$QuizStateImpl implements _QuizState {
       timeRemaining,
       const DeepCollectionEquality().hash(_scores),
       peopleAnswered,
-      Username,
+      username,
       roomId);
 
   @JsonKey(ignore: true)
@@ -485,7 +485,7 @@ abstract class _QuizState implements QuizState {
       required final int timeRemaining,
       required final Map<String, int> scores,
       required final int peopleAnswered,
-      required final String Username,
+      required final String username,
       required final int roomId}) = _$QuizStateImpl;
 
   @override
@@ -505,7 +505,7 @@ abstract class _QuizState implements QuizState {
   @override // Changed from int score to Map<String, int> scores
   int get peopleAnswered;
   @override
-  String get Username;
+  String get username;
   @override
   int get roomId;
   @override

@@ -2,25 +2,29 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/bloc/quiz_bloc.dart';
+
 import 'package:lottie/lottie.dart';
 
+import '../bloc/quiz_state.dart';
+
 class ScoreboardScreen extends StatefulWidget {
+  const ScoreboardScreen({super.key});
+
   @override
   _ScoreboardScreenState createState() => _ScoreboardScreenState();
 }
 
 class _ScoreboardScreenState extends State<ScoreboardScreen> {
-  final List<Map<String, dynamic>> scoreboardData = [
-    {'name': 'Player 1', 'points': 100},
-    {'name': 'Player 2', 'points': 150},
-    {'name': 'Player 3', 'points': 80},
-    {'name': 'Player 4', 'points': 120},
-    {'name': 'Player 5', 'points': 90},
-  ];
-
-  Map<String, int> flickerPoints = {};
   Timer? flickerTimer;
   Timer? stopTimer;
+  Random random = Random();
+  int randomScore = 0;
+
+  int getRandomScore() {
+    return random.nextInt(100); // Change 100 to the maximum score possible
+  }
 
   @override
   void initState() {
@@ -38,24 +42,12 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
 
   void _updatePoints(Timer timer) {
     setState(() {
-      scoreboardData.forEach((data) {
-        flickerPoints[data['name']] = _generateRandomPoints(data['points']);
-      });
+      randomScore = getRandomScore();
     });
   }
 
   void _stopFlicker() {
     flickerTimer?.cancel();
-    setState(() {
-      scoreboardData.forEach((data) {
-        flickerPoints[data['name']] = data['points'];
-      });
-    });
-  }
-
-  int _generateRandomPoints(int actualPoints) {
-    final random = Random();
-    return random.nextInt(actualPoints + 1);
   }
 
   @override
@@ -67,17 +59,17 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.all(20), // Add margins for the box
+            margin: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue, width: 2.0), // Thicker border with same color as toolbar
-              borderRadius: BorderRadius.circular(10), // Add rounded corners
+              border: Border.all(color: Colors.blue, width: 2.0),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   decoration: BoxDecoration(
-                    color: Colors.blue, // Color for the toolbar
+                    color: Colors.blue,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(5),
                       topRight: Radius.circular(5),
@@ -93,40 +85,43 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                     ],
                   ),
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: scoreboardData.length,
-                  itemBuilder: (context, index) {
-                    final playerData = scoreboardData[index];
-                    final playerName = playerData['name'];
-                    final playerPoints = flickerPoints.containsKey(playerName)
-                        ? flickerPoints[playerName]
-                        : playerData['points'];
+                BlocBuilder<QuizBloc, QuizState>(
+                  builder: (context, state) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.scores.length,
+                      itemBuilder: (context, index) {
+                        final playerUsername = state.scores.keys.elementAt(index);
+                        final playerScore = state.scores.values.elementAt(index);
 
-                    final backgroundColor = index.isEven ? Colors.orange[50] : Colors.lightBlueAccent[50];
+                        final backgroundColor = index.isEven ? Colors.orange[50] : Colors.lightBlueAccent[50];
 
-                    return Container(
-                      color: backgroundColor,
-                      child: ListTile(
-                        title: Text(
-                          playerName,
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                        trailing: Text(
-                          '$playerPoints points',
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                      ),
+                        return Container(
+                          color: backgroundColor,
+                          child: ListTile(
+                            title: Text(
+                              playerUsername,
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                            trailing: Text(
+                              flickerTimer?.isActive ?? false ? '$randomScore points' : '$playerScore points',
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20), // Add some spacing
-          Lottie.asset('assets/animations/top.json'), // Lottie animation
+          SizedBox(height: 20),
+          Lottie.asset('assets/animations/top.json'),
         ],
       ),
     );
   }
 }
+
+
