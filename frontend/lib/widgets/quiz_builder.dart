@@ -13,19 +13,17 @@ class EditingAnswer {
   bool correct = false;
 }
 
-
 class ExistingQuestion {
   final String id;
-  final String existingQuestion;
+  final String text;
   final List<String> existingAnswers;
 
   ExistingQuestion({
     required this.id,
-    required this.existingQuestion,
+    required this.text,
     required this.existingAnswers,
   });
 }
-
 
 class ExistingAnswer {
   final String id;
@@ -41,11 +39,7 @@ class ExistingAnswer {
   });
 }
 
-
-
-
 class QuizBuilder extends StatefulWidget {
-
   const QuizBuilder({
     super.key,
     required this.quizId,
@@ -55,8 +49,8 @@ class QuizBuilder extends StatefulWidget {
   });
 
   final String quizId;
-  final Widget Function(BuildContext context, List<EditingQuestion> question, List<ExistingQuestion> existingQuestion, bool isSaving)
-  builder;
+  final Widget Function(BuildContext context, List<EditingQuestion> question,
+      List<ExistingQuestion> existingQuestion, bool isSaving) builder;
   final Future<void> Function(List<QuestionWithAnswers> questions) onSave;
   final bool isEditing;
 
@@ -70,7 +64,7 @@ class QuizBuilder extends StatefulWidget {
 
 class QuizBuilderState extends State<QuizBuilder> {
   final questions = <EditingQuestion>[];
-  final existingQuestions = <ExistingQuestion>[];
+  List<ExistingQuestion> existingQuestions = [];
   bool isSaving = false;
 
   @override
@@ -84,10 +78,9 @@ class QuizBuilderState extends State<QuizBuilder> {
   void initState() {
     super.initState();
     if (widget.isEditing) {
-      autoFill();
+      fetchExistingQuestionWithAnswers();
     }
   }
-
 
   void addQuestion() {
     setState(() {
@@ -139,34 +132,60 @@ class QuizBuilderState extends State<QuizBuilder> {
   List<QuestionWithAnswers> convertQuestionsToEntities(
       List<EditingQuestion> questions) {
     return questions
-        .map((q) =>
-        QuestionWithAnswers(
-          question:
-          Question(id: 0, quizId: widget.quizId, text: q.question),
-          answers: q.answers
-              .map((a) =>
-              Answer(
-                  id: 0, questionId: 0, text: a.answer, correct: a.correct))
-              .toList(),
-        ))
+        .map((q) => QuestionWithAnswers(
+              question:
+                  Question(id: 0, quizId: widget.quizId, text: q.question),
+              answers: q.answers
+                  .map((a) => Answer(
+                      id: 0, questionId: 0, text: a.answer, correct: a.correct))
+                  .toList(),
+            ))
         .toList();
   }
 
-  void autoFill() async {
+  void fetchExistingQuestionWithAnswers() async {
     try {
       final existingQuestionsWithAnswers = await context
           .read<QuizDataSource>()
           .getQuestionsWithAnswersByQuizId(quizId: widget.quizId);
 
-      setState(() {});
+      final existingQuestions = existingQuestionsWithAnswers.map((qwa) {
+        return ExistingQuestion(
+          id: qwa.question.id.toString(),
+          text: qwa.question.text,
+          existingAnswers: qwa.answers.map((a) => a.text).toList(),
+        );
+      }).toList();
+      print('Existing questions: $existingQuestions');
+      setState(() {
+        this.existingQuestions = existingQuestions;
+      });
     } catch (e) {
       print('Error fetching existing questions: $e');
     }
   }
+
+  autoFill() async {
+    if (widget.isEditing) {}
+  }
+
+  void deleteExistingQuestion() {
+
+  }
+
+  void deleteExistingAnswers() {
+
+  }
+
+  void editExistingQuestion(){
+
+  }
+
+  void editExistingAnswer(){
+
+  }
 }
 
-
-
-  extension BuildContextX on BuildContext {
+extension BuildContextX on BuildContext {
   get isSmallScreen => MediaQuery.of(this).size.width < 600;
 }
