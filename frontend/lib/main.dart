@@ -4,7 +4,6 @@ import 'package:frontend/data/question_data_source.dart';
 import 'package:frontend/data/user_data_source.dart';
 import 'package:frontend/data/quiz_data_source.dart';
 import 'package:frontend/screens/quiz_screen.dart';
-import 'package:frontend/screens/scoreboard_screen.dart';
 import 'package:frontend/websocket_channel_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'bloc/quiz_bloc.dart';
@@ -14,6 +13,7 @@ import 'services/token_service.dart';
 
 void main() {
   String baseUrl = kIsWeb ? "http://localhost:5185" : "http://10.0.2.2:5185";
+  String wsUrl = kIsWeb ? 'ws://127.0.0.1:8181' : 'ws://10.0.2.2:8181';
 
   runApp(
     MultiProvider(
@@ -29,24 +29,28 @@ void main() {
         ),
         Provider(create: (context) => TokenService()),
       ],
-      child: QuizApp(),
+      child: QuizApp(wsUrl: wsUrl),
     ),
   );
 }
 
 class QuizApp extends StatelessWidget {
+  final String wsUrl;
+
+  QuizApp({required this.wsUrl});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => QuizBloc(
-        channel: WebSocketChannelWrapper().connect('ws://10.0.2.2:8181'),
+        channel: WebSocketChannelWrapper().connect(wsUrl),
       ),
       child: MaterialApp(
         title: 'Quiz App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: QuizScreen(),
+        home: AnswerScreen(),
       ),
     );
   }

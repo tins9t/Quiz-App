@@ -26,6 +26,7 @@ sealed class QuizState with _$QuizState {
     required String username,
     required int roomId,
     required bool showScore,
+    required bool answerButtonPressed,
   }) = QuizScreenState;
 
   static QuizState empty() =>
@@ -41,5 +42,6 @@ sealed class QuizState with _$QuizState {
         username: 'Host',
         roomId: 0,
         showScore: false,
+        answerButtonPressed: false,
       );
 }

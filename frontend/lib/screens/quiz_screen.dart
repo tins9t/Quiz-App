@@ -10,7 +10,7 @@ class QuizScreen extends StatelessWidget {
     Colors.blue,
     Colors.red,
     Colors.green,
-    Colors.yellow
+    Colors.deepPurple
   ];
   final List<IconData> buttonIcons = [
     Icons.monitor_heart,
@@ -21,7 +21,7 @@ class QuizScreen extends StatelessWidget {
 
   Stream<int> countdown(int milliseconds) {
     int seconds = milliseconds ~/ 1000;
-    return Stream.periodic(Duration(seconds: 1), (i) => seconds - i - 1).take(
+    return Stream.periodic(const Duration(seconds: 1), (i) => seconds - i - 1).take(
         seconds);
   }
 
@@ -30,8 +30,8 @@ class QuizScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        margin: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        margin: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(5.0),
@@ -47,8 +47,8 @@ class QuizScreen extends StatelessWidget {
             Expanded(
               child: Text(
                 answerText,
-                textAlign: TextAlign.right,
-                style: TextStyle(
+                textAlign: TextAlign.center,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24.0,
                 ),
@@ -64,7 +64,7 @@ class QuizScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         backgroundColor: Colors.indigo[300],
       ),
       body: BlocConsumer<QuizBloc, QuizState>(
@@ -72,7 +72,7 @@ class QuizScreen extends StatelessWidget {
           if (state.showScore) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => ScoreboardScreen()),
+              MaterialPageRoute(builder: (context) => const ScoreboardScreen()),
             );
           }
         },
@@ -82,19 +82,19 @@ class QuizScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     state.currentQuestion.text, // Display the current question
-                    style: TextStyle(fontSize: 24.0),
+                    style: const TextStyle(fontSize: 24.0),
                   ),
                 ),
                 StreamBuilder<int>(
                   stream: countdown(state.timeRemaining),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else {
