@@ -64,7 +64,7 @@ public static class ApiStartUp
         app.UseMiddleware<GlobalExceptionHandler>();
         app.UseMiddleware<JwtBearerHandler>();
         
-        var server = new WebSocketServer("ws://0.0.0.0:8181");
+        var server = new WebSocketServer("ws://127.0.0.1:8181");
         server.Start(socket =>
         {
             socket.OnOpen = async () =>
