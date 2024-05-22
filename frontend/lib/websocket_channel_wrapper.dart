@@ -1,6 +1,5 @@
 // websocket_channel_wrapper.dart
 import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/html.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 //This class checks if the app is running on the web or mobile and returns the appropriate WebSocketChannel
@@ -27,6 +26,6 @@ class _WebSocketChannelWrapperIO implements WebSocketChannelWrapper {
 class _WebSocketChannelWrapperWeb implements WebSocketChannelWrapper {
   @override
   WebSocketChannel connect(String url) {
-    return HtmlWebSocketChannel.connect(url);
+    return WebSocketChannel.connect(Uri.parse(url));
   }
 }

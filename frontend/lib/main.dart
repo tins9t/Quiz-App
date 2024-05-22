@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/data/question_data_source.dart';
@@ -41,7 +39,7 @@ class QuizApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => QuizBloc(
-        channel: WebSocketChannelWrapper().connect('ws://127.0.0.1:8181'),
+        channel: WebSocketChannelWrapper().connect('ws://10.0.2.2:8181'),
       ),
       child: MaterialApp(
         title: 'Quiz App',
