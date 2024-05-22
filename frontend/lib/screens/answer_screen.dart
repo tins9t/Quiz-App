@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/quiz_bloc.dart';
 import 'package:frontend/bloc/quiz_state.dart';
-
+import 'package:frontend/models/events.dart';
 
 class AnswerButton extends StatelessWidget {
   final Color color;
@@ -10,7 +10,8 @@ class AnswerButton extends StatelessWidget {
   final String answerText;
   final VoidCallback onTap;
 
-  const AnswerButton({super.key,
+  const AnswerButton({
+    super.key,
     required this.color,
     required this.iconData,
     required this.answerText,
@@ -77,31 +78,51 @@ class AnswerScreen extends StatelessWidget {
       body: BlocBuilder<QuizBloc, QuizState>(
         builder: (context, state) {
           if (state.answerButtonPressed) {
-            // Don't render the answer buttons if one has been pressed
             return Container();
           }
-
           return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GridView.count(
-              crossAxisCount: 2, // This creates 2 columns
-              childAspectRatio: 1.0, // Adjust this value to change how square/circular the buttons are
-              mainAxisSpacing: 10.0, // Adjust this value for the desired spacing
-              crossAxisSpacing: 10.0, // Adjust this value for the desired spacing
-              children: List.generate(state.answersForCurrentQuestion.length, (i) => AnswerButton(
-                color: buttonColors[i % buttonColors.length],
-                iconData: buttonIcons[i % buttonIcons.length],
-                answerText: state.answersForCurrentQuestion[i].text,
-                onTap: () {
-                  context.read<QuizBloc>().clientWantsToAnswerQuestion(
-                    state.answersForCurrentQuestion[i].id,
-                    state.username, // Replace with the actual username
-                    state.roomId, // Replace with the actual room id
-                  );
-                },
-              )),
-            ),
-          );
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.count(
+                  crossAxisCount: 2,
+                  // This creates 2 columns
+                  childAspectRatio: 1.0,
+                  // Adjust this value to change how square/circular the buttons are
+                  mainAxisSpacing: 10.0,
+                  // Adjust this value for the desired spacing
+                  crossAxisSpacing: 10.0,
+                  // Adjust this value for the desired spacing
+                  children: List.generate(
+                    state.answersForCurrentQuestion.length,
+                    (i) => AnswerButton(
+                      color: buttonColors[i % buttonColors.length],
+                      iconData: buttonIcons[i % buttonIcons.length],
+                      answerText: state.answersForCurrentQuestion[i].text,
+                      onTap: () {
+                        context.read<QuizBloc>().clientWantsToAnswerQuestion(
+                              state.answersForCurrentQuestion[i].id,
+                              state.username,
+                              // Replace with the actual username
+                              state.roomId, // Replace with the actual room id
+                            );
+                        context
+                            .read<QuizBloc>()
+                            .add(ClientEvent.clientWantsToAnswerQuestion(
+                              answerId: state.answersForCurrentQuestion[i].id,
+                              username: state.username,
+                              // Replace with the actual username
+                              roomId: state
+                                  .roomId, // Replace with the actual room id
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                'You answered: ${state.answersForCurrentQuestion[i].text}'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                    ),
+                  )));
         },
       ),
     );

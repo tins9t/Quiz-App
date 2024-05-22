@@ -56,6 +56,10 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
 
   FutureOr<void> _onClientEvent(ClientEvent event, Emitter<QuizState> emit) {
     _channel.sink.add(jsonEncode(event.toJson()));
+
+    if (event is ClientWantsToAnswerQuestion) {
+      emit(state.copyWith(answerButtonPressed: true));
+    }
   }
   void clientWantsToEnterRoom(int roomId, String username) {
     add(ClientEvent.clientWantsToEnterRoom(roomId: roomId, username: username));
@@ -97,6 +101,7 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
       ],
     ));
   }
+
   FutureOr<void> _onServerStartsQuiz(
       ServerStartsQuiz event, Emitter<QuizState> emit) {
     emit(state.copyWith(
@@ -120,9 +125,9 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
     print('Emitted new state with currentQuestion: ${event.question} and answersForCurrentQuestion: ${event.answers}');
     emit(state.copyWith(
       currentQuestion: event.question,
-      answersForCurrentQuestion: event.answers // Reset selected answers for the new question
+      answersForCurrentQuestion: event.answers, // Reset selected answers for the new question
+      answerButtonPressed: false, // Reset answerButtonPressed to false when a new question is received
     ));
-
   }
   Future<void> _onServerTimeRemaining(
       ServerTimeRemaining event, Emitter<QuizState> emit) async {

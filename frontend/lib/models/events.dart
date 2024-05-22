@@ -16,6 +16,7 @@ sealed class ClientEvent with _$ClientEvent implements BaseEvent {
   }) = ClientWantsToEnterRoom;
 
   const factory ClientEvent.clientWantsToAnswerQuestion({
+
     required int answerId,
     required String username,
     required int roomId,
@@ -43,6 +44,8 @@ sealed class ClientEvent with _$ClientEvent implements BaseEvent {
 
   factory ClientEvent.fromJson(Map<String, dynamic> json) =>
       _$ClientEventFromJson(json);
+
+
 }
 
 @Freezed(unionKey: 'eventType', unionValueCase: FreezedUnionCase.pascal)
