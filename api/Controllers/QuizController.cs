@@ -86,5 +86,12 @@ public class QuizController : ControllerBase
     {
         return _quizService.GetQuestionsWithAnswersByQuizId(quizId);
     }
+    
+    [Route("api/quiz/get/popular")]
+    [HttpGet]
+    public List<Quiz> GetPopularQuizzes()
+    {
+        return _quizService.GetQuizzesByPopularity();
+    }
 }
 

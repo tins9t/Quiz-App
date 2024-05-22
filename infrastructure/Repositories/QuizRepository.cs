@@ -77,7 +77,12 @@ public class QuizRepository
 
     public List<Quiz> GetNewestQuizzes()
     {
-        var sql = $@"SELECT * FROM quiz ORDER BY time_created DESC;";
+        var sql = $@"SELECT id as {nameof(Quiz.Id)},
+        name as {nameof(Quiz.Name)},
+        description as {nameof(Quiz.Description)},
+        time_created as {nameof(Quiz.TimeCreated)},
+        user_id as {nameof(Quiz.UserId)},
+        is_private as {nameof(Quiz.IsPrivate)} FROM quiz ORDER BY time_created DESC;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.Query<Quiz>(sql).ToList();
@@ -86,7 +91,12 @@ public class QuizRepository
 
     public List<Quiz> GetQuizzesByUser(string userId)
     {
-        var sql = $@"SELECT * FROM quiz WHERE user_id = @user_id;";
+        var sql = $@"SELECT id as {nameof(Quiz.Id)},
+        name as {nameof(Quiz.Name)},
+        description as {nameof(Quiz.Description)},
+        time_created as {nameof(Quiz.TimeCreated)},
+        user_id as {nameof(Quiz.UserId)},
+        is_private as {nameof(Quiz.IsPrivate)} FROM quiz WHERE user_id = @user_id;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.Query<Quiz>(sql, new { user_id = userId }).ToList();
@@ -99,6 +109,25 @@ public class QuizRepository
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.Query<Quiz>(sql, new { name = $"%{name}%" }).ToList();
+        }
+    }
+
+    public List<Quiz> GetQuizzesByPopularity()
+    {
+        var sql = $@"SELECT q.id AS {nameof(Quiz.Id)}, 
+                q.name AS {nameof(Quiz.Name)}, 
+                q.description AS {nameof(Quiz.Description)}, 
+                q.time_created AS {nameof(Quiz.TimeCreated)}, 
+                q.user_id AS {nameof(Quiz.UserId)}, 
+                q.is_private AS {nameof(Quiz.IsPrivate)}, 
+                COUNT(qs.id) AS session_count
+                FROM quiz q
+                LEFT JOIN quiz_session qs ON q.id = qs.quiz_id
+                GROUP BY q.id, q.name, q.description, q.time_created, q.user_id, q.is_private
+                ORDER BY session_count DESC;";
+        using (var conn = DataConnection.DataSource.OpenConnection())
+        {
+            return conn.Query<Quiz>(sql).ToList();
         }
     }
 }

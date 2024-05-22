@@ -79,6 +79,25 @@ class QuizDataSource {
     }
   }
 
+  Future<List<Quiz>> getPopularQuizzes() async {
+    final response = await http.Client().get(
+      Uri.parse("$baseUrl/api/quiz/get/popular"),
+      headers: headers,
+    );
+    print("Response Status Code: ${response.statusCode}");
+    if (response.statusCode == 200) {
+      List<dynamic> quizJsonList = jsonDecode(response.body);
+      print("Quiz json List: $quizJsonList");
+      List<Quiz> quizzes = quizJsonList
+          .map((quizJson) => Quiz.fromJson(quizJson))
+          .toList();
+      print("Quizzes: $quizzes");
+      return quizzes;
+    } else {
+      throw Exception('Failed to load newest quizzes');
+    }
+  }
+
   Future<List<Quiz>> getQuizzesByUser({required BuildContext context}) async {
     User user = await context.read<UserDataSource>().getUser(context);
     final response = await http.Client().get(
@@ -125,12 +144,12 @@ class QuizDataSource {
 
     print("Response Status Code: ${response.statusCode}");
     if (response.statusCode == 200) {
-      final List<Map<String, dynamic>> jsonList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+      final List<dynamic> jsonList = jsonDecode(response.body);
       print("Quiz json List: $jsonList");
 
       final List<QuestionWithAnswers> questionsWithAnswers = jsonList.map((json) {
         final questionJson = json['question'] as Map<String, dynamic>;
-        final List<Map<String, dynamic>> answersJson = json['answers'] as List<Map<String, dynamic>>;
+        final List<dynamic> answersJson = json['answers'];
 
         final Question question = Question.fromJson(questionJson);
         final List<Answer> answers = answersJson.map((answerJson) => Answer.fromJson(answerJson)).toList();

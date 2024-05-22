@@ -9,6 +9,7 @@ class QuestionField extends StatelessWidget {
   final int index;
   final bool isEditing;
 
+
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;

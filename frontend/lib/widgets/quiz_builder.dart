@@ -4,39 +4,15 @@ import '../data/quiz_data_source.dart';
 import '../models/entities.dart';
 
 class EditingQuestion {
+  int? id = null;
   String question = "";
   List<EditingAnswer> answers = <EditingAnswer>[];
 }
 
 class EditingAnswer {
+  int? id = null;
   String answer = "";
   bool correct = false;
-}
-
-class ExistingQuestion {
-  final int id;
-  final String text;
-  final List<ExistingAnswer> existingAnswers;
-
-  ExistingQuestion({
-    required this.id,
-    required this.text,
-    required this.existingAnswers,
-  });
-}
-
-class ExistingAnswer {
-  final int id;
-  final int questionId;
-  final String text;
-  final bool correct;
-
-  ExistingAnswer({
-    required this.id,
-    required this.questionId,
-    required this.text,
-    required this.correct,
-  });
 }
 
 class QuizBuilder extends StatefulWidget {
@@ -49,8 +25,7 @@ class QuizBuilder extends StatefulWidget {
   });
 
   final String quizId;
-  final Widget Function(BuildContext context, List<EditingQuestion> question,
-      List<ExistingQuestion> existingQuestion, bool isSaving) builder;
+  final Widget Function(BuildContext context, List<EditingQuestion> question, bool isSaving) builder;
   final Future<void> Function(List<QuestionWithAnswers> questions) onSave;
   final bool isEditing;
 
@@ -63,15 +38,14 @@ class QuizBuilder extends StatefulWidget {
 }
 
 class QuizBuilderState extends State<QuizBuilder> {
-  final questions = <EditingQuestion>[];
-  List<ExistingQuestion> existingQuestions = [];
+  List<EditingQuestion> questions = <EditingQuestion>[];
   bool isSaving = false;
 
   @override
   Widget build(BuildContext context) {
     return Builder(
         builder: (context) =>
-            widget.builder(context, questions, existingQuestions, isSaving));
+            widget.builder(context, questions, isSaving));
   }
 
   @override
@@ -132,65 +106,43 @@ class QuizBuilderState extends State<QuizBuilder> {
   List<QuestionWithAnswers> convertQuestionsToEntities(
       List<EditingQuestion> questions) {
     return questions
-        .map((q) => QuestionWithAnswers(
-              question:
-                  Question(id: 0, quizId: widget.quizId, text: q.question),
-              answers: q.answers
-                  .map((a) => Answer(
-                      id: 0, questionId: 0, text: a.answer, correct: a.correct))
-                  .toList(),
-            ))
+        .map((q) =>
+        QuestionWithAnswers(
+          question:
+          Question(id: 0, quizId: widget.quizId, text: q.question),
+          answers: q.answers
+              .map((a) =>
+              Answer(
+                  id: 0, questionId: 0, text: a.answer, correct: a.correct))
+              .toList(),
+        ))
         .toList();
   }
 
   void fetchExistingQuestionWithAnswers() async {
     try {
-      final existingQuestionsWithAnswers = await context
+      List<QuestionWithAnswers> existingQuestionsWithAnswers = await context
           .read<QuizDataSource>()
           .getQuestionsWithAnswersByQuizId(quizId: widget.quizId);
 
-      final existingQuestions = existingQuestionsWithAnswers.map((qwa) {
-        return ExistingQuestion(
-          id: qwa.question.id,
-          text: qwa.question.text,
-          existingAnswers: qwa.answers.map((a) {
-            return ExistingAnswer(
-              id: a.id,
-              questionId: a.questionId,
-              text: a.text,
-              correct: a.correct,
-            );
-          }).toList(),
-        );
-      }).toList();
-
-      print('Existing questions: $existingQuestions');
       setState(() {
-        this.existingQuestions = existingQuestions;
+        questions = existingQuestionsWithAnswers
+            .map((e) =>
+        EditingQuestion()
+          ..id = e.question.id
+          ..question = e.question.text
+          ..answers = e.answers
+              .map((e) =>
+          EditingAnswer()
+            ..id = e.id
+            ..answer = e.text
+            ..correct = e.correct)
+              .toList())
+            .toList();
       });
     } catch (e) {
       print('Error fetching existing questions: $e');
     }
-  }
-
-  autoFill() async {
-    if (widget.isEditing) {}
-  }
-
-  void deleteExistingQuestion() {
-
-  }
-
-  void deleteExistingAnswers() {
-
-  }
-
-  void editExistingQuestion(){
-
-  }
-
-  void editExistingAnswer(){
-
   }
 }
 

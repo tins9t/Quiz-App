@@ -7,9 +7,23 @@ class SettingsWidget extends StatefulWidget {
   _SettingsWidgetState createState() => _SettingsWidgetState();
 }
 
-class _SettingsWidgetState extends State<SettingsWidget>{
+class _SettingsWidgetState extends State<SettingsWidget> {
   final _newEmailController = TextEditingController();
   final _newUsernameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Call getUser method to fetch user data when the widget is initialized
+    context.read<UserDataSource>().getUser(context).then((user) {
+      // Set initial values for the text controllers
+      _newUsernameController.text = user.username;
+      _newEmailController.text = user.email;
+    }).catchError((error) {
+      // Handle errors if any
+      print('Error fetching user data: $error');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +42,7 @@ class _SettingsWidgetState extends State<SettingsWidget>{
         TextFormField(
           controller: _newUsernameController,
           decoration: InputDecoration(
-            hintText: 'Enter your username',
+            hintText: 'Enter your new username',
           ),
         ),
         SizedBox(height: 16),
@@ -39,16 +53,13 @@ class _SettingsWidgetState extends State<SettingsWidget>{
         TextFormField(
           controller: _newEmailController,
           decoration: InputDecoration(
-            hintText: 'Enter your email',
+            hintText: 'Enter your new email',
           ),
         ),
         SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
-            context.read<UserDataSource>().updateUser(
-                context: context,
-                username: _newUsernameController.value.text,
-                email: _newEmailController.value.text);
+            // Your update logic here
           },
           child: Text('Save Changes'),
         ),

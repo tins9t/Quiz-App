@@ -68,4 +68,11 @@ public class QuestionController : ControllerBase
 
         return createdQuestionsWithAnswers;
     }
+
+    [Route("api/question/delete/by/{quizId}")]
+    [HttpDelete]
+    public bool DeleteQuestionByQuizId([FromRoute] string quizId)
+    {
+        return _questionService.DeleteQuestionsByQuizId(quizId);
+    }
 }

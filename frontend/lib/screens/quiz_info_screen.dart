@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/data/user_data_source.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import '../models/entities.dart';
 
 class QuizInfoScreen extends StatelessWidget {
@@ -33,22 +35,45 @@ class QuizInfoScreen extends StatelessWidget {
               children: [
                 Text(
                   quiz.name,
-                  style: Theme.of(context).textTheme.headline1,
+                  style: Theme.of(context).textTheme.displayLarge,
                 ),
                 SizedBox(height: 8),
                 Text(
                   'Time Created: ${quiz.timeCreated}',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 SizedBox(height: 8),
-                Text(
-                  'By: ',
-                  style: Theme.of(context).textTheme.bodyText1,
+                FutureBuilder<User>(
+                  future: context.read<UserDataSource>().getUserById(userId: quiz.userId!),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Text(
+                        'By: Loading...',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text(
+                        'By: Unknown',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      );
+                    } else if (snapshot.hasData) {
+                      final user = snapshot.data!;
+                      return Text(
+                        'By: ${user.username}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      );
+                    } else {
+                      return Text(
+                        'By: Unknown',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      );
+                    }
+                  },
                 ),
                 SizedBox(height: 8),
                 Text(
                   quiz.description,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 SizedBox(height: 16),
                 Container(

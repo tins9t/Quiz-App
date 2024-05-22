@@ -45,6 +45,12 @@ class UserDataSource {
     return true;
   }
 
+  Future<User> getUserById({required String userId}) async{
+    final response = await http.Client().get(Uri.parse("$baseUrl/api/users/get/by/$userId"), headers: headers);
+    final jsonBody = jsonDecode(response.body);
+    return User.fromJson(jsonBody);
+  }
+
   Future<User> getUser(BuildContext context) async {
     final String? token = await context.read<TokenService>().getToken();
 

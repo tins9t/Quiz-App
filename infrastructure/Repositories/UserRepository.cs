@@ -68,7 +68,7 @@ public class UserRepository
 
     public User GetUserById(string userId)
     {
-        var sql = $@"SELECT * FROM users where id = @id;";
+        var sql = $@"SELECT id as {nameof(User.Id)}, username as {nameof(User.Username)}, email as {nameof(User.Email)} FROM users where id = @id;";
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<User>(sql, new { id = userId });

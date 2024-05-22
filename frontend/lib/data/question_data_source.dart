@@ -22,4 +22,10 @@ class QuestionDataSource {
     final respDto = jsonDecode(response.body);
     return true;
   }
+  
+  Future<bool> deleteQuestionsByQuizId({required String quizId}) async {
+    final response = await http.Client().delete(Uri.parse("$baseUrl/api/question/delete/by/$quizId"), headers: headers);
+    final respDto = jsonDecode(response.body);
+    return respDto;
+  }
 }

@@ -71,7 +71,14 @@ public class UserController : ControllerBase
             return Ok(new { token });
         }
     }
-    
+
+    [Route("api/users/get/by/{userId}")]
+    [HttpGet]
+    public User GetUserById([FromRoute] string userId)
+    {
+        return _userService.GetUserById(userId);
+    }
+
     [RequireAuthentication]
     [HttpGet]
     [Route("/api/users/whoami")]

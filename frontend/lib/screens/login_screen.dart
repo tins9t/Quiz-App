@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../data/user_data_source.dart';
@@ -13,8 +16,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isHidden = true;
-  String errorMessage = '';
-
   final _emailController = TextEditingController(text: 'mudkip@example.com');
   final _passwordController = TextEditingController(text: 'mudkip123');
 
@@ -79,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Join us today!',
                                   style: TextStyle(
                                       fontSize:
-                                      isSmallScreen ? width * 0.05 : 20.0,
+                                          isSmallScreen ? width * 0.05 : 20.0,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(height: height * 0.02),
@@ -101,11 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextButton.styleFrom(
                                     backgroundColor: Colors.green,
                                     padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                        isSmallScreen ? 20 : 40,
-                                        vertical: isSmallScreen
-                                            ? 10
-                                            : 10),
+                                        horizontal: isSmallScreen ? 20 : 40,
+                                        vertical: isSmallScreen ? 10 : 10),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
@@ -133,13 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Already have an account? Login here!',
                                   style: TextStyle(
                                       fontSize:
-                                      isSmallScreen ? width * 0.04 : 16.0,
+                                          isSmallScreen ? width * 0.04 : 16.0,
                                       fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: isSmallScreen ? 5 : 20),
-                                Text(
-                                  errorMessage,
-                                  style: TextStyle(color: Colors.red[400]),
                                 ),
                                 SizedBox(height: isSmallScreen ? 10 : 40),
                                 TextField(
@@ -163,15 +156,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 SizedBox(height: isSmallScreen ? 10 : 20),
-                            TextField(
-                              controller: _passwordController,
-                              obscureText: _isHidden,
-                              onSubmitted: (value) async {
-                                final email = _emailController.value.text;
-                                final password = _passwordController.value.text;
-                                _login(email, password, context);
-                              },
-                            decoration: InputDecoration(
+                                TextField(
+                                  controller: _passwordController,
+                                  obscureText: _isHidden,
+                                  onSubmitted: (value) async {
+                                    final email = _emailController.value.text;
+                                    final password =
+                                        _passwordController.value.text;
+                                    _login(email, password, context);
+                                  },
+                                  decoration: InputDecoration(
                                     hintText: 'Password',
                                     prefixIcon: Icon(Icons.lock),
                                     suffixIcon: IconButton(
@@ -199,7 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: TextButton(
                                     onPressed: () {
                                       final email = _emailController.value.text;
-                                      final password = _passwordController.value.text;
+                                      final password =
+                                          _passwordController.value.text;
                                       _login(email, password, context);
                                     },
                                     child: Text(
@@ -209,15 +204,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: TextButton.styleFrom(
                                       backgroundColor: Colors.deepPurpleAccent,
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: isSmallScreen
-                                              ? 20
-                                              : 40,
-                                          vertical: isSmallScreen
-                                              ? 10
-                                              : 10),
+                                          horizontal: isSmallScreen ? 20 : 40,
+                                          vertical: isSmallScreen ? 10 : 10),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
                                   ),
@@ -233,15 +223,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: TextButton.styleFrom(
                                       backgroundColor: Colors.deepPurple[700],
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: isSmallScreen
-                                              ? 20
-                                              : 40,
-                                          vertical: isSmallScreen
-                                              ? 10
-                                              : 10),
+                                          horizontal: isSmallScreen ? 20 : 40,
+                                          vertical: isSmallScreen ? 10 : 10),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(10.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                   ),
@@ -267,16 +253,33 @@ class _LoginScreenState extends State<LoginScreen> {
     if (email.isEmpty || password.isEmpty) return;
     try {
       await context.read<UserDataSource>().login(
-        email: email,
-        password: password,
-        context: context,
-      );
+            email: email,
+            password: password,
+            context: context,
+          );
       if (context.mounted) {
         _navigateToHomeScreen(context);
       }
     } catch (e) {
       print("Error: $e");
-      errorMessage = 'Invalid Credentials. Please try again.';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          content: Container(
+            padding: EdgeInsets.all(16),
+            height: 90,
+            decoration: BoxDecoration(
+              color: Colors.red[700],
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Center(
+              child: Text('Invalid credentials. Please try again.'),
+            ),
+          ),
+        ),
+      );
     }
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/services/token_service.dart';
 import 'package:frontend/widgets/privacy_settings_widget.dart';
 import 'package:frontend/widgets/settings_widget.dart';
+import 'package:provider/provider.dart';
 import '../widgets/confirmation_dialog.dart';
 import 'login_screen.dart';
 
@@ -88,6 +90,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             content:
                             'Are you sure you want to logout?',
                             onConfirm: () {
+                              context.read<TokenService>().deleteToken();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

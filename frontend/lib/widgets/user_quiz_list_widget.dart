@@ -40,7 +40,7 @@ class _UserQuizListWidgetState extends State<UserQuizListWidget> {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     final Quiz quiz = snapshot.data![index];
-                    return BoxWidget(quiz: quiz, showEditIcon: true, showTrashIcon: true);
+                    return BoxWidget(quiz: quiz, showEditIcon: true, showTrashIcon: true, showPrivacyToggle: true);
                   },
                 ),
               ),

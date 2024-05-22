@@ -70,4 +70,9 @@ public class QuizService
         
         return questionsWithAnswers;
     }
+
+    public List<Quiz> GetQuizzesByPopularity()
+    {
+        return _quizRepository.GetQuizzesByPopularity();
+    }
 }

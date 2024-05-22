@@ -31,4 +31,14 @@ public class UserService
     {
         return _userRepository.GetUserById(userId);
     }
+
+    public bool DoesUsernameExist(string username)
+    {
+        return _userRepository.DoesUsernameExist(username);
+    }
+
+    public bool DoesEmailExist(string email)
+    {
+        return _userRepository.DoesEmailExist(email);
+    }
 }

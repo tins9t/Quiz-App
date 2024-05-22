@@ -39,7 +39,7 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
       body: QuizBuilder(
         quizId: quizId,
         isEditing: isEditing,
-        builder: (context, questions, existingQuestion, isSaving) {
+        builder: (context, questions, isSaving) {
           if (isSaving) return Center(child: CircularProgressIndicator());
           return SingleChildScrollView(
             child: Padding(
@@ -101,7 +101,12 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
         },
         onSave: (questions) async {
           final dataSource = context.read<QuestionDataSource>();
-          await dataSource.createQuestionsWithAnswers(questionsWithAnswers: questions);
+          if(!isEditing){
+          await dataSource.createQuestionsWithAnswers(questionsWithAnswers: questions);}
+          else{
+            dataSource.deleteQuestionsByQuizId(quizId: quizId);
+            dataSource.createQuestionsWithAnswers(questionsWithAnswers: questions);
+          }
           if (context.mounted) {
             Navigator.pushAndRemoveUntil(
               context,
