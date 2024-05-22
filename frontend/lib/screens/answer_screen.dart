@@ -27,7 +27,7 @@ class AnswerButton extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(5.0),
         ),
-        margin: EdgeInsets.all(10.0),
+        margin: const EdgeInsets.all(10.0),
         width: 180.0,
         height: 330.0,
         child: Column(
@@ -40,7 +40,7 @@ class AnswerButton extends StatelessWidget {
             Text(
               answerText,
               textAlign: TextAlign.center, // Add this line
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 24.0,
               ),
@@ -72,7 +72,7 @@ class AnswerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         backgroundColor: Colors.indigo[300],
       ),
       body: BlocBuilder<QuizBloc, QuizState>(
@@ -117,7 +117,7 @@ class AnswerScreen extends StatelessWidget {
                           SnackBar(
                             content: Text(
                                 'You answered: ${state.answersForCurrentQuestion[i].text}'),
-                            duration: Duration(seconds: 2),
+                            duration: const Duration(seconds: 2),
                           ),
                         );
                       },
