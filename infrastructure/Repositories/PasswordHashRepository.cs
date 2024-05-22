@@ -7,31 +7,38 @@ public class PasswordHashRepository
 {
     public void CreatePasswordHash(string userId, string passwordHash, string salt)
     {
-        Console.WriteLine($"Received userId: {userId}"); // Print the received userId
+        Console.WriteLine($"Received userId: {userId}");
         var sql = $@"INSERT INTO security(user_id, password_hash, salt) VALUES (@userId, @passwordHash, @salt)";
         using var conn = DataConnection.DataSource.OpenConnection();
         conn.Execute(sql, new { userId, passwordHash, salt });
     }
     public void UpdatePassword(string userId, string newPassword, string newSalt)
     {
-        var sql = $@"UPDATE security SET password_hash = @password_hash, salt = @salt WHERE user_id = @user_id;";
+        var sql = $@"UPDATE security SET password_hash = @passwordHash, salt = @salt WHERE user_id = @id;";
         using var conn = DataConnection.DataSource.OpenConnection();
         conn.Execute(sql, new
         {
-            user_id = userId,
-            password_hash = newPassword,
+            id = userId,
+            passwordHash = newPassword,
             salt = newSalt
         });
     }
 
     public PasswordHash GetPasswordHashByUserId(string userId)
     {
-        var sql = $@"SELECT * FROM security where user_id = @id;";
+        var sql = $@"SELECT 
+                    security.password_hash AS {nameof(PasswordHash.Hash)}, 
+                    security.salt AS {nameof(PasswordHash.Salt)},
+                    security.user_id AS {nameof(PasswordHash.UserId)}
+                 FROM security 
+                 WHERE user_id = @id;";
+    
         using (var conn = DataConnection.DataSource.OpenConnection())
         {
             return conn.QueryFirst<PasswordHash>(sql, new { id = userId });
         }
     }
+
 
     public PasswordHash GetByEmail(string email)
     {

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/privacy_settings_widget.dart';
+import 'package:frontend/widgets/settings_widget.dart';
+import '../widgets/confirmation_dialog.dart';
 import 'login_screen.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
@@ -47,8 +50,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           height: isSmallScreen ? null : height / 2 + 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-                color: Colors.indigo[300]!, width: 5),
+            border: Border.all(color: Colors.indigo[300]!, width: 5),
           ),
           child: Padding(
             padding: EdgeInsets.all(16),
@@ -81,7 +83,18 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ListTile(
                         title: Text('Log Out'),
                         onTap: () {
-                          _showLogoutConfirmationDialog(context);
+                          ConfirmationDialog(
+                            title: 'Logout',
+                            content:
+                            'Are you sure you want to logout?',
+                            onConfirm: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()),
+                              );
+                            },
+                          ).show(context);
                         },
                       ),
                     ],
@@ -104,133 +117,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   Widget _buildSelectedOptionContent() {
     switch (_selectedOption) {
       case 'Settings':
-        return _buildSettingsContent();
+        return SettingsWidget();
       case 'Privacy':
-        return _buildPrivacyContent();
+        return PrivacySettingsWidget();
       default:
         return Container();
     }
-  }
-
-  Widget _buildSettingsContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Username:',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        TextField(
-          decoration: InputDecoration(
-            hintText: 'Enter your username',
-          ),
-        ),
-        SizedBox(height: 16),
-        Text(
-          'Email:',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        TextField(
-          decoration: InputDecoration(
-            hintText: 'Enter your email',
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPrivacyContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'New Password:',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            hintText: 'Enter your new password',
-          ),
-        ),
-        SizedBox(height: 16),
-        Text(
-          'Confirm Password:',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            hintText: 'Confirm your new password',
-          ),
-        ),
-        SizedBox(height: 100),
-        ElevatedButton(
-          onPressed: () {
-            _showDeleteUserConfirmationDialog(context);
-          },
-          child: Text('Delete User'),
-        ),
-      ],
-    );
-  }
-
-  void _showDeleteUserConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete'),
-          content: Text('Are you sure you want to delete your user? Your data will not be saved.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('No'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
-              },
-              child: Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-
-  void _showLogoutConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Log Out'),
-          content: Text('Are you sure you want to log out?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('No'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
-              },
-              child: Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
   }
 }
