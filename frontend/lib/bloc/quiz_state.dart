@@ -35,7 +35,7 @@ sealed class QuizState with _$QuizState {
         selectedAnswers: [], // Default is an empty list
         answersForCurrentQuestion: [], // Default is an empty list
         status: QuizStatus.notStarted,
-        timeRemaining: 0,
+        timeRemaining: 15,
         scores:  {}, // Default is an empty map
         peopleAnswered: 0,
         username: 'Host',

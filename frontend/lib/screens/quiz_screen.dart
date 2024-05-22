@@ -6,10 +6,27 @@ import '../bloc/quiz_bloc.dart';
 import '../bloc/quiz_state.dart';
 
 class QuizScreen extends StatelessWidget {
-  final List<Color> buttonColors = [Colors.blue, Colors.red, Colors.green, Colors.yellow];
-  final List<IconData> buttonIcons = [Icons.monitor_heart, Icons.star, Icons.add_card, Icons.work];
+  final List<Color> buttonColors = [
+    Colors.blue,
+    Colors.red,
+    Colors.green,
+    Colors.yellow
+  ];
+  final List<IconData> buttonIcons = [
+    Icons.monitor_heart,
+    Icons.star,
+    Icons.add_card,
+    Icons.work
+  ];
 
-  Widget _buildOption(Color color, IconData iconData, String answerText, VoidCallback onTap) {
+  Stream<int> countdown(int milliseconds) {
+    int seconds = milliseconds ~/ 1000;
+    return Stream.periodic(Duration(seconds: 1), (i) => seconds - i - 1).take(
+        seconds);
+  }
+
+  Widget _buildOption(Color color, IconData iconData, String answerText,
+      VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -73,16 +90,28 @@ class QuizScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 24.0),
                   ),
                 ),
+                StreamBuilder<int>(
+                  stream: countdown(state.timeRemaining),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Text('Time remaining: ${snapshot.data} seconds');
+                    }
+                  },
+                ),
                 Expanded(
                   child: ListView(
                     children: [
-                      for (var i = 0; i < state.answersForCurrentQuestion.length; i++) // Display each answer
+                      for (var i = 0; i < state.answersForCurrentQuestion
+                          .length; i++) // Display each answer
                         _buildOption(
                             buttonColors[i % buttonColors.length],
                             buttonIcons[i % buttonIcons.length],
                             state.answersForCurrentQuestion[i].text,
-                                () {
-                            }
+                                () {}
                         ),
                     ],
                   ),

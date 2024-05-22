@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/quiz_state.dart';
-import 'package:frontend/screens/scoreboard_screen.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../models/events.dart';
 
