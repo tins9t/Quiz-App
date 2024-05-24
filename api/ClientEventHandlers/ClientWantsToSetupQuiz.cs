@@ -46,7 +46,7 @@ public class ClientWantsToSetupQuiz : BaseEventHandler<ClientWantsToSetupQuizDto
                 timer.Stop(); // Stop the timer when it expires
                 timer?.Dispose(); // Dispose the timer
                 Console.WriteLine("timer finished for quiz room: " + dto.roomId);
-                _stateService.StartQuiz(dto.Username, dto.roomId, dto.QuizId);
+                _stateService.StartQuiz(dto.roomId, dto.QuizId);
             };
 
             timer.Start(); // Start the timer

@@ -3,14 +3,8 @@ using lib;
 
 namespace api.Models.ServerEvents;
 
-public class ServerMessage
-{
-    public class ServerResponse : BaseDto
-    {
-        public string eventType { get; set; }
-        public string message { get; set; }
-    }
-    
+public abstract class ServerMessage
+{ 
     public class ServerSetCurrentQuestion : BaseDto
     {
         public string eventType { get; set; }

@@ -20,7 +20,7 @@ public class StateService {
         _quizManagerService.QuestionAsked += async (room, question, answer) => await WaitForAnswers(room, question, answer);
         //In this code, an async lambda function is used as the event handler for QuestionAsked. This lambda function matches the event signature and calls WaitForAnswers inside it.
         _quizManagerService.QuizStarted += GetNumberOfConnectionsInRoom;
-        _quizManagerService.ScoreCalculated += (room, scores) => SendScore(room, scores);
+        _quizManagerService.ScoreCalculated += SendScore;
 
     }
     
@@ -31,9 +31,9 @@ public class StateService {
     private readonly ConcurrentDictionary<int, Dictionary<string, Dictionary<Question, Answer>>> _userAnswersPerRoom = new();
     private readonly ConcurrentDictionary<int, Question> _currentQuestionsPerRoom = new();
     public delegate void ClientWantsToAnswerQuestionHandler(string Username, int room, Question question, Answer answer);
-       
-    
-    public void GetNumberOfConnectionsInRoom(int room)
+
+
+    private void GetNumberOfConnectionsInRoom(int room)
     {
         if (Rooms.TryGetValue(room, out var connections))
         {
@@ -133,20 +133,20 @@ public class StateService {
     
     public bool KickAllUsersFromRoom(int room)
     {
-        if(Rooms.TryGetValue(room, out var guids))
+        if (!Rooms.TryGetValue(room, out var guids))
         {
-            foreach (var guid in guids)
-            {
-                if (Connections.TryGetValue(guid, out var ws))
-                    ws.Connection.Send("You have been kicked from the room");
-            }
-            guids.Clear();
-            return true;
+            return false;
         }
-        return false;
+        foreach (var guid in guids)
+        {
+            if (Connections.TryGetValue(guid, out var ws))
+                ws.Connection.Send("You have been kicked from the room");
+        }
+        guids.Clear();
+        return true;
     }
-    
-    public void BroadcastToRoom(int room, string message, IWebSocketConnection? dontSentToThis = null)
+
+    private void BroadcastToRoom(int room, string message, IWebSocketConnection? dontSentToThis = null)
     {
         if (Rooms.TryGetValue(room, out var guids))
         {
@@ -185,8 +185,8 @@ public class StateService {
     {
         // Update the current question for the room
         SetCurrentQuestion(room, question, answers);
-        Timer timer = new Timer(QuizManagerService.DelayTimeMilliseconds);
-        TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+        var timer = new Timer(QuizManagerService.DelayTimeMilliseconds);
+        var tcs = new TaskCompletionSource<bool>();
         
         timer.Elapsed += (sender, e) => tcs.TrySetResult(true);
         timer.Start();
@@ -228,11 +228,11 @@ public class StateService {
         Console.WriteLine($"{roomAnswers.Count} people answered the question.");
     }
     
-    public void StartQuiz(string Username, int quizRoomId, string quizId)
+    public void StartQuiz(int quizRoomId, string quizId)
     {
-        _quizManagerService.RunQuiz(quizRoomId, quizId, GetUserInput, _userAnswersPerRoom);
+        _ = _quizManagerService.RunQuiz(quizRoomId, quizId, GetUserInput, _userAnswersPerRoom);
     }
-    public async Task<Answer> GetUserInput(Question question, List<Answer> answers)
+    private async Task<Answer> GetUserInput(Question question, List<Answer> answers)
     {
         // This is just a placeholder implementation.
         // You need to replace this with your actual code to get the user's input.
@@ -242,8 +242,8 @@ public class StateService {
         // In your actual code, you should get the user's input and find the corresponding answer.
         return answers[0];
     }
-    
-    public void SetCurrentQuestion(int roomId, Question question, List<Answer> answers)
+
+    private void SetCurrentQuestion(int roomId, Question question, List<Answer> answers)
     {
         if (_currentQuestionsPerRoom.ContainsKey(roomId))
         {
@@ -287,7 +287,7 @@ public class StateService {
 
         SendServerResponse(roomId, response);
     }
-    public void SendServerResponse<T>(int room, T response) where T : BaseDto
+    private void SendServerResponse<T>(int room, T response) where T : BaseDto
     {
         // Can take any BaseDto object and send it to the room
         // Serialize the response to a JSON string

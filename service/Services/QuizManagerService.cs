@@ -36,12 +36,12 @@ public class QuizManagerService
         CalculateScore(userAnswersPerRoom[quizRoomId], quizRoomId);
     }
 
-    private async Task AskQuestions(List<Question> questions, int quizRoomId, Dictionary<Question, Answer> userAnswers, GetUserInputCallback getUserInput)
+    private async Task AskQuestions(IReadOnlyList<Question> questions, int quizRoomId, Dictionary<Question, Answer> userAnswers, GetUserInputCallback getUserInput)
     {
         for (int i = 0; i < questions.Count; i++)
         {
             Console.WriteLine("Asking question " + (i + 1) + " of " + questions.Count);
-            Console.WriteLine("Question: " + questions[i].Text.Trim());
+            Console.WriteLine("Question: " + questions[i].Text?.Trim());
             var question = questions[i];
             List<Answer> answers = _answerService.GetAnswersByQuestionId(question.Id);
             _quizData[question] = answers;
@@ -54,17 +54,15 @@ public class QuizManagerService
             await Task.Delay(DelayTimeMilliseconds);
         }
     }
-    public void CalculateScore(Dictionary<string, Dictionary<Question, Answer>> allUserAnswers, int quizRoomId)
+    private void CalculateScore(Dictionary<string, Dictionary<Question, Answer>> allUserAnswers, int quizRoomId)
     {
         // Create a dictionary to store the scores for each user
         Dictionary<string, int> userScores = new Dictionary<string, int>();
 
         // Iterate over each user's answers
-        foreach (var userAnswers in allUserAnswers)
+        foreach ((string? userId, var answers) in allUserAnswers)
         {
-            Console.WriteLine("Calculating score for user " + userAnswers.Key);
-            var userId = userAnswers.Key;
-            var answers = userAnswers.Value;
+            Console.WriteLine("Calculating score for user " + userId);
 
             // Calculate the user's score
             int userScore = CalculateUserScore(answers);
@@ -91,8 +89,8 @@ public class QuizManagerService
 
     private int CalculateUserScore(Dictionary<Question, Answer> userAnswers)
     {
-        int userScore = 0;
-        int winStreak = 0;
+        var userScore = 0;
+        var winStreak = 0;
 
         // Iterate over each answer
         foreach (var answer in userAnswers)
@@ -101,32 +99,33 @@ public class QuizManagerService
             var userAnswer = answer.Value;
 
             // Check if the question exists in the quiz data
-            if (_quizData.TryGetValue(question, out var correctAnswers))
+            if (!_quizData.TryGetValue(question, out var correctAnswers))
             {
-                // Check if the user's answer matches any of the correct answers
-                var matchingAnswer = correctAnswers.FirstOrDefault(a => a.Id == userAnswer.Id);
-                if (matchingAnswer != null && matchingAnswer.Correct)
-                {
-                    // If the user's answer is correct, increment the win streak
-                    winStreak++;
+                continue;
+            }
+            // Check if the user's answer matches any of the correct answers
+            var matchingAnswer = correctAnswers.FirstOrDefault(a => a.Id == userAnswer.Id);
+            if (matchingAnswer is { Correct: true })
+            {
+                // If the user's answer is correct, increment the win streak
+                winStreak++;
 
-                    // If the win streak is 3 or more, increase the score by 2
-                    if (winStreak >= 3)
-                    {
-                        userScore ++;
-                        userScore ++;
-                    }
-                    else
-                    {
-                        // If the win streak is less than 3, just increment the score by 1
-                        userScore++;
-                    }
+                // If the win streak is 3 or more, increase the score by 2
+                if (winStreak >= 3)
+                {
+                    userScore ++;
+                    userScore ++;
                 }
                 else
                 {
-                    // If the user's answer is incorrect, reset the win streak
-                    winStreak = 0;
+                    // If the win streak is less than 3, just increment the score by 1
+                    userScore++;
                 }
+            }
+            else
+            {
+                // If the user's answer is incorrect, reset the win streak
+                winStreak = 0;
             }
         }
 

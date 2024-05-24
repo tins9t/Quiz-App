@@ -40,7 +40,7 @@ public class ClientWantsToStartQuiz : BaseEventHandler<ClientWantsToStartQuizDto
             else
             {
                 Console.WriteLine("No timer found for quiz room: " + dto.roomId);
-                _stateService.StartQuiz(dto.Username, dto.roomId, dto.QuizId);
+                _stateService.StartQuiz(dto.roomId, dto.QuizId);
             }
         }
         catch (Exception e)
