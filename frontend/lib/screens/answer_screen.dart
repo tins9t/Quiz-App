@@ -109,9 +109,7 @@ class AnswerScreen extends StatelessWidget {
                             .add(ClientEvent.clientWantsToAnswerQuestion(
                               answerId: state.answersForCurrentQuestion[i].id,
                               username: state.username,
-                              // Replace with the actual username
-                              roomId: state
-                                  .roomId, // Replace with the actual room id
+                              roomId: state.roomId,
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

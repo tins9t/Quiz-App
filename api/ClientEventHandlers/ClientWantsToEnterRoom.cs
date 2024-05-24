@@ -31,7 +31,7 @@ public class ClientWantsToEnterRoom() : BaseEventHandler<ClientWantsToEnterRoomD
             eventType = "ServerAddsClientToRoom",
             message = dto.Username + " were successfully added to room with ID: " + dto.roomId
         }));
-        
+        Console.WriteLine("Client " + dto.Username + " added to room with ID: " + dto.roomId);
         return Task.CompletedTask;
     }
 }

@@ -26,20 +26,22 @@ sealed class ClientEvent with _$ClientEvent implements BaseEvent {
     required int roomId,
   }) = ClientWantsToKickAllUsers;
 
-  const factory ClientEvent.clientWantsToLeaveRoom({
+  const factory ClientEvent.clientWantsToKickUserFromRoom({
     required int roomId,
-  }) = ClientWantsToLeaveRoom;
+    required String username,
+  }) = clientWantsToKickUserFromRoom;
 
   const factory ClientEvent.clientWantsToSetupQuiz({
     required String quizId,
     required String username,
+    required int roomId,
     required int setupTimer,
   }) = ClientWantsToSetupQuiz;
 
   const factory ClientEvent.clientWantsToStartQuiz({
     required String username,
     required String quizId,
-    required int quizRoomId,
+    required int roomId,
   }) = ClientWantsToStartQuiz;
 
   factory ClientEvent.fromJson(Map<String, dynamic> json) =>
@@ -55,8 +57,14 @@ sealed class ServerEvent with _$ServerEvent implements BaseEvent {
     required int liveConnections,
   }) = ServerAddsClientToRoom;
 
+  const factory ServerEvent.serverUserLeftRoom({
+    required int roomId,
+    required String username,
+  }) = ServerUserLeftRoom;
+
   const factory ServerEvent.serverRemovesClientFromRoom({
     required int roomId,
+    required String username,
     required int liveConnections,
   }) = ServerRemovesClientFromRoom;
 
@@ -88,6 +96,10 @@ sealed class ServerEvent with _$ServerEvent implements BaseEvent {
   const factory ServerEvent.serverTellsHowManyPeopleAnswered({
     required int peopleAnswered,
   }) = ServerTellsHowManyPeopleAnswered;
+
+  const factory ServerEvent.serverTellsUserJoinedRoom({
+    required List<String> Usernames,
+  }) = ServerTellsUserJoinedRoom;
 
   factory ServerEvent.fromJson(Map<String, dynamic> json) =>
       _$ServerEventFromJson(json);

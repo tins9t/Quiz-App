@@ -35,5 +35,19 @@ public class ServerMessage
         public string eventType { get; set; }
         public int peopleAnswered { get; set; }
     }
+    public class ServerUserJoinedRoomEventDto : BaseDto
+    {
+        public string eventType { get; set; }
+        
+        public List<string> Usernames { get; set; }
+    }
+    public class ServerUserLeftRoomEventDto : BaseDto
+    {
+        public string eventType { get; set; }
+        
+        public string Username { get; set; }
+        
+        public int RoomId { get; set; }
+    }
     
 }

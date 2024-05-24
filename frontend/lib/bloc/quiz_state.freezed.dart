@@ -167,6 +167,7 @@ mixin _$QuizState {
   int get roomId => throw _privateConstructorUsedError;
   bool get showScore => throw _privateConstructorUsedError;
   bool get answerButtonPressed => throw _privateConstructorUsedError;
+  List<String> get users => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -181,7 +182,8 @@ mixin _$QuizState {
             String username,
             int roomId,
             bool showScore,
-            bool answerButtonPressed)
+            bool answerButtonPressed,
+            List<String> users)
         quizScreen,
   }) =>
       throw _privateConstructorUsedError;
@@ -199,7 +201,8 @@ mixin _$QuizState {
             String username,
             int roomId,
             bool showScore,
-            bool answerButtonPressed)?
+            bool answerButtonPressed,
+            List<String> users)?
         quizScreen,
   }) =>
       throw _privateConstructorUsedError;
@@ -217,7 +220,8 @@ mixin _$QuizState {
             String username,
             int roomId,
             bool showScore,
-            bool answerButtonPressed)?
+            bool answerButtonPressed,
+            List<String> users)?
         quizScreen,
     required TResult orElse(),
   }) =>
@@ -261,7 +265,8 @@ abstract class $QuizStateCopyWith<$Res> {
       String username,
       int roomId,
       bool showScore,
-      bool answerButtonPressed});
+      bool answerButtonPressed,
+      List<String> users});
 
   $QuestionCopyWith<$Res> get currentQuestion;
 }
@@ -291,6 +296,7 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
     Object? roomId = null,
     Object? showScore = null,
     Object? answerButtonPressed = null,
+    Object? users = null,
   }) {
     return _then(_value.copyWith(
       connectedRooms: null == connectedRooms
@@ -341,6 +347,10 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
           ? _value.answerButtonPressed
           : answerButtonPressed // ignore: cast_nullable_to_non_nullable
               as bool,
+      users: null == users
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 
@@ -373,7 +383,8 @@ abstract class _$$QuizScreenStateImplCopyWith<$Res>
       String username,
       int roomId,
       bool showScore,
-      bool answerButtonPressed});
+      bool answerButtonPressed,
+      List<String> users});
 
   @override
   $QuestionCopyWith<$Res> get currentQuestion;
@@ -402,6 +413,7 @@ class __$$QuizScreenStateImplCopyWithImpl<$Res>
     Object? roomId = null,
     Object? showScore = null,
     Object? answerButtonPressed = null,
+    Object? users = null,
   }) {
     return _then(_$QuizScreenStateImpl(
       connectedRooms: null == connectedRooms
@@ -452,6 +464,10 @@ class __$$QuizScreenStateImplCopyWithImpl<$Res>
           ? _value.answerButtonPressed
           : answerButtonPressed // ignore: cast_nullable_to_non_nullable
               as bool,
+      users: null == users
+          ? _value._users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -471,11 +487,13 @@ class _$QuizScreenStateImpl implements QuizScreenState {
       required this.username,
       required this.roomId,
       required this.showScore,
-      required this.answerButtonPressed})
+      required this.answerButtonPressed,
+      required final List<String> users})
       : _connectedRooms = connectedRooms,
         _selectedAnswers = selectedAnswers,
         _answersForCurrentQuestion = answersForCurrentQuestion,
-        _scores = scores;
+        _scores = scores,
+        _users = users;
 
   final List<ConnectedRoom> _connectedRooms;
   @override
@@ -527,10 +545,17 @@ class _$QuizScreenStateImpl implements QuizScreenState {
   final bool showScore;
   @override
   final bool answerButtonPressed;
+  final List<String> _users;
+  @override
+  List<String> get users {
+    if (_users is EqualUnmodifiableListView) return _users;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_users);
+  }
 
   @override
   String toString() {
-    return 'QuizState.quizScreen(connectedRooms: $connectedRooms, currentQuestion: $currentQuestion, selectedAnswers: $selectedAnswers, answersForCurrentQuestion: $answersForCurrentQuestion, status: $status, timeRemaining: $timeRemaining, scores: $scores, peopleAnswered: $peopleAnswered, username: $username, roomId: $roomId, showScore: $showScore, answerButtonPressed: $answerButtonPressed)';
+    return 'QuizState.quizScreen(connectedRooms: $connectedRooms, currentQuestion: $currentQuestion, selectedAnswers: $selectedAnswers, answersForCurrentQuestion: $answersForCurrentQuestion, status: $status, timeRemaining: $timeRemaining, scores: $scores, peopleAnswered: $peopleAnswered, username: $username, roomId: $roomId, showScore: $showScore, answerButtonPressed: $answerButtonPressed, users: $users)';
   }
 
   @override
@@ -558,7 +583,8 @@ class _$QuizScreenStateImpl implements QuizScreenState {
             (identical(other.showScore, showScore) ||
                 other.showScore == showScore) &&
             (identical(other.answerButtonPressed, answerButtonPressed) ||
-                other.answerButtonPressed == answerButtonPressed));
+                other.answerButtonPressed == answerButtonPressed) &&
+            const DeepCollectionEquality().equals(other._users, _users));
   }
 
   @override
@@ -575,7 +601,8 @@ class _$QuizScreenStateImpl implements QuizScreenState {
       username,
       roomId,
       showScore,
-      answerButtonPressed);
+      answerButtonPressed,
+      const DeepCollectionEquality().hash(_users));
 
   @JsonKey(ignore: true)
   @override
@@ -599,7 +626,8 @@ class _$QuizScreenStateImpl implements QuizScreenState {
             String username,
             int roomId,
             bool showScore,
-            bool answerButtonPressed)
+            bool answerButtonPressed,
+            List<String> users)
         quizScreen,
   }) {
     return quizScreen(
@@ -614,7 +642,8 @@ class _$QuizScreenStateImpl implements QuizScreenState {
         username,
         roomId,
         showScore,
-        answerButtonPressed);
+        answerButtonPressed,
+        users);
   }
 
   @override
@@ -632,7 +661,8 @@ class _$QuizScreenStateImpl implements QuizScreenState {
             String username,
             int roomId,
             bool showScore,
-            bool answerButtonPressed)?
+            bool answerButtonPressed,
+            List<String> users)?
         quizScreen,
   }) {
     return quizScreen?.call(
@@ -647,7 +677,8 @@ class _$QuizScreenStateImpl implements QuizScreenState {
         username,
         roomId,
         showScore,
-        answerButtonPressed);
+        answerButtonPressed,
+        users);
   }
 
   @override
@@ -665,7 +696,8 @@ class _$QuizScreenStateImpl implements QuizScreenState {
             String username,
             int roomId,
             bool showScore,
-            bool answerButtonPressed)?
+            bool answerButtonPressed,
+            List<String> users)?
         quizScreen,
     required TResult orElse(),
   }) {
@@ -682,7 +714,8 @@ class _$QuizScreenStateImpl implements QuizScreenState {
           username,
           roomId,
           showScore,
-          answerButtonPressed);
+          answerButtonPressed,
+          users);
     }
     return orElse();
   }
@@ -729,7 +762,8 @@ abstract class QuizScreenState implements QuizState {
       required final String username,
       required final int roomId,
       required final bool showScore,
-      required final bool answerButtonPressed}) = _$QuizScreenStateImpl;
+      required final bool answerButtonPressed,
+      required final List<String> users}) = _$QuizScreenStateImpl;
 
   @override
   List<ConnectedRoom> get connectedRooms;
@@ -755,6 +789,8 @@ abstract class QuizScreenState implements QuizState {
   bool get showScore;
   @override
   bool get answerButtonPressed;
+  @override
+  List<String> get users;
   @override
   @JsonKey(ignore: true)
   _$$QuizScreenStateImplCopyWith<_$QuizScreenStateImpl> get copyWith =>

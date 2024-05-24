@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/quiz_state.dart';
+import 'package:frontend/models/entities.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../models/events.dart';
 
@@ -18,8 +19,6 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
 
     // Handler for client events
     on<ClientEvent>(_onClientEvent);
-    clientWantsToEnterRoom(0, "Host");
-    print('joined room 0 as FrontEndHost');
 
     // Handler for server events
     on<ServerAddsClientToRoom>(_onServerAddsClientToRoom);
@@ -30,6 +29,8 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
     on<ServerTimeRemaining>(_onServerTimeRemaining);
     on<ServerShowScore>(_onServerShowScore);
     on<ServerTellsHowManyPeopleAnswered>(_onServerTellsHowManyPeopleAnswered);
+    on<ServerTellsUserJoinedRoom>(_onServerTellsUserJoinedRoom);
+    on<ServerRemovesClientFromRoom>(_onServerRemovesClientFromRoom);
 
     // Feed deserialized events from server into this bloc
     _channelSubscription = _channel.stream
@@ -60,6 +61,16 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
     if (event is ClientWantsToAnswerQuestion) {
       emit(state.copyWith(answerButtonPressed: true));
     }
+    if(event is ClientWantsToStartQuiz){
+      emit(state.copyWith(status: QuizStatus.inProgress));
+    }
+    if(event is ClientWantsToKickAllUsers){
+      emit(state.copyWith(status: QuizStatus.notStarted));
+    }
+    if(event is ClientWantsToEnterRoom){
+      emit(state.copyWith(roomId: event.roomId));
+    }
+
   }
   void clientWantsToEnterRoom(int roomId, String username) {
     add(ClientEvent.clientWantsToEnterRoom(roomId: roomId, username: username));
@@ -75,22 +86,23 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
   }
 
 // Sends ClientWantsToLeaveRoom event to server
-  void clientWantsToLeaveRoom(int roomId) {
-    add(ClientEvent.clientWantsToLeaveRoom(roomId: roomId));
+  void clientWantsToKickUserFromRoom(int roomId, String username) {
+    add(ClientEvent.clientWantsToKickUserFromRoom(roomId: roomId, username: username));
   }
 
 // Sends ClientWantsToSetupQuiz event to server
-  void clientWantsToSetupQuiz(String quizId, String username, int setupTimer) {
-    add(ClientEvent.clientWantsToSetupQuiz(quizId: quizId, username: username, setupTimer: setupTimer));
+  void clientWantsToSetupQuiz(String quizId, String username, int roomId, int setupTimer) {
+    add(ClientEvent.clientWantsToSetupQuiz(quizId: quizId, username: username,roomId: roomId,   setupTimer: setupTimer));
   }
 
 // Sends ClientWantsToStartQuiz event to server
-  void clientWantsToStartQuiz(String username, String quizId, int quizRoomId) {
-    add(ClientEvent.clientWantsToStartQuiz(username: username, quizId: quizId, quizRoomId: quizRoomId));
+  void clientWantsToStartQuiz(String username, String quizId, int roomId) {
+    add(ClientEvent.clientWantsToStartQuiz(username: username, quizId: quizId, roomId: roomId));
   }
 
   FutureOr<void> _onServerAddsClientToRoom(
       ServerAddsClientToRoom event, Emitter<QuizState> emit) {
+    print("event"+ event.roomId.toString());
     emit(state.copyWith(
       connectedRooms: [
         ...state.connectedRooms,
@@ -101,7 +113,13 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
       ],
     ));
   }
-
+  FutureOr<void> _onServerTellsUserJoinedRoom(
+      ServerTellsUserJoinedRoom event, Emitter<QuizState> emit) {
+    emit(state.copyWith(
+      users: event.Usernames,
+    ));
+    print("Users: ${event.Usernames}");
+  }
   FutureOr<void> _onServerStartsQuiz(
       ServerStartsQuiz event, Emitter<QuizState> emit) {
     emit(state.copyWith(
@@ -149,4 +167,22 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
       peopleAnswered: event.peopleAnswered,
     ));
   }
+
+  Future<void> _onServerRemovesClientFromRoom(
+      ServerRemovesClientFromRoom event, Emitter<QuizState> emit) async {
+    if (event.username == state.username) {
+      emit(state.copyWith(
+        connectedRooms: [],
+        users: [], // Clear the users list when the current user is removed
+      ));
+    } else {
+      emit(state.copyWith(
+        connectedRooms: state.connectedRooms
+            .where((room) => room.roomId != event.roomId)
+            .toList(),
+        users: state.users.where((user) => user != event.username).toList(), // Remove the user from the users list
+      ));
+    }
+  }
+
 }

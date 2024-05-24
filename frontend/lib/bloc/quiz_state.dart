@@ -21,12 +21,13 @@ sealed class QuizState with _$QuizState {
     required List<Answer> answersForCurrentQuestion,
     required QuizStatus status,
     required int timeRemaining,
-    required Map<String, int> scores, // Changed from int score to Map<String, int> scores
+    required Map<String, int> scores,
     required int peopleAnswered,
     required String username,
     required int roomId,
     required bool showScore,
     required bool answerButtonPressed,
+    required List<String> users,
   }) = QuizScreenState;
 
   static QuizState empty() =>
@@ -43,5 +44,6 @@ sealed class QuizState with _$QuizState {
         roomId: 0,
         showScore: false,
         answerButtonPressed: false,
+        users: [],
       );
 }

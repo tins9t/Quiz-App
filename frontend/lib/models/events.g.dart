@@ -54,17 +54,19 @@ Map<String, dynamic> _$$ClientWantsToKickAllUsersImplToJson(
       'eventType': instance.$type,
     };
 
-_$ClientWantsToLeaveRoomImpl _$$ClientWantsToLeaveRoomImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ClientWantsToLeaveRoomImpl(
-      roomId: (json['roomId'] as num).toInt(),
-      $type: json['eventType'] as String?,
-    );
+_$clientWantsToKickUserFromRoomImpl
+    _$$clientWantsToKickUserFromRoomImplFromJson(Map<String, dynamic> json) =>
+        _$clientWantsToKickUserFromRoomImpl(
+          roomId: (json['roomId'] as num).toInt(),
+          username: json['username'] as String,
+          $type: json['eventType'] as String?,
+        );
 
-Map<String, dynamic> _$$ClientWantsToLeaveRoomImplToJson(
-        _$ClientWantsToLeaveRoomImpl instance) =>
+Map<String, dynamic> _$$clientWantsToKickUserFromRoomImplToJson(
+        _$clientWantsToKickUserFromRoomImpl instance) =>
     <String, dynamic>{
       'roomId': instance.roomId,
+      'username': instance.username,
       'eventType': instance.$type,
     };
 
@@ -73,6 +75,7 @@ _$ClientWantsToSetupQuizImpl _$$ClientWantsToSetupQuizImplFromJson(
     _$ClientWantsToSetupQuizImpl(
       quizId: json['quizId'] as String,
       username: json['username'] as String,
+      roomId: (json['roomId'] as num).toInt(),
       setupTimer: (json['setupTimer'] as num).toInt(),
       $type: json['eventType'] as String?,
     );
@@ -82,6 +85,7 @@ Map<String, dynamic> _$$ClientWantsToSetupQuizImplToJson(
     <String, dynamic>{
       'quizId': instance.quizId,
       'username': instance.username,
+      'roomId': instance.roomId,
       'setupTimer': instance.setupTimer,
       'eventType': instance.$type,
     };
@@ -91,7 +95,7 @@ _$ClientWantsToStartQuizImpl _$$ClientWantsToStartQuizImplFromJson(
     _$ClientWantsToStartQuizImpl(
       username: json['username'] as String,
       quizId: json['quizId'] as String,
-      quizRoomId: (json['quizRoomId'] as num).toInt(),
+      roomId: (json['roomId'] as num).toInt(),
       $type: json['eventType'] as String?,
     );
 
@@ -100,7 +104,7 @@ Map<String, dynamic> _$$ClientWantsToStartQuizImplToJson(
     <String, dynamic>{
       'username': instance.username,
       'quizId': instance.quizId,
-      'quizRoomId': instance.quizRoomId,
+      'roomId': instance.roomId,
       'eventType': instance.$type,
     };
 
@@ -120,10 +124,27 @@ Map<String, dynamic> _$$ServerAddsClientToRoomImplToJson(
       'eventType': instance.$type,
     };
 
+_$ServerUserLeftRoomImpl _$$ServerUserLeftRoomImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ServerUserLeftRoomImpl(
+      roomId: (json['roomId'] as num).toInt(),
+      username: json['username'] as String,
+      $type: json['eventType'] as String?,
+    );
+
+Map<String, dynamic> _$$ServerUserLeftRoomImplToJson(
+        _$ServerUserLeftRoomImpl instance) =>
+    <String, dynamic>{
+      'roomId': instance.roomId,
+      'username': instance.username,
+      'eventType': instance.$type,
+    };
+
 _$ServerRemovesClientFromRoomImpl _$$ServerRemovesClientFromRoomImplFromJson(
         Map<String, dynamic> json) =>
     _$ServerRemovesClientFromRoomImpl(
       roomId: (json['roomId'] as num).toInt(),
+      username: json['username'] as String,
       liveConnections: (json['liveConnections'] as num).toInt(),
       $type: json['eventType'] as String?,
     );
@@ -132,6 +153,7 @@ Map<String, dynamic> _$$ServerRemovesClientFromRoomImplToJson(
         _$ServerRemovesClientFromRoomImpl instance) =>
     <String, dynamic>{
       'roomId': instance.roomId,
+      'username': instance.username,
       'liveConnections': instance.liveConnections,
       'eventType': instance.$type,
     };
@@ -242,5 +264,20 @@ Map<String, dynamic> _$$ServerTellsHowManyPeopleAnsweredImplToJson(
         _$ServerTellsHowManyPeopleAnsweredImpl instance) =>
     <String, dynamic>{
       'peopleAnswered': instance.peopleAnswered,
+      'eventType': instance.$type,
+    };
+
+_$ServerTellsUserJoinedRoomImpl _$$ServerTellsUserJoinedRoomImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ServerTellsUserJoinedRoomImpl(
+      Usernames:
+          (json['Usernames'] as List<dynamic>).map((e) => e as String).toList(),
+      $type: json['eventType'] as String?,
+    );
+
+Map<String, dynamic> _$$ServerTellsUserJoinedRoomImplToJson(
+        _$ServerTellsUserJoinedRoomImpl instance) =>
+    <String, dynamic>{
+      'Usernames': instance.Usernames,
       'eventType': instance.$type,
     };
