@@ -102,7 +102,6 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
 
   FutureOr<void> _onServerAddsClientToRoom(
       ServerAddsClientToRoom event, Emitter<QuizState> emit) {
-    print("event"+ event.roomId.toString());
     emit(state.copyWith(
       connectedRooms: [
         ...state.connectedRooms,
@@ -118,7 +117,6 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
     emit(state.copyWith(
       users: event.Usernames,
     ));
-    print("Users: ${event.Usernames}");
   }
   FutureOr<void> _onServerStartsQuiz(
       ServerStartsQuiz event, Emitter<QuizState> emit) {
@@ -140,7 +138,6 @@ class QuizBloc extends Bloc<BaseEvent, QuizState>{
   }
   Future<void> _onServerSetCurrentQuestion(
       ServerSetCurrentQuestion event, Emitter<QuizState> emit) async {
-    print('Emitted new state with currentQuestion: ${event.question} and answersForCurrentQuestion: ${event.answers}');
     emit(state.copyWith(
       currentQuestion: event.question,
       answersForCurrentQuestion: event.answers, // Reset selected answers for the new question
