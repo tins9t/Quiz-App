@@ -38,6 +38,9 @@ class UserDataSource {
     if (response.statusCode == 401) {
       throw Exception('Unauthorized');
     }
+    if(response.statusCode == 400 | response.statusCode >= 402){
+      throw Exception("Something went wrong");
+    }
     final respDto = jsonDecode(response.body);
     final token = respDto['token'];
     print("Token: "+token);

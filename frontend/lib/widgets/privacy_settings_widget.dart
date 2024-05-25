@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/user_data_source.dart';
+import '../screens/login_screen.dart';
 import 'confirmation_dialog.dart';
 
 class PrivacySettingsWidget extends StatefulWidget {
@@ -8,7 +9,7 @@ class PrivacySettingsWidget extends StatefulWidget {
   _PrivacySettingsWidgetState createState() => _PrivacySettingsWidgetState();
 }
 
-class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget>{
+class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
   final _newPasswordController = TextEditingController();
   final _oldPasswordController = TextEditingController();
 
@@ -48,10 +49,33 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget>{
         SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
-            context.read<UserDataSource>().updatePassword(
-                context: context,
-                password: _oldPasswordController.value.text,
-                newPassword: _newPasswordController.value.text);
+            ConfirmationDialog(
+              title: 'Change password',
+              content: 'Are you sure you want to change your password?',
+              onConfirm: () {
+                context.read<UserDataSource>().updatePassword(
+                    context: context,
+                    password: _oldPasswordController.value.text,
+                    newPassword: _newPasswordController.value.text);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    content: Container(
+                      padding: EdgeInsets.all(16),
+                      height: 90,
+                      decoration: BoxDecoration(
+                        color: Colors.green[700],
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Center(
+                        child: Text('Your password has succesfully been changed'),
+                      ),
+                    ),
+                  ),
+                );
+              },).show(context);
           },
           child: Text('Save Changes'),
         ),
@@ -61,10 +85,16 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget>{
             ConfirmationDialog(
               title: 'Delete',
               content:
-              'Are you sure you want to delete your user? Your data will not be saved.',
+                  'Are you sure you want to delete your user? Your data will not be saved.',
               onConfirm: () {
                 context.read<UserDataSource>().deleteUser(context: context);
                 Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
               },
             ).show(context);
           },

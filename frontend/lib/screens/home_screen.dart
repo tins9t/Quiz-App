@@ -17,10 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isSmallScreen = MediaQuery
-        .of(context)
-        .size
-        .width < 600;
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
       appBar: AppBar(
@@ -38,11 +35,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Spacer(),
             IconButton(
-              icon: Icon(Icons.account_circle, color: Colors.indigo[900],),
+              icon: Icon(
+                Icons.account_circle,
+                color: Colors.indigo[900],
+              ),
               onPressed: () {
-                Navigator.push(context,
+                Navigator.push(
+                  context,
                   MaterialPageRoute(
-                      builder: (context) => AccountSettingsScreen()),);
+                    builder: (context) => AccountSettingsScreen(),
+                  ),
+                );
               },
             ),
           ],
@@ -55,13 +58,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateQuizScreen(
-                isEditing: false,
-              )),
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CreateQuizScreen(
+                        isEditing: false,
+                      )),
             );
           },
-          child: Icon(Icons.add, color: Colors.white,),
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
           backgroundColor: Colors.indigo[900],
         ),
       ),
@@ -92,7 +100,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 20),
                     ListTile(
                       leading: Icon(
-                        Icons.home, color: Colors.indigo, size: 20,),
+                        Icons.home,
+                        color: Colors.indigo,
+                        size: 20,
+                      ),
                       title: Text(
                         'Home',
                         style: TextStyle(
@@ -107,8 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 20),
                     ListTile(
-                      leading: Icon(
-                          Icons.explore, color: Colors.indigo, size: 20),
+                      leading:
+                          Icon(Icons.explore, color: Colors.indigo, size: 20),
                       title: Text(
                         'Discover',
                         style: TextStyle(
@@ -123,8 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 20),
                     ListTile(
-                      leading: Icon(
-                          Icons.library_books, color: Colors.indigo, size: 20),
+                      leading: Icon(Icons.library_books,
+                          color: Colors.indigo, size: 20),
                       title: Text(
                         'Library',
                         style: TextStyle(
@@ -139,8 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 20),
                     ListTile(
-                      leading: Icon(
-                          Icons.assignment, color: Colors.indigo, size: 20),
+                      leading: Icon(Icons.assignment,
+                          color: Colors.indigo, size: 20),
                       title: Text(
                         'Sessions',
                         style: TextStyle(
@@ -180,7 +191,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
   Widget _buildSmallScreenLayout() {
     return Scaffold(
       body: _buildSelectedOptionWidget(),
@@ -189,7 +199,10 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.indigo[300],
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.indigo[900],),
+            icon: Icon(
+              Icons.home,
+              color: Colors.indigo[900],
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -211,13 +224,12 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             _selectedIndex = index;
             _selectedOption =
-            ['Home', 'Discover', 'Library', 'Sessions'][index];
+                ['Home', 'Discover', 'Library', 'Sessions'][index];
           });
         },
       ),
     );
   }
-
 
   Widget _buildSelectedOptionWidget() {
     switch (_selectedOption) {

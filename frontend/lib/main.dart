@@ -4,6 +4,7 @@ import 'package:frontend/data/question_data_source.dart';
 import 'package:frontend/data/user_data_source.dart';
 import 'package:frontend/data/quiz_data_source.dart';
 import 'package:frontend/screens/answer_screen.dart';
+import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/questions_and_answers_screen.dart';
 import 'package:frontend/screens/create_quiz_screen.dart';
 import 'package:frontend/screens/home_screen.dart';
@@ -13,7 +14,6 @@ import 'package:frontend/websocket_channel_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'bloc/quiz_bloc.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'screens/answer_screen.dart';
 import 'services/token_service.dart';
 
 void main() {
@@ -55,7 +55,7 @@ class QuizApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: AnswerScreen(),
+        home: LoginScreen(),
       ),
     );
   }

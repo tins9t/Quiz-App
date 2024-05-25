@@ -136,7 +136,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                         quizId: widget.quiz!.id!,
                         name: _quizNameController.value.text,
                         description: _quizDescriptionController.value.text,
-                        isPrivate: true, // TODO
+                        isPrivate: false
                       );
                       quiz = widget.quiz!;
                     } else {

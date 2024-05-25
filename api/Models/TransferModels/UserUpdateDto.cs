@@ -5,6 +5,6 @@ namespace api.Models.TransferModels;
 
 public class UserUpdateDto
 {
-    [Required] [MinLength(4, ErrorMessage = "Username needs to be at least 4 characters.")] public string? Username { get; set; }
-    [Required] [ValidationEmail] public string? Email { get; set; }
+    [Required] [MinLength(4, ErrorMessage = "Username needs to be at least 4 characters.")] [ValidationUsernameExist] public string? Username { get; set; }
+    [Required] [ValidationEmail] [ValidationEmailExist] public string? Email { get; set; }
 }
