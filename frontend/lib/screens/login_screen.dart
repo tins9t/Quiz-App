@@ -17,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isHidden = true;
   final _emailController = TextEditingController(text: 'mudkip@example.com');
-  final _passwordController = TextEditingController(text: 'mudkip123');
+  final _passwordController = TextEditingController(text: 'mudkip123!');
 
   void _toggleVisibility() {
     setState(() {

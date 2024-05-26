@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/data/quiz_data_source.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
 import '../models/entities.dart';
 import 'box_widget.dart';
 
@@ -27,7 +27,6 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('DiscoverWidget build method called');
     return Column(
       children: [
         Padding(
@@ -69,10 +68,15 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
 
   Widget _buildSearchResultsWidget() {
     return FutureBuilder<List<Quiz>>(
-      future: context.read<QuizDataSource>().getQuizzesByName(query: _searchController.text),
+      future: context
+          .read<QuizDataSource>()
+          .getQuizzesByName(query: _searchController.text),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: Lottie.asset('assets/animations/loading.json',
+                height: 50, width: 50),
+          );
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -80,13 +84,21 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
         } else {
           return Column(
             children: [
-              Text('', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Text('',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               Expanded(
-                child: ListView.builder(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 0.9),
+                  ),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     final Quiz quiz = snapshot.data![index];
-                    return BoxWidget(quiz: quiz);
+                    return BoxWidget(
+                      quiz: quiz,
+                    );
                   },
                 ),
               ),

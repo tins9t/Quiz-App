@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/user_data_source.dart';
+import 'confirmation_dialog.dart';
 
 class SettingsWidget extends StatefulWidget {
   @override
@@ -14,13 +15,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   @override
   void initState() {
     super.initState();
-    // Call getUser method to fetch user data when the widget is initialized
     context.read<UserDataSource>().getUser(context).then((user) {
-      // Set initial values for the text controllers
       _newUsernameController.text = user.username;
       _newEmailController.text = user.email;
     }).catchError((error) {
-      // Handle errors if any
       print('Error fetching user data: $error');
     });
   }
@@ -59,7 +57,34 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
-            // Your update logic here
+            ConfirmationDialog(
+              title: 'Change password',
+              content: 'Are you sure you want to change your password?',
+              onConfirm: () {
+                context.read<UserDataSource>().updateUser(
+                    context: context,
+                    username: _newUsernameController.value.text,
+                    email: _newEmailController.value.text);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    content: Container(
+                      padding: EdgeInsets.all(16),
+                      height: 90,
+                      decoration: BoxDecoration(
+                        color: Colors.green[700],
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Center(
+                        child: Text('Your changes have succesfully been saved'),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ).show(context);
           },
           child: Text('Save Changes'),
         ),
