@@ -30,7 +30,7 @@ public class StateService {
     public ConcurrentDictionary<int, Timer> SetupTimers { get; } = new ConcurrentDictionary<int, Timer>();
     private readonly ConcurrentDictionary<int, Dictionary<string, Dictionary<Question, Answer>>> _userAnswersPerRoom = new();
     private readonly ConcurrentDictionary<int, Question> _currentQuestionsPerRoom = new();
-    public delegate void ClientWantsToAnswerQuestionHandler(string Username, int room, Question question, Answer answer);
+    
 
 
     private void GetNumberOfConnectionsInRoom(int room)

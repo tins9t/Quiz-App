@@ -39,7 +39,7 @@ public class ClientWantsToAnswerQuestion : BaseEventHandler<ClientWantsToAnswerQ
         Answer answer = new Answer { Id = dto.AnswerId };
         // Get the current question for the room from the state service
         Question question = _stateService.GetCurrentQuestion(dto.RoomId);
-        _stateService.AddAnswer(_stateService.Connections[socket.ConnectionInfo.Id].Username, dto.RoomId, question, answer);
+        _stateService.AddAnswer(_stateService.Connections[socket.ConnectionInfo.Id].Username!, dto.RoomId, question, answer);
 
         return Task.CompletedTask;
     }
