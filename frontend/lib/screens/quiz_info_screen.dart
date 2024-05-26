@@ -15,7 +15,7 @@ class QuizInfoScreen extends StatelessWidget {
     return Theme(
       data: ThemeData(
         primaryColor: Colors.indigo[300],
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           headline1: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           bodyText1: TextStyle(fontSize: 16.0),
         ),

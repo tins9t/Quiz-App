@@ -86,7 +86,7 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
               onPressed: _isButtonEnabled
                   ? () async {
                       context.read<QuizBloc>().clientWantsToEnterRoom(
-                            int.parse(_roomIdController.text),
+                            int.parse(_roomIdController.text.trim()),
                             _usernameController.text,
                           );
                       context.read<QuizBloc>().clientWantsToEnterRoom(

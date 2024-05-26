@@ -154,36 +154,33 @@ abstract class _ConnectedRoom implements ConnectedRoom {
 /// @nodoc
 mixin _$QuizState {
   List<ConnectedRoom> get connectedRooms => throw _privateConstructorUsedError;
-  Question get currentQuestion => throw _privateConstructorUsedError;
-  List<Answer> get selectedAnswers => throw _privateConstructorUsedError;
   List<Answer> get answersForCurrentQuestion =>
       throw _privateConstructorUsedError;
-  QuizStatus get status => throw _privateConstructorUsedError;
-  int get timeRemaining => throw _privateConstructorUsedError;
-  Map<String, int> get scores =>
-      throw _privateConstructorUsedError; // Changed from int score to Map<String, int> scores
-  int get peopleAnswered => throw _privateConstructorUsedError;
+  List<Answer> get selectedAnswers => throw _privateConstructorUsedError;
+  List<String> get users => throw _privateConstructorUsedError;
+  Map<String, int> get scores => throw _privateConstructorUsedError;
+  Question get currentQuestion => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
+  int get timeRemaining => throw _privateConstructorUsedError;
+  int get peopleAnswered => throw _privateConstructorUsedError;
   int get roomId => throw _privateConstructorUsedError;
   bool get showScore => throw _privateConstructorUsedError;
   bool get answerButtonPressed => throw _privateConstructorUsedError;
-  List<String> get users => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
             List<ConnectedRoom> connectedRooms,
-            Question currentQuestion,
-            List<Answer> selectedAnswers,
             List<Answer> answersForCurrentQuestion,
-            QuizStatus status,
-            int timeRemaining,
+            List<Answer> selectedAnswers,
+            List<String> users,
             Map<String, int> scores,
-            int peopleAnswered,
+            Question currentQuestion,
             String username,
+            int timeRemaining,
+            int peopleAnswered,
             int roomId,
             bool showScore,
-            bool answerButtonPressed,
-            List<String> users)
+            bool answerButtonPressed)
         quizScreen,
   }) =>
       throw _privateConstructorUsedError;
@@ -191,18 +188,17 @@ mixin _$QuizState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
             List<ConnectedRoom> connectedRooms,
-            Question currentQuestion,
-            List<Answer> selectedAnswers,
             List<Answer> answersForCurrentQuestion,
-            QuizStatus status,
-            int timeRemaining,
+            List<Answer> selectedAnswers,
+            List<String> users,
             Map<String, int> scores,
-            int peopleAnswered,
+            Question currentQuestion,
             String username,
+            int timeRemaining,
+            int peopleAnswered,
             int roomId,
             bool showScore,
-            bool answerButtonPressed,
-            List<String> users)?
+            bool answerButtonPressed)?
         quizScreen,
   }) =>
       throw _privateConstructorUsedError;
@@ -210,18 +206,17 @@ mixin _$QuizState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             List<ConnectedRoom> connectedRooms,
-            Question currentQuestion,
-            List<Answer> selectedAnswers,
             List<Answer> answersForCurrentQuestion,
-            QuizStatus status,
-            int timeRemaining,
+            List<Answer> selectedAnswers,
+            List<String> users,
             Map<String, int> scores,
-            int peopleAnswered,
+            Question currentQuestion,
             String username,
+            int timeRemaining,
+            int peopleAnswered,
             int roomId,
             bool showScore,
-            bool answerButtonPressed,
-            List<String> users)?
+            bool answerButtonPressed)?
         quizScreen,
     required TResult orElse(),
   }) =>
@@ -255,18 +250,17 @@ abstract class $QuizStateCopyWith<$Res> {
   @useResult
   $Res call(
       {List<ConnectedRoom> connectedRooms,
-      Question currentQuestion,
-      List<Answer> selectedAnswers,
       List<Answer> answersForCurrentQuestion,
-      QuizStatus status,
-      int timeRemaining,
+      List<Answer> selectedAnswers,
+      List<String> users,
       Map<String, int> scores,
-      int peopleAnswered,
+      Question currentQuestion,
       String username,
+      int timeRemaining,
+      int peopleAnswered,
       int roomId,
       bool showScore,
-      bool answerButtonPressed,
-      List<String> users});
+      bool answerButtonPressed});
 
   $QuestionCopyWith<$Res> get currentQuestion;
 }
@@ -285,56 +279,55 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
   @override
   $Res call({
     Object? connectedRooms = null,
-    Object? currentQuestion = null,
-    Object? selectedAnswers = null,
     Object? answersForCurrentQuestion = null,
-    Object? status = null,
-    Object? timeRemaining = null,
+    Object? selectedAnswers = null,
+    Object? users = null,
     Object? scores = null,
-    Object? peopleAnswered = null,
+    Object? currentQuestion = null,
     Object? username = null,
+    Object? timeRemaining = null,
+    Object? peopleAnswered = null,
     Object? roomId = null,
     Object? showScore = null,
     Object? answerButtonPressed = null,
-    Object? users = null,
   }) {
     return _then(_value.copyWith(
       connectedRooms: null == connectedRooms
           ? _value.connectedRooms
           : connectedRooms // ignore: cast_nullable_to_non_nullable
               as List<ConnectedRoom>,
-      currentQuestion: null == currentQuestion
-          ? _value.currentQuestion
-          : currentQuestion // ignore: cast_nullable_to_non_nullable
-              as Question,
-      selectedAnswers: null == selectedAnswers
-          ? _value.selectedAnswers
-          : selectedAnswers // ignore: cast_nullable_to_non_nullable
-              as List<Answer>,
       answersForCurrentQuestion: null == answersForCurrentQuestion
           ? _value.answersForCurrentQuestion
           : answersForCurrentQuestion // ignore: cast_nullable_to_non_nullable
               as List<Answer>,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as QuizStatus,
-      timeRemaining: null == timeRemaining
-          ? _value.timeRemaining
-          : timeRemaining // ignore: cast_nullable_to_non_nullable
-              as int,
+      selectedAnswers: null == selectedAnswers
+          ? _value.selectedAnswers
+          : selectedAnswers // ignore: cast_nullable_to_non_nullable
+              as List<Answer>,
+      users: null == users
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       scores: null == scores
           ? _value.scores
           : scores // ignore: cast_nullable_to_non_nullable
               as Map<String, int>,
-      peopleAnswered: null == peopleAnswered
-          ? _value.peopleAnswered
-          : peopleAnswered // ignore: cast_nullable_to_non_nullable
-              as int,
+      currentQuestion: null == currentQuestion
+          ? _value.currentQuestion
+          : currentQuestion // ignore: cast_nullable_to_non_nullable
+              as Question,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      timeRemaining: null == timeRemaining
+          ? _value.timeRemaining
+          : timeRemaining // ignore: cast_nullable_to_non_nullable
+              as int,
+      peopleAnswered: null == peopleAnswered
+          ? _value.peopleAnswered
+          : peopleAnswered // ignore: cast_nullable_to_non_nullable
+              as int,
       roomId: null == roomId
           ? _value.roomId
           : roomId // ignore: cast_nullable_to_non_nullable
@@ -347,10 +340,6 @@ class _$QuizStateCopyWithImpl<$Res, $Val extends QuizState>
           ? _value.answerButtonPressed
           : answerButtonPressed // ignore: cast_nullable_to_non_nullable
               as bool,
-      users: null == users
-          ? _value.users
-          : users // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ) as $Val);
   }
 
@@ -373,18 +362,17 @@ abstract class _$$QuizScreenStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {List<ConnectedRoom> connectedRooms,
-      Question currentQuestion,
-      List<Answer> selectedAnswers,
       List<Answer> answersForCurrentQuestion,
-      QuizStatus status,
-      int timeRemaining,
+      List<Answer> selectedAnswers,
+      List<String> users,
       Map<String, int> scores,
-      int peopleAnswered,
+      Question currentQuestion,
       String username,
+      int timeRemaining,
+      int peopleAnswered,
       int roomId,
       bool showScore,
-      bool answerButtonPressed,
-      List<String> users});
+      bool answerButtonPressed});
 
   @override
   $QuestionCopyWith<$Res> get currentQuestion;
@@ -402,56 +390,55 @@ class __$$QuizScreenStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? connectedRooms = null,
-    Object? currentQuestion = null,
-    Object? selectedAnswers = null,
     Object? answersForCurrentQuestion = null,
-    Object? status = null,
-    Object? timeRemaining = null,
+    Object? selectedAnswers = null,
+    Object? users = null,
     Object? scores = null,
-    Object? peopleAnswered = null,
+    Object? currentQuestion = null,
     Object? username = null,
+    Object? timeRemaining = null,
+    Object? peopleAnswered = null,
     Object? roomId = null,
     Object? showScore = null,
     Object? answerButtonPressed = null,
-    Object? users = null,
   }) {
     return _then(_$QuizScreenStateImpl(
       connectedRooms: null == connectedRooms
           ? _value._connectedRooms
           : connectedRooms // ignore: cast_nullable_to_non_nullable
               as List<ConnectedRoom>,
-      currentQuestion: null == currentQuestion
-          ? _value.currentQuestion
-          : currentQuestion // ignore: cast_nullable_to_non_nullable
-              as Question,
-      selectedAnswers: null == selectedAnswers
-          ? _value._selectedAnswers
-          : selectedAnswers // ignore: cast_nullable_to_non_nullable
-              as List<Answer>,
       answersForCurrentQuestion: null == answersForCurrentQuestion
           ? _value._answersForCurrentQuestion
           : answersForCurrentQuestion // ignore: cast_nullable_to_non_nullable
               as List<Answer>,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as QuizStatus,
-      timeRemaining: null == timeRemaining
-          ? _value.timeRemaining
-          : timeRemaining // ignore: cast_nullable_to_non_nullable
-              as int,
+      selectedAnswers: null == selectedAnswers
+          ? _value._selectedAnswers
+          : selectedAnswers // ignore: cast_nullable_to_non_nullable
+              as List<Answer>,
+      users: null == users
+          ? _value._users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       scores: null == scores
           ? _value._scores
           : scores // ignore: cast_nullable_to_non_nullable
               as Map<String, int>,
-      peopleAnswered: null == peopleAnswered
-          ? _value.peopleAnswered
-          : peopleAnswered // ignore: cast_nullable_to_non_nullable
-              as int,
+      currentQuestion: null == currentQuestion
+          ? _value.currentQuestion
+          : currentQuestion // ignore: cast_nullable_to_non_nullable
+              as Question,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      timeRemaining: null == timeRemaining
+          ? _value.timeRemaining
+          : timeRemaining // ignore: cast_nullable_to_non_nullable
+              as int,
+      peopleAnswered: null == peopleAnswered
+          ? _value.peopleAnswered
+          : peopleAnswered // ignore: cast_nullable_to_non_nullable
+              as int,
       roomId: null == roomId
           ? _value.roomId
           : roomId // ignore: cast_nullable_to_non_nullable
@@ -464,10 +451,6 @@ class __$$QuizScreenStateImplCopyWithImpl<$Res>
           ? _value.answerButtonPressed
           : answerButtonPressed // ignore: cast_nullable_to_non_nullable
               as bool,
-      users: null == users
-          ? _value._users
-          : users // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ));
   }
 }
@@ -477,23 +460,22 @@ class __$$QuizScreenStateImplCopyWithImpl<$Res>
 class _$QuizScreenStateImpl implements QuizScreenState {
   const _$QuizScreenStateImpl(
       {required final List<ConnectedRoom> connectedRooms,
-      required this.currentQuestion,
-      required final List<Answer> selectedAnswers,
       required final List<Answer> answersForCurrentQuestion,
-      required this.status,
-      required this.timeRemaining,
+      required final List<Answer> selectedAnswers,
+      required final List<String> users,
       required final Map<String, int> scores,
-      required this.peopleAnswered,
+      required this.currentQuestion,
       required this.username,
+      required this.timeRemaining,
+      required this.peopleAnswered,
       required this.roomId,
       required this.showScore,
-      required this.answerButtonPressed,
-      required final List<String> users})
+      required this.answerButtonPressed})
       : _connectedRooms = connectedRooms,
-        _selectedAnswers = selectedAnswers,
         _answersForCurrentQuestion = answersForCurrentQuestion,
-        _scores = scores,
-        _users = users;
+        _selectedAnswers = selectedAnswers,
+        _users = users,
+        _scores = scores;
 
   final List<ConnectedRoom> _connectedRooms;
   @override
@@ -501,16 +483,6 @@ class _$QuizScreenStateImpl implements QuizScreenState {
     if (_connectedRooms is EqualUnmodifiableListView) return _connectedRooms;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_connectedRooms);
-  }
-
-  @override
-  final Question currentQuestion;
-  final List<Answer> _selectedAnswers;
-  @override
-  List<Answer> get selectedAnswers {
-    if (_selectedAnswers is EqualUnmodifiableListView) return _selectedAnswers;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectedAnswers);
   }
 
   final List<Answer> _answersForCurrentQuestion;
@@ -522,29 +494,14 @@ class _$QuizScreenStateImpl implements QuizScreenState {
     return EqualUnmodifiableListView(_answersForCurrentQuestion);
   }
 
+  final List<Answer> _selectedAnswers;
   @override
-  final QuizStatus status;
-  @override
-  final int timeRemaining;
-  final Map<String, int> _scores;
-  @override
-  Map<String, int> get scores {
-    if (_scores is EqualUnmodifiableMapView) return _scores;
+  List<Answer> get selectedAnswers {
+    if (_selectedAnswers is EqualUnmodifiableListView) return _selectedAnswers;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_scores);
+    return EqualUnmodifiableListView(_selectedAnswers);
   }
 
-// Changed from int score to Map<String, int> scores
-  @override
-  final int peopleAnswered;
-  @override
-  final String username;
-  @override
-  final int roomId;
-  @override
-  final bool showScore;
-  @override
-  final bool answerButtonPressed;
   final List<String> _users;
   @override
   List<String> get users {
@@ -553,9 +510,32 @@ class _$QuizScreenStateImpl implements QuizScreenState {
     return EqualUnmodifiableListView(_users);
   }
 
+  final Map<String, int> _scores;
+  @override
+  Map<String, int> get scores {
+    if (_scores is EqualUnmodifiableMapView) return _scores;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_scores);
+  }
+
+  @override
+  final Question currentQuestion;
+  @override
+  final String username;
+  @override
+  final int timeRemaining;
+  @override
+  final int peopleAnswered;
+  @override
+  final int roomId;
+  @override
+  final bool showScore;
+  @override
+  final bool answerButtonPressed;
+
   @override
   String toString() {
-    return 'QuizState.quizScreen(connectedRooms: $connectedRooms, currentQuestion: $currentQuestion, selectedAnswers: $selectedAnswers, answersForCurrentQuestion: $answersForCurrentQuestion, status: $status, timeRemaining: $timeRemaining, scores: $scores, peopleAnswered: $peopleAnswered, username: $username, roomId: $roomId, showScore: $showScore, answerButtonPressed: $answerButtonPressed, users: $users)';
+    return 'QuizState.quizScreen(connectedRooms: $connectedRooms, answersForCurrentQuestion: $answersForCurrentQuestion, selectedAnswers: $selectedAnswers, users: $users, scores: $scores, currentQuestion: $currentQuestion, username: $username, timeRemaining: $timeRemaining, peopleAnswered: $peopleAnswered, roomId: $roomId, showScore: $showScore, answerButtonPressed: $answerButtonPressed)';
   }
 
   @override
@@ -565,44 +545,42 @@ class _$QuizScreenStateImpl implements QuizScreenState {
             other is _$QuizScreenStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._connectedRooms, _connectedRooms) &&
-            (identical(other.currentQuestion, currentQuestion) ||
-                other.currentQuestion == currentQuestion) &&
-            const DeepCollectionEquality()
-                .equals(other._selectedAnswers, _selectedAnswers) &&
             const DeepCollectionEquality().equals(
                 other._answersForCurrentQuestion, _answersForCurrentQuestion) &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.timeRemaining, timeRemaining) ||
-                other.timeRemaining == timeRemaining) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedAnswers, _selectedAnswers) &&
+            const DeepCollectionEquality().equals(other._users, _users) &&
             const DeepCollectionEquality().equals(other._scores, _scores) &&
-            (identical(other.peopleAnswered, peopleAnswered) ||
-                other.peopleAnswered == peopleAnswered) &&
+            (identical(other.currentQuestion, currentQuestion) ||
+                other.currentQuestion == currentQuestion) &&
             (identical(other.username, username) ||
                 other.username == username) &&
+            (identical(other.timeRemaining, timeRemaining) ||
+                other.timeRemaining == timeRemaining) &&
+            (identical(other.peopleAnswered, peopleAnswered) ||
+                other.peopleAnswered == peopleAnswered) &&
             (identical(other.roomId, roomId) || other.roomId == roomId) &&
             (identical(other.showScore, showScore) ||
                 other.showScore == showScore) &&
             (identical(other.answerButtonPressed, answerButtonPressed) ||
-                other.answerButtonPressed == answerButtonPressed) &&
-            const DeepCollectionEquality().equals(other._users, _users));
+                other.answerButtonPressed == answerButtonPressed));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_connectedRooms),
-      currentQuestion,
-      const DeepCollectionEquality().hash(_selectedAnswers),
       const DeepCollectionEquality().hash(_answersForCurrentQuestion),
-      status,
-      timeRemaining,
+      const DeepCollectionEquality().hash(_selectedAnswers),
+      const DeepCollectionEquality().hash(_users),
       const DeepCollectionEquality().hash(_scores),
-      peopleAnswered,
+      currentQuestion,
       username,
+      timeRemaining,
+      peopleAnswered,
       roomId,
       showScore,
-      answerButtonPressed,
-      const DeepCollectionEquality().hash(_users));
+      answerButtonPressed);
 
   @JsonKey(ignore: true)
   @override
@@ -616,34 +594,32 @@ class _$QuizScreenStateImpl implements QuizScreenState {
   TResult when<TResult extends Object?>({
     required TResult Function(
             List<ConnectedRoom> connectedRooms,
-            Question currentQuestion,
-            List<Answer> selectedAnswers,
             List<Answer> answersForCurrentQuestion,
-            QuizStatus status,
-            int timeRemaining,
+            List<Answer> selectedAnswers,
+            List<String> users,
             Map<String, int> scores,
-            int peopleAnswered,
+            Question currentQuestion,
             String username,
+            int timeRemaining,
+            int peopleAnswered,
             int roomId,
             bool showScore,
-            bool answerButtonPressed,
-            List<String> users)
+            bool answerButtonPressed)
         quizScreen,
   }) {
     return quizScreen(
         connectedRooms,
-        currentQuestion,
-        selectedAnswers,
         answersForCurrentQuestion,
-        status,
-        timeRemaining,
+        selectedAnswers,
+        users,
         scores,
-        peopleAnswered,
+        currentQuestion,
         username,
+        timeRemaining,
+        peopleAnswered,
         roomId,
         showScore,
-        answerButtonPressed,
-        users);
+        answerButtonPressed);
   }
 
   @override
@@ -651,34 +627,32 @@ class _$QuizScreenStateImpl implements QuizScreenState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
             List<ConnectedRoom> connectedRooms,
-            Question currentQuestion,
-            List<Answer> selectedAnswers,
             List<Answer> answersForCurrentQuestion,
-            QuizStatus status,
-            int timeRemaining,
+            List<Answer> selectedAnswers,
+            List<String> users,
             Map<String, int> scores,
-            int peopleAnswered,
+            Question currentQuestion,
             String username,
+            int timeRemaining,
+            int peopleAnswered,
             int roomId,
             bool showScore,
-            bool answerButtonPressed,
-            List<String> users)?
+            bool answerButtonPressed)?
         quizScreen,
   }) {
     return quizScreen?.call(
         connectedRooms,
-        currentQuestion,
-        selectedAnswers,
         answersForCurrentQuestion,
-        status,
-        timeRemaining,
+        selectedAnswers,
+        users,
         scores,
-        peopleAnswered,
+        currentQuestion,
         username,
+        timeRemaining,
+        peopleAnswered,
         roomId,
         showScore,
-        answerButtonPressed,
-        users);
+        answerButtonPressed);
   }
 
   @override
@@ -686,36 +660,34 @@ class _$QuizScreenStateImpl implements QuizScreenState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             List<ConnectedRoom> connectedRooms,
-            Question currentQuestion,
-            List<Answer> selectedAnswers,
             List<Answer> answersForCurrentQuestion,
-            QuizStatus status,
-            int timeRemaining,
+            List<Answer> selectedAnswers,
+            List<String> users,
             Map<String, int> scores,
-            int peopleAnswered,
+            Question currentQuestion,
             String username,
+            int timeRemaining,
+            int peopleAnswered,
             int roomId,
             bool showScore,
-            bool answerButtonPressed,
-            List<String> users)?
+            bool answerButtonPressed)?
         quizScreen,
     required TResult orElse(),
   }) {
     if (quizScreen != null) {
       return quizScreen(
           connectedRooms,
-          currentQuestion,
-          selectedAnswers,
           answersForCurrentQuestion,
-          status,
-          timeRemaining,
+          selectedAnswers,
+          users,
           scores,
-          peopleAnswered,
+          currentQuestion,
           username,
+          timeRemaining,
+          peopleAnswered,
           roomId,
           showScore,
-          answerButtonPressed,
-          users);
+          answerButtonPressed);
     }
     return orElse();
   }
@@ -752,45 +724,42 @@ class _$QuizScreenStateImpl implements QuizScreenState {
 abstract class QuizScreenState implements QuizState {
   const factory QuizScreenState(
       {required final List<ConnectedRoom> connectedRooms,
-      required final Question currentQuestion,
-      required final List<Answer> selectedAnswers,
       required final List<Answer> answersForCurrentQuestion,
-      required final QuizStatus status,
-      required final int timeRemaining,
+      required final List<Answer> selectedAnswers,
+      required final List<String> users,
       required final Map<String, int> scores,
-      required final int peopleAnswered,
+      required final Question currentQuestion,
       required final String username,
+      required final int timeRemaining,
+      required final int peopleAnswered,
       required final int roomId,
       required final bool showScore,
-      required final bool answerButtonPressed,
-      required final List<String> users}) = _$QuizScreenStateImpl;
+      required final bool answerButtonPressed}) = _$QuizScreenStateImpl;
 
   @override
   List<ConnectedRoom> get connectedRooms;
   @override
-  Question get currentQuestion;
+  List<Answer> get answersForCurrentQuestion;
   @override
   List<Answer> get selectedAnswers;
   @override
-  List<Answer> get answersForCurrentQuestion;
+  List<String> get users;
   @override
-  QuizStatus get status;
+  Map<String, int> get scores;
+  @override
+  Question get currentQuestion;
+  @override
+  String get username;
   @override
   int get timeRemaining;
   @override
-  Map<String, int> get scores;
-  @override // Changed from int score to Map<String, int> scores
   int get peopleAnswered;
-  @override
-  String get username;
   @override
   int get roomId;
   @override
   bool get showScore;
   @override
   bool get answerButtonPressed;
-  @override
-  List<String> get users;
   @override
   @JsonKey(ignore: true)
   _$$QuizScreenStateImplCopyWith<_$QuizScreenStateImpl> get copyWith =>
