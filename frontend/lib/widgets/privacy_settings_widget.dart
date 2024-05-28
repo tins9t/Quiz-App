@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/user_data_source.dart';
+import '../models/entities.dart';
 import '../screens/login_screen.dart';
 import 'confirmation_dialog.dart';
 
@@ -12,6 +13,9 @@ class PrivacySettingsWidget extends StatefulWidget {
 class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
   final _newPasswordController = TextEditingController();
   final _oldPasswordController = TextEditingController();
+
+  Map<String, List<String>>? _serverErrors;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +34,9 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
         TextFormField(
           obscureText: true,
           controller: _newPasswordController,
+          validator: (value) {
+            return _serverErrors?["NewPassword"]?[0];
+          },
           decoration: InputDecoration(
             hintText: 'Enter your new password',
           ),
@@ -42,6 +49,9 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
         TextFormField(
           obscureText: true,
           controller: _oldPasswordController,
+          validator: (value) {
+            return _serverErrors?["Password"]?[0];
+          },
           decoration: InputDecoration(
             hintText: 'Input your old password',
           ),
@@ -53,29 +63,38 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
               title: 'Change password',
               content: 'Are you sure you want to change your password?',
               onConfirm: () {
-                context.read<UserDataSource>().updatePassword(
-                    context: context,
-                    password: _oldPasswordController.value.text,
-                    newPassword: _newPasswordController.value.text);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    content: Container(
-                      padding: EdgeInsets.all(16),
-                      height: 90,
-                      decoration: BoxDecoration(
-                        color: Colors.green[700],
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Center(
-                        child: Text('Your password has succesfully been changed'),
+                try {
+                  context.read<UserDataSource>().updatePassword(
+                      context: context,
+                      password: _oldPasswordController.value.text,
+                      newPassword: _newPasswordController.value.text);
+                } on ApiError catch (e) {
+                  _serverErrors = e.errors;
+                }
+                if (_formKey.currentState?.validate() ?? false) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      content: Container(
+                        padding: EdgeInsets.all(16),
+                        height: 90,
+                        decoration: BoxDecoration(
+                          color: Colors.green[700],
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Center(
+                          child: Text(
+                              'Your password has succesfully been changed'),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },).show(context);
+                  );
+                }
+                _formKey.currentState?.validate();
+              },
+            ).show(context);
           },
           child: Text('Save Changes'),
         ),

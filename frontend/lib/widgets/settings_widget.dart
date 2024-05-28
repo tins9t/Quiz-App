@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/user_data_source.dart';
+import '../models/entities.dart';
 import 'confirmation_dialog.dart';
 
 class SettingsWidget extends StatefulWidget {
@@ -12,6 +13,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   final _newEmailController = TextEditingController();
   final _newUsernameController = TextEditingController();
 
+  Map<String, List<String>>? _serverErrors;
+
   @override
   void initState() {
     super.initState();
@@ -22,6 +25,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       print('Error fetching user data: $error');
     });
   }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +44,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ),
         TextFormField(
           controller: _newUsernameController,
+          validator: (value) {
+            return _serverErrors?["Username"]?[0];
+          },
           decoration: InputDecoration(
             hintText: 'Enter your new username',
           ),
@@ -50,6 +58,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ),
         TextFormField(
           controller: _newEmailController,
+          validator: (value) {
+            return _serverErrors?["Email"]?[0];
+          },
           decoration: InputDecoration(
             hintText: 'Enter your new email',
           ),

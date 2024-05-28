@@ -85,8 +85,11 @@ class UserDataSource {
         Uri.parse("$baseUrl/api/update/user/${user.id}"),
         body: jsonEncode({"username": username, "email": email}),
         headers: headers);
-    final respDto = jsonDecode(response.body);
-    return respDto;
+    final jsonBody = jsonDecode(response.body);
+    if (response.statusCode >= 400) {
+      throw ApiError.fromJson(jsonBody);
+    }
+    return jsonBody;
   }
 
   Future<bool> updatePassword(
@@ -98,8 +101,11 @@ class UserDataSource {
         Uri.parse("$baseUrl/api/update/password/${user.id}"),
         body: jsonEncode({"password": password, "newPassword": newPassword}),
         headers: headers);
-    final respDto = jsonDecode(response.body);
-    return respDto;
+    final jsonBody = jsonDecode(response.body);
+    if (response.statusCode >= 400) {
+      throw ApiError.fromJson(jsonBody);
+    }
+    return jsonBody;
   }
 
   Future<bool> deleteUser({required BuildContext context}) async {

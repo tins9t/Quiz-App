@@ -37,6 +37,7 @@ class _BoxWidgetState extends State<BoxWidget> {
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final isMediumScreen = MediaQuery.of(context).size.width < 800;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
@@ -80,33 +81,38 @@ class _BoxWidgetState extends State<BoxWidget> {
                               _isPrivate ? 'Private' : 'Public',
                               style: TextStyle(color: Colors.white),
                             ),
-                            Switch(
-                              value: _isPrivate,
-                              onChanged: (value) {
-                                ConfirmationDialog(
-                                  title: 'Change quiz publicity',
-                                  content:
-                                      'Are you sure you want to make this quiz public? Everyone will be able to see and start your quiz.',
-                                  onConfirm: () async {
-                                    setState(() {
-                                      _isPrivate = value;
-                                    });
-                                    await context.read<QuizDataSource>().updateQuiz(
-                                      quizId: widget.quiz!.id!,
-                                      name: widget.quiz!.name,
-                                      description: widget.quiz!.description,
-                                      isPrivate: value
-                                    );
-                                  },
-                                ).show(context);
+                            Visibility(
+                              visible: !isMediumScreen || isSmallScreen,
+                              child: Switch(
+                                value: _isPrivate,
+                                onChanged: (value) {
+                                  ConfirmationDialog(
+                                    title: 'Change quiz publicity',
+                                    content:
+                                        'Are you sure you want to make this quiz public? Everyone will be able to see and start your quiz.',
+                                    onConfirm: () async {
+                                      setState(() {
+                                        _isPrivate = value;
+                                      });
+                                      await context
+                                          .read<QuizDataSource>()
+                                          .updateQuiz(
+                                              quizId: widget.quiz!.id!,
+                                              name: widget.quiz!.name,
+                                              description:
+                                                  widget.quiz!.description,
+                                              isPrivate: value);
+                                    },
+                                  ).show(context);
 
-                                print("Privacy: $_isPrivate");
-                              },
-                              activeColor: Colors.white,
-                              activeTrackColor: Colors.grey,
-                              inactiveThumbColor: Colors.white,
-                              inactiveTrackColor: Colors.grey,
-                            ),
+                                  print("Privacy: $_isPrivate");
+                                },
+                                activeColor: Colors.white,
+                                activeTrackColor: Colors.grey,
+                                inactiveThumbColor: Colors.white,
+                                inactiveTrackColor: Colors.grey,
+                              ),
+                            )
                           ],
                         ),
                     ],
@@ -117,42 +123,29 @@ class _BoxWidgetState extends State<BoxWidget> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Lottie.asset(
-                        'assets/animations/question.json',
-                        height: 100,
-                        width: 100,
-                      ),
+                      if (!isMediumScreen || isSmallScreen)
+                        Lottie.asset(
+                          'assets/animations/question.json',
+                          height: 100,
+                          width: 100,
+                        ),
                       Container(width: 20),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(height: 5),
-                            Text(
-                              widget.quiz.name,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.indigo[900],
-                              ),
-                            ),
+                            Visibility(
+                                visible: !isMediumScreen || isSmallScreen,
+                                child: Text(
+                                  widget.quiz.name,
+                                  style: TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.indigo[900],
+                                  ),
+                                )),
                             Container(height: 5),
-                            Text(
-                              widget.quiz.description,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.indigo[900],
-                              ),
-                            ),
-                            Container(height: 10),
-                            Text(
-                              '',
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.grey[700],
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -177,7 +170,11 @@ class _BoxWidgetState extends State<BoxWidget> {
                                 ),
                               );
                             },
-                            child: Icon(Icons.edit, color: Colors.indigo[900]),
+                            child: Visibility(
+                              visible: !isMediumScreen || isSmallScreen,
+                              child:
+                                  Icon(Icons.edit, color: Colors.indigo[900]),
+                            ),
                           ),
                         if (widget.showEditIcon && widget.showTrashIcon)
                           SizedBox(width: 10),
@@ -195,9 +192,11 @@ class _BoxWidgetState extends State<BoxWidget> {
                                 },
                               ).show(context);
                             },
-                            child:
-                                Icon(Icons.delete, color: Colors.indigo[900]),
-                          ),
+                            child: Visibility(
+                                visible: !isMediumScreen || isSmallScreen,
+                                child: Icon(Icons.delete,
+                                    color: Colors.indigo[900])),
+                          )
                       ],
                     ),
                   ),
