@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/quiz_bloc.dart';
+import 'package:frontend/models/events.dart';
+import 'package:frontend/screens/home_screen.dart';
 
 import 'package:lottie/lottie.dart';
 
@@ -29,8 +31,8 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
   @override
   void initState() {
     super.initState();
-    flickerTimer = Timer.periodic(Duration(milliseconds: 50), _updatePoints);
-    stopTimer = Timer(Duration(seconds: 3), _stopFlicker);
+    flickerTimer = Timer.periodic(const Duration(milliseconds: 50), _updatePoints);
+    stopTimer = Timer(const Duration(seconds: 3), _stopFlicker);
   }
 
   @override
@@ -54,28 +56,31 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
       ),
       body: Column(
         children: [
+          const EndQuizButton(),
           Container(
-            margin: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.blue, width: 2.0),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               children: [
+
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  decoration: const BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(5),
                       topRight: Radius.circular(5),
                     ),
                   ),
-                  child: Row(
+
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -93,19 +98,17 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                       itemBuilder: (context, index) {
                         final playerUsername = state.scores.keys.elementAt(index);
                         final playerScore = state.scores.values.elementAt(index);
-
                         final backgroundColor = index.isEven ? Colors.orange[50] : Colors.lightBlueAccent[50];
-
                         return Container(
                           color: backgroundColor,
                           child: ListTile(
                             title: Text(
                               playerUsername,
-                              style: TextStyle(fontSize: 18.0),
+                              style: const TextStyle(fontSize: 18.0),
                             ),
                             trailing: Text(
                               flickerTimer?.isActive ?? false ? '$randomScore points' : '$playerScore points',
-                              style: TextStyle(fontSize: 18.0),
+                              style: const TextStyle(fontSize: 18.0),
                             ),
                           ),
                         );
@@ -116,10 +119,32 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Lottie.asset('assets/animations/top.json'),
         ],
       ),
+    );
+  }
+}
+
+class EndQuizButton extends StatelessWidget {
+  const EndQuizButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        // Trigger the KickAllUsersEvent
+        context.read<QuizBloc>().add(ClientEvent.clientWantsToKickAllUsers(roomId: context.read<QuizBloc>().state.roomId));
+        // Navigate to HomePage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      },
+      child: const Text('End quiz and go to Home Page'),
     );
   }
 }
