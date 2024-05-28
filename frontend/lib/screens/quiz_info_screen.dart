@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/data/user_data_source.dart';
+import 'package:frontend/screens/quiz_setup_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../models/entities.dart';
@@ -14,7 +15,7 @@ class QuizInfoScreen extends StatelessWidget {
     return Theme(
       data: ThemeData(
         primaryColor: Colors.indigo[300],
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           headline1: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           bodyText1: TextStyle(fontSize: 16.0),
         ),
@@ -83,7 +84,17 @@ class QuizInfoScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuizSetupScreen(
+                          quizId: quiz.id!, // Pass the quizId to the QuizSetupScreen
+                          username: 'username', // Replace 'username' with the actual username
+                        ),
+                      ),
+                    );
+                  },
                   child: Text('Start Quiz'),
                 ),
               ],

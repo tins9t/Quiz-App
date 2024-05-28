@@ -20,7 +20,7 @@ public class StateService {
         _quizManagerService.QuestionAsked += async (room, question, answer) => await WaitForAnswers(room, question, answer);
         //In this code, an async lambda function is used as the event handler for QuestionAsked. This lambda function matches the event signature and calls WaitForAnswers inside it.
         _quizManagerService.QuizStarted += GetNumberOfConnectionsInRoom;
-        _quizManagerService.ScoreCalculated += (room, scores) => SendScore(room, scores);
+        _quizManagerService.ScoreCalculated += SendScore;
 
     }
     
@@ -30,10 +30,10 @@ public class StateService {
     public ConcurrentDictionary<int, Timer> SetupTimers { get; } = new ConcurrentDictionary<int, Timer>();
     private readonly ConcurrentDictionary<int, Dictionary<string, Dictionary<Question, Answer>>> _userAnswersPerRoom = new();
     private readonly ConcurrentDictionary<int, Question> _currentQuestionsPerRoom = new();
-      public delegate void ClientWantsToAnswerQuestionHandler(string Username, int room, Question question, Answer answer);
-       
     
-    public void GetNumberOfConnectionsInRoom(int room)
+
+
+    private void GetNumberOfConnectionsInRoom(int room)
     {
         if (Rooms.TryGetValue(room, out var connections))
         {
@@ -47,7 +47,16 @@ public class StateService {
         return Connections.TryAdd(socket.ConnectionInfo.Id, 
             new WebSocketMetaData(socket));
     }
+    public void SendTimeRemaining(int roomId, int timeRemaining)
+    {
+        var response = new ServerMessage.ServerTimeRemaining
+        {
+            eventType = "ServerTimeRemaining",
+            timeRemaining = timeRemaining
+        };
 
+        SendServerResponse(roomId, response);
+    }
     public bool AddToRoom(IWebSocketConnection socket, int room)
     {
         return AddConnectionToRoom(socket.ConnectionInfo.Id, room);
@@ -57,40 +66,87 @@ public class StateService {
     {
         if(!Rooms.ContainsKey(room))
             Rooms.TryAdd(room, new HashSet<Guid>());
-
+        
+        Console.WriteLine( Rooms.ContainsKey(room) ? "Room Created" : "Room not created");
         return AddConnectionToRoom(socket.ConnectionInfo.Id, room);
     }
     private bool AddConnectionToRoom(Guid connectionId, int room)
     {
-        return Rooms[room].Add(connectionId);
+        bool result = Rooms[room].Add(connectionId);
+
+        // Call the new method to send the list of usernames to the room.
+        SendUserListToRoom(room);
+
+        return result;
     }
     
-    public bool RemoveFromRoom(IWebSocketConnection socket, int room)
+    private void SendUserListToRoom(int room)
     {
-        if(Rooms.TryGetValue(room, out var guids))
+        // Get all usernames in the room.
+        List<string?> usernamesInRoom = Rooms[room]
+            .Select(guid => Connections[guid].Username)
+            .Where(username => username != null)
+            .ToList();
+
+        // Remove the "Host" and 'username' username from the list.
+        usernamesInRoom.Remove("Host");
+        usernamesInRoom.Remove("username");
+
+        // Send a server event with the usernames.
+        var serverEvent = new ServerMessage.ServerUserJoinedRoomEventDto
         {
-            guids.Remove(socket.ConnectionInfo.Id);
-            return true;
-        }
-        return false;
-        
+            eventType = "ServerTellsUserJoinedRoom",
+            Usernames = usernamesInRoom
+        };
+        SendServerResponse(room, serverEvent);
     }
+    public bool KickUserFromRoom(int roomId, string username)
+    {
+        // Check if the room exists.
+        if (Rooms.TryGetValue(roomId, out var roomConnections))
+        {
+            // Find the connection with the specified username.
+            var userConnection = roomConnections.FirstOrDefault(guid => Connections[guid].Username == username);
+
+            if (userConnection != default)
+            {
+                // Remove the user from the room.
+                roomConnections.Remove(userConnection);
+                // Create a ServerUserLeftRoomEventDto object.
+                var serverEvent = new ServerMessage.ServerUserLeftRoomEventDto
+                {
+                    eventType = "ServerUserLeftRoom",
+                    Username = username,
+                    RoomId = roomId
+                };
+                // Send the server event.
+                SendServerResponse(roomId, serverEvent);
+
+                return true;
+            }
+        }
+
+        // The room does not exist or the user was not found in the room.
+        return false;
+    }
+    
+    
     public bool KickAllUsersFromRoom(int room)
     {
-        if(Rooms.TryGetValue(room, out var guids))
+        if (!Rooms.TryGetValue(room, out var guids))
         {
-            foreach (var guid in guids)
-            {
-                if (Connections.TryGetValue(guid, out var ws))
-                    ws.Connection.Send("You have been kicked from the room");
-            }
-            guids.Clear();
-            return true;
+            return false;
         }
-        return false;
+        foreach (var guid in guids)
+        {
+            if (Connections.TryGetValue(guid, out var ws))
+                ws.Connection.Send("You have been kicked from the room");
+        }
+        guids.Clear();
+        return true;
     }
-    
-    public void BroadcastToRoom(int room, string message, IWebSocketConnection? dontSentToThis = null)
+
+    private void BroadcastToRoom(int room, string message, IWebSocketConnection? dontSentToThis = null)
     {
         if (Rooms.TryGetValue(room, out var guids))
         {
@@ -129,8 +185,8 @@ public class StateService {
     {
         // Update the current question for the room
         SetCurrentQuestion(room, question, answers);
-        Timer timer = new Timer(QuizManagerService.DelayTimeMilliseconds);
-        TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+        var timer = new Timer(QuizManagerService.DelayTimeMilliseconds);
+        var tcs = new TaskCompletionSource<bool>();
         
         timer.Elapsed += (sender, e) => tcs.TrySetResult(true);
         timer.Start();
@@ -172,11 +228,11 @@ public class StateService {
         Console.WriteLine($"{roomAnswers.Count} people answered the question.");
     }
     
-    public void StartQuiz(string Username, int quizRoomId, string quizId)
+    public void StartQuiz(int quizRoomId, string quizId)
     {
-        _quizManagerService.RunQuiz(quizRoomId, quizId, GetUserInput, _userAnswersPerRoom);
+        _ = _quizManagerService.RunQuiz(quizRoomId, quizId, GetUserInput, _userAnswersPerRoom);
     }
-    public async Task<Answer> GetUserInput(Question question, List<Answer> answers)
+    private async Task<Answer> GetUserInput(Question question, List<Answer> answers)
     {
         // This is just a placeholder implementation.
         // You need to replace this with your actual code to get the user's input.
@@ -186,8 +242,8 @@ public class StateService {
         // In your actual code, you should get the user's input and find the corresponding answer.
         return answers[0];
     }
-    
-    public void SetCurrentQuestion(int roomId, Question question, List<Answer> answers)
+
+    private void SetCurrentQuestion(int roomId, Question question, List<Answer> answers)
     {
         if (_currentQuestionsPerRoom.ContainsKey(roomId))
         {
@@ -231,7 +287,7 @@ public class StateService {
 
         SendServerResponse(roomId, response);
     }
-    public void SendServerResponse<T>(int room, T response) where T : BaseDto
+    private void SendServerResponse<T>(int room, T response) where T : BaseDto
     {
         // Can take any BaseDto object and send it to the room
         // Serialize the response to a JSON string

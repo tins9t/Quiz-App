@@ -9,7 +9,7 @@ public class ClientWantsToStartQuizDto: BaseDto
 {
     public string? Username { get; set; }
     public string? QuizId { get; set; }
-    public int QuizRoomId { get; set; }
+    public int roomId { get; set; }
 }
 
 public class ClientWantsToStartQuiz : BaseEventHandler<ClientWantsToStartQuizDto>
@@ -26,14 +26,22 @@ public class ClientWantsToStartQuiz : BaseEventHandler<ClientWantsToStartQuizDto
         Console.WriteLine("Handle method of ClientWantsToStartQuiz is called.");
         try
         {
-            if (_stateService.SetupTimers.TryGetValue(dto.QuizRoomId, out var timer))
+            if (_stateService.SetupTimers.TryGetValue(dto.roomId, out var timer))
             {
-                timer?.Stop(); // Stop the timer if it's running
-                timer?.Dispose(); // Dispose the timer
+                Console.WriteLine("Timer found for quiz room: " + dto.roomId);
+                timer.Stop(); // Stop the timer
+
+                // Change the timer interval to 3 seconds
+                timer.Interval = 3000;
+
+                timer.Start(); // Start the timer again
+                Console.WriteLine("Timer interval changed and started for quiz room: " + dto.roomId);
             }
-            
-            _stateService.StartQuiz(dto.Username, dto.QuizRoomId, dto.QuizId);
-            Console.WriteLine("Quiz has started.");
+            else
+            {
+                Console.WriteLine("No timer found for quiz room: " + dto.roomId);
+                _stateService.StartQuiz(dto.roomId, dto.QuizId);
+            }
         }
         catch (Exception e)
         {

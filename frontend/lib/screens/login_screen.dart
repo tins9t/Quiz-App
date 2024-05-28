@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
+import 'package:frontend/screens/quiz_joining_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../data/user_data_source.dart';
@@ -10,6 +8,8 @@ import 'register_screen.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -31,6 +31,12 @@ class _LoginScreenState extends State<LoginScreen> {
       MaterialPageRoute(builder: (context) => RegisterScreen()),
     );
   }
+  void _navigateToQuizJoiningScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const QuizJoiningScreen()),
+    );
+  }
 
   void _navigateToHomeScreen(BuildContext context) {
     Navigator.push(
@@ -43,13 +49,12 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
     bool isSmallScreen = width < 600;
-
+    const JoinQuizButton();
     return Scaffold(
       backgroundColor: Colors.indigo[300],
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: isSmallScreen ? width : 800,
           height: isSmallScreen ? null : height / 2 + 100,
           child: Padding(
@@ -65,6 +70,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text(
+                      'Welcome to the Quizilla',
+                      style: TextStyle(
+                          fontSize: isSmallScreen ? width * 0.06 : 24.0,
+                          fontWeight: FontWeight.bold),
+                    ),
                     SizedBox(height: height * 0.02),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,10 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 TextButton(
                                   onPressed: () =>
                                       _navigateToRegisterScreen(context),
-                                  child: Text(
-                                    'Register',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
                                   style: TextButton.styleFrom(
                                     backgroundColor: Colors.green,
                                     padding: EdgeInsets.symmetric(
@@ -107,6 +114,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
+                                  ),
+                                  child: const Text(
+                                    'Register',
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ],
@@ -140,17 +151,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     hintText: 'Email',
-                                    prefixIcon: Icon(Icons.email),
+                                    prefixIcon: const Icon(Icons.email),
                                     filled: true,
                                     fillColor: Colors.white70,
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                           color: Colors.blueAccent, width: 2.0),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                           color: Colors.blue, width: 2.0),
                                     ),
                                   ),
@@ -167,23 +178,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                   decoration: InputDecoration(
                                     hintText: 'Password',
-                                    prefixIcon: Icon(Icons.lock),
+                                    prefixIcon: const Icon(Icons.lock),
                                     suffixIcon: IconButton(
                                       onPressed: _toggleVisibility,
                                       icon: _isHidden
-                                          ? Icon(Icons.visibility_off)
-                                          : Icon(Icons.visibility),
+                                          ? const Icon(Icons.visibility_off)
+                                          : const Icon(Icons.visibility),
                                     ),
                                     filled: true,
                                     fillColor: Colors.white70,
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                           color: Colors.blueAccent, width: 2.0),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                           color: Colors.blue, width: 2.0),
                                     ),
                                   ),
@@ -197,10 +208,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                           _passwordController.value.text;
                                       _login(email, password, context);
                                     },
-                                    child: Text(
-                                      'Login',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
                                     style: TextButton.styleFrom(
                                       backgroundColor: Colors.deepPurpleAccent,
                                       padding: EdgeInsets.symmetric(
@@ -210,16 +217,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
+                                    child: const Text(
+                                      'Login',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Center(
                                   child: TextButton(
                                     onPressed: () {},
-                                    child: Text(
-                                      'Forgot Password?',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
                                     style: TextButton.styleFrom(
                                       backgroundColor: Colors.deepPurple[700],
                                       padding: EdgeInsets.symmetric(
@@ -230,18 +237,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                             BorderRadius.circular(10.0),
                                       ),
                                     ),
+                                    child: const Text(
+                                      'Forgot Password?',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ],
+                        ),],
                     ),
-                  ],
+                    const JoinQuizButton(),
+                    ],
                 ),
               ),
             ),
+
           ),
         ),
       ),
@@ -268,18 +280,37 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           content: Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             height: 90,
             decoration: BoxDecoration(
               color: Colors.red[700],
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
-            child: Center(
+            child: const Center(
               child: Text('Invalid credentials. Please try again.'),
             ),
           ),
         ),
       );
     }
+  }
+}
+class JoinQuizButton extends StatelessWidget {
+  const JoinQuizButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton (
+      onPressed: () {
+        // Navigate to HomePage
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const QuizJoiningScreen()),
+        );
+      },
+      child: const Text('Join a Quiz without logging in'),
+    );
   }
 }

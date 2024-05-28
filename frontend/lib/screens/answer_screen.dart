@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/quiz_bloc.dart';
 import 'package:frontend/bloc/quiz_state.dart';
 import 'package:frontend/models/events.dart';
+import 'package:frontend/screens/quiz_victory_screen.dart';
 
 class AnswerButton extends StatelessWidget {
   final Color color;
@@ -77,6 +78,15 @@ class AnswerScreen extends StatelessWidget {
       ),
       body: BlocBuilder<QuizBloc, QuizState>(
         builder: (context, state) {
+          if (state.scores.isNotEmpty) {
+            // Navigate to VictoryScreen
+            WidgetsBinding.instance!.addPostFrameCallback((_) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const QuizVictoryScreen()),
+              );
+            });
+          }
           if (state.answerButtonPressed) {
             return Container();
           }
@@ -109,9 +119,7 @@ class AnswerScreen extends StatelessWidget {
                             .add(ClientEvent.clientWantsToAnswerQuestion(
                               answerId: state.answersForCurrentQuestion[i].id,
                               username: state.username,
-                              // Replace with the actual username
-                              roomId: state
-                                  .roomId, // Replace with the actual room id
+                              roomId: state.roomId,
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

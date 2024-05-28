@@ -13,7 +13,7 @@ public class ClientWantsToSetupQuizDto : BaseDto
     public string? Username { get; set; }
     
     public string? QuizId { get; set; }
-    public int QuizRoomId { get; set; }
+    public int roomId { get; set; }
     
     public int SetupTimer { get; set; }
     
@@ -32,23 +32,25 @@ public class ClientWantsToSetupQuiz : BaseEventHandler<ClientWantsToSetupQuizDto
 
     public override Task Handle(ClientWantsToSetupQuizDto dto, IWebSocketConnection socket)
     {
-        _stateService.CreateRoom(socket, dto.QuizRoomId);
+        _stateService.CreateRoom(socket, dto.roomId);
+        Console.WriteLine("room created for quiz room: " + dto.roomId);
         _stateService.Connections[socket.ConnectionInfo.Id].Username = dto.Username;
 
         // If SetupTimer is not zero, start the setup phase timer
         if (dto.SetupTimer > 0)
         {
             var timer = new Timer(dto.SetupTimer * 1000);
+            Console.WriteLine("timer created for quiz room: " + dto.roomId);
             timer.Elapsed += (sender, e) =>
             {
                 timer.Stop(); // Stop the timer when it expires
                 timer?.Dispose(); // Dispose the timer
-                Console.WriteLine("timer finished for quiz room: " + dto.QuizRoomId);
-                _stateService.StartQuiz(dto.Username, dto.QuizRoomId, dto.QuizId);
+                Console.WriteLine("timer finished for quiz room: " + dto.roomId);
+                _stateService.StartQuiz(dto.roomId, dto.QuizId);
             };
 
             timer.Start(); // Start the timer
-            _stateService.SetupTimers[dto.QuizRoomId] = timer;
+            _stateService.SetupTimers[dto.roomId] = timer;
         }
 
         return Task.CompletedTask;
