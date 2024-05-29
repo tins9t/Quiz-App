@@ -168,11 +168,6 @@ class QuizBloc extends Bloc<BaseEvent, QuizState> {
       scores: event.scores,
       showScore: true,
     ));
-
-    if (state.showScore) {
-      String sessionId = await quizDataSource.createQuizSession(state.quizId);
-      print('Quiz session created with ID: $sessionId');
-    }
   }
 
   Future<void> _onServerTellsHowManyPeopleAnswered(
