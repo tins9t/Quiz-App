@@ -52,11 +52,18 @@ public class QuestionController : ControllerBase
         foreach (var questionWithAnswers in questionsWithAnswers)
         {
             var createdQuestion = _questionService.CreateQuestion(questionWithAnswers.Question);
+            Console.WriteLine("Created Question:");
+            Console.WriteLine($"Id: {createdQuestion.Id}");
+            Console.WriteLine($"Text: {createdQuestion.Text}");
 
             foreach (var answer in questionWithAnswers.Answers)
             {
                 answer.QuestionId = createdQuestion.Id;
                 _answerService.CreateAnswer(answer);
+                Console.WriteLine("Created Answer:");
+                Console.WriteLine($"Id: {answer.Id}");
+                Console.WriteLine($"Text: {answer.Text}");
+                Console.WriteLine($"QuestionId for Answer: {answer.QuestionId}");
             }
 
             createdQuestionsWithAnswers.Add(new QuestionWithAnswers
@@ -68,6 +75,7 @@ public class QuestionController : ControllerBase
 
         return createdQuestionsWithAnswers;
     }
+
 
     [Route("api/question/delete/by/{quizId}")]
     [HttpDelete]

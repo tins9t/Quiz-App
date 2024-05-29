@@ -12,12 +12,20 @@ class UserQuizListWidget extends StatefulWidget {
 }
 
 class _UserQuizListWidgetState extends State<UserQuizListWidget> {
+  Future<List<Quiz>>? _quizzesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _quizzesFuture = _fetchQuizzes();
+  }
+
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return FutureBuilder<List<Quiz>>(
-      future: _fetchQuizzes(),
+      future: _quizzesFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -49,36 +57,48 @@ class _UserQuizListWidgetState extends State<UserQuizListWidget> {
               Expanded(
                 child: isSmallScreen
                     ? ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          final Quiz quiz = snapshot.data![index];
-                          return Flexible(
-                            child: BoxWidget(
-                              quiz: quiz,
-                              showEditIcon: true,
-                              showTrashIcon: true,
-                              showPrivacyToggle: true,
-                            ),
-                          );
-                        },
-                      )
-                    : GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 0.9),
-                        ),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          final Quiz quiz = snapshot.data![index];
-                          return BoxWidget(
-                            quiz: quiz,
-                            showEditIcon: true,
-                            showTrashIcon: true,
-                            showPrivacyToggle: true,
-                          );
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final Quiz quiz = snapshot.data![index];
+                    return Flexible(
+                      child: BoxWidget(
+                        quiz: quiz,
+                        showEditIcon: true,
+                        showTrashIcon: true,
+                        showPrivacyToggle: true,
+                        onDelete: () {
+                          setState(() {
+                            // Remove the deleted quiz from the list
+                            snapshot.data!.removeAt(index);
+                          });
                         },
                       ),
+                    );
+                  },
+                )
+                    : GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 0.9),
+                  ),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final Quiz quiz = snapshot.data![index];
+                    return BoxWidget(
+                      quiz: quiz,
+                      showEditIcon: true,
+                      showTrashIcon: true,
+                      showPrivacyToggle: true,
+                      onDelete: () {
+                        setState(() {
+                          // Remove the deleted quiz from the list
+                          snapshot.data!.removeAt(index);
+                        });
+                      },
+                    );
+                  },
+                ),
               ),
             ],
           );

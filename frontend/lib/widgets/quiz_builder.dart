@@ -87,6 +87,9 @@ class QuizBuilderState extends State<QuizBuilder> {
   }
 
   void saveQuiz() async {
+    if (!_validateQuiz()) {
+      return;
+    }
     setState(() {
       isSaving = true;
     });
@@ -101,6 +104,37 @@ class QuizBuilderState extends State<QuizBuilder> {
       rethrow;
     }
   }
+
+  bool _validateQuiz() {
+    if (questions.isEmpty) {
+      _showSnackBar('There must be at least one question.');
+      return false;
+    }
+
+    for (var question in questions) {
+      if (question.answers.length < 2) {
+        _showSnackBar('Each question must have at least two answers.');
+        return false;
+      }
+
+      if (!question.answers.any((answer) => answer.correct)) {
+        _showSnackBar('Each question must have at least one correct answer.');
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
 
   /// Convert List<EditingQuestion> to List<QuestionWithAnswers>
   List<QuestionWithAnswers> convertQuestionsToEntities(

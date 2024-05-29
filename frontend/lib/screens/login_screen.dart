@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/quiz_joining_screen.dart';
 import 'package:lottie/lottie.dart';
@@ -31,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       MaterialPageRoute(builder: (context) => RegisterScreen()),
     );
   }
+
   void _navigateToQuizJoiningScreen(BuildContext context) {
     Navigator.push(
       context,
@@ -50,7 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     bool isSmallScreen = width < 600;
-    const JoinQuizButton();
     return Scaffold(
       backgroundColor: Colors.indigo[300],
       body: Center(
@@ -246,18 +247,45 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                           ),
-                        ),],
+                        ),
+                      ],
                     ),
-                    const JoinQuizButton(),
-                    ],
+                  ],
                 ),
               ),
             ),
-
           ),
         ),
       ),
       resizeToAvoidBottomInset: false,
+      bottomNavigationBar: Visibility(
+        visible: !kIsWeb,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          color: Colors.indigo[300],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Psst.. click here if you want to join a Quiz without logging in.',
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  // Navigate to the Quiz Joining Screen
+                  _navigateToQuizJoiningScreen(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.indigo[700],
+                ),
+                child: Text('Join Quiz'),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -293,24 +321,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     }
-  }
-}
-class JoinQuizButton extends StatelessWidget {
-  const JoinQuizButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton (
-      onPressed: () {
-        // Navigate to HomePage
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const QuizJoiningScreen()),
-        );
-      },
-      child: const Text('Join a Quiz without logging in'),
-    );
   }
 }

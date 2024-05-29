@@ -103,7 +103,7 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
           final dataSource = context.read<QuestionDataSource>();
           if(!isEditing){
           await dataSource.createQuestionsWithAnswers(questionsWithAnswers: questions);}
-          else{
+          if(isEditing){
             dataSource.deleteQuestionsByQuizId(quizId: quizId);
             dataSource.createQuestionsWithAnswers(questionsWithAnswers: questions);
           }

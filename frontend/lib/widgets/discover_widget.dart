@@ -34,17 +34,25 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
           child: Row(
             children: [
               Expanded(
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search...',
-                    border: OutlineInputBorder(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey),
+                    ),
                   ),
-                  onSubmitted: (query) {
-                    setState(() {
-                      _performSearch(query);
-                    });
-                  },
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Search...',
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    onSubmitted: (query) {
+                      setState(() {
+                        _performSearch(query);
+                      });
+                    },
+                  ),
                 ),
               ),
               SizedBox(width: 10),
@@ -55,6 +63,10 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                   });
                 },
                 child: Text('Search'),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.indigo[700],
+                ),
               ),
             ],
           ),
@@ -67,6 +79,12 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
   }
 
   Widget _buildSearchResultsWidget() {
+    if (_searchController.text.isEmpty) {
+      return Center(
+        child: Text('Input search query to display quizzes'),
+      );
+    }
+
     return FutureBuilder<List<Quiz>>(
       future: context
           .read<QuizDataSource>()
