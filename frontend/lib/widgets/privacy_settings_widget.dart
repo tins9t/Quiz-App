@@ -64,14 +64,11 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
               content: 'Are you sure you want to change your password?',
               onConfirm: () {
                 try {
+                  _serverErrors = null;
                   context.read<UserDataSource>().updatePassword(
                       context: context,
                       password: _oldPasswordController.value.text,
                       newPassword: _newPasswordController.value.text);
-                } on ApiError catch (e) {
-                  _serverErrors = e.errors;
-                }
-                if (_formKey.currentState?.validate() ?? false) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       behavior: SnackBarBehavior.floating,
@@ -82,7 +79,8 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
                         height: 90,
                         decoration: BoxDecoration(
                           color: Colors.green[700],
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(20)),
                         ),
                         child: Center(
                           child: Text(
@@ -91,6 +89,8 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
                       ),
                     ),
                   );
+                } on ApiError catch (e) {
+                  _serverErrors = e.errors;
                 }
                 _formKey.currentState?.validate();
               },
@@ -98,13 +98,13 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
           },
           child: Text('Save Changes'),
         ),
-        SizedBox(height: 200),
+        Spacer(), // This will push the following button to the bottom
         ElevatedButton(
           onPressed: () {
             ConfirmationDialog(
               title: 'Delete',
               content:
-                  'Are you sure you want to delete your user? Your data will not be saved.',
+              'Are you sure you want to delete your user? Your data will not be saved.',
               onConfirm: () {
                 context.read<UserDataSource>().deleteUser(context: context);
                 Navigator.pop(context);
@@ -123,3 +123,4 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
     );
   }
 }
+

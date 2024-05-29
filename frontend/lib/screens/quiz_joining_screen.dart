@@ -29,6 +29,7 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
     _roomIdController.addListener(_updateButtonState);
     _usernameController.addListener(_updateButtonState);
 
+
     // Listen for changes in QuizBloc state
     context.read<QuizBloc>().stream.listen((state) async {
       if (context

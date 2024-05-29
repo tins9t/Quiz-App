@@ -7,10 +7,16 @@ public class ValidationUsernameExist : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? username, ValidationContext validationContext)
     {
-        var service = validationContext.GetService(typeof(UserService)) as UserService;
-        if (username is string)
+        if (username == null || string.IsNullOrEmpty(username.ToString())) // For edit user
         {
-            if(!service.DoesUsernameExist(username as string)){
+            return ValidationResult.Success;
+        }
+
+        var service = validationContext.GetService(typeof(UserService)) as UserService;
+        if (service != null && username is string usernameStr)
+        {
+            if (!service.DoesUsernameExist(usernameStr))
+            {
                 return ValidationResult.Success;
             }
         }

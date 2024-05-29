@@ -7,10 +7,16 @@ public class ValidationEmailExist : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? email, ValidationContext validationContext)
     {
-        var service = validationContext.GetService(typeof(UserService)) as UserService;
-        if (email is string)
+        if (email == null || string.IsNullOrEmpty(email.ToString())) // For edit user
         {
-            if(!service.DoesEmailExist(email as string)){
+            return ValidationResult.Success;
+        }
+
+        var service = validationContext.GetService(typeof(UserService)) as UserService;
+        if (service != null && email is string emailStr)
+        {
+            if (!service.DoesEmailExist(emailStr))
+            {
                 return ValidationResult.Success;
             }
         }

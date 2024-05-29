@@ -71,29 +71,37 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ConfirmationDialog(
               title: 'Change credentials',
               content: 'Are you sure you want to save your changes?',
-              onConfirm: () {
-                context.read<UserDataSource>().updateUser(
-                    context: context,
-                    username: _newUsernameController.value.text,
-                    email: _newEmailController.value.text);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    content: Container(
-                      padding: EdgeInsets.all(16),
-                      height: 90,
-                      decoration: BoxDecoration(
-                        color: Colors.green[700],
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Center(
-                        child: Text('Your changes have succesfully been saved'),
+              onConfirm: () async {
+                try {
+                  _serverErrors = null;
+                  await context.read<UserDataSource>().updateUser(
+                      context: context,
+                      username: _newUsernameController.value.text,
+                      email: _newEmailController.value.text);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      content: Container(
+                        padding: EdgeInsets.all(16),
+                        height: 90,
+                        decoration: BoxDecoration(
+                          color: Colors.green[700],
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Center(
+                          child:
+                              Text('Your changes have successfully been saved'),
+                        ),
                       ),
                     ),
-                  ),
-                );
+                  );
+                } on ApiError catch (e) {
+                  _serverErrors = e.errors;
+                  print(_serverErrors);
+                }
+                _formKey.currentState?.validate();
               },
             ).show(context);
           },
