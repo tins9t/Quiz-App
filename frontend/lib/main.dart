@@ -44,7 +44,7 @@ class QuizApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => QuizBloc(
-        channel: WebSocketChannelWrapper().connect(wsUrl),
+        channel: WebSocketChannelWrapper().connect(wsUrl), quizDataSource: context.read<QuizDataSource>(),
       ),
       child: MaterialApp(
         title: 'Quiz App',

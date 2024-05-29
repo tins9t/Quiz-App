@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/quiz_state.dart';
+import 'package:frontend/data/quiz_data_source.dart';
 import 'package:frontend/models/entities.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../models/events.dart';
@@ -9,9 +10,11 @@ import '../models/events.dart';
 class QuizBloc extends Bloc<BaseEvent, QuizState> {
   final WebSocketChannel _channel;
   late StreamSubscription _channelSubscription;
+  final QuizDataSource quizDataSource;
 
   QuizBloc({
     required channel,
+    required this.quizDataSource,
   })  : _channel = channel,
         super(QuizState.empty()) {
     print('WebSocket connection established');
@@ -72,6 +75,13 @@ class QuizBloc extends Bloc<BaseEvent, QuizState> {
         showScore: false,
       ));
     }
+    if (event is ClientWantsToSetupQuiz) {
+      emit(state.copyWith(
+        quizId: event.quizId,
+        roomId: event.roomId,
+      ));
+    }
+
   }
 
   Future<void> clientWantsToEnterRoom(int roomId, String username) async {
@@ -158,6 +168,11 @@ class QuizBloc extends Bloc<BaseEvent, QuizState> {
       scores: event.scores,
       showScore: true,
     ));
+
+    if (state.showScore) {
+      String sessionId = await quizDataSource.createQuizSession(state.quizId);
+      print('Quiz session created with ID: $sessionId');
+    }
   }
 
   Future<void> _onServerTellsHowManyPeopleAnswered(

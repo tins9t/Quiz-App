@@ -93,5 +93,12 @@ public class QuizController : ControllerBase
     {
         return _quizService.GetQuizzesByPopularity();
     }
+    
+    [Route("api/quiz/session/{quizId}")]
+    [HttpPost]
+    public string CreateQuizSession([FromRoute] string quizId)
+    {
+        return _quizService.AddQuizSession(quizId);
+    }
 }
 
