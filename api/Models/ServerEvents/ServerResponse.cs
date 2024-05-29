@@ -43,5 +43,11 @@ public abstract class ServerMessage
         
         public int RoomId { get; set; }
     }
+    public class ServerCurrentQuestionInfo : BaseDto
+    {
+        public string eventType { get; set; }
+        public int currentQuestionIndex { get; set; }
+        public int totalQuestions { get; set; }
+    }
     
 }

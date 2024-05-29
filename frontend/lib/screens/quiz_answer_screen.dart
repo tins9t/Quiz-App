@@ -75,6 +75,7 @@ class AnswerScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(''),
         backgroundColor: Colors.indigo[300],
+        automaticallyImplyLeading: false,
       ),
       body: BlocBuilder<QuizBloc, QuizState>(
         builder: (context, state) {
@@ -83,7 +84,8 @@ class AnswerScreen extends StatelessWidget {
             WidgetsBinding.instance!.addPostFrameCallback((_) {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const QuizVictoryScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const QuizVictoryScreen()),
               );
             });
           }

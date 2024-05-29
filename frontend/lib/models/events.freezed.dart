@@ -18,6 +18,8 @@ ClientEvent _$ClientEventFromJson(Map<String, dynamic> json) {
   switch (json['eventType']) {
     case 'ClientWantsToEnterRoom':
       return ClientWantsToEnterRoom.fromJson(json);
+    case 'ClientWantsToResetQuiz':
+      return ClientWantsToResetQuiz.fromJson(json);
     case 'ClientWantsToAnswerQuestion':
       return ClientWantsToAnswerQuestion.fromJson(json);
     case 'ClientWantsToKickAllUsers':
@@ -42,6 +44,7 @@ mixin _$ClientEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(int roomId, String username)
         clientWantsToEnterRoom,
+    required TResult Function(int roomId) clientWantsToResetQuiz,
     required TResult Function(int answerId, String username, int roomId)
         clientWantsToAnswerQuestion,
     required TResult Function(int roomId) clientWantsToKickAllUsers,
@@ -57,6 +60,7 @@ mixin _$ClientEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult? Function(int roomId)? clientWantsToResetQuiz,
     TResult? Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult? Function(int roomId)? clientWantsToKickAllUsers,
@@ -72,6 +76,7 @@ mixin _$ClientEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult Function(int roomId)? clientWantsToResetQuiz,
     TResult Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult Function(int roomId)? clientWantsToKickAllUsers,
@@ -89,6 +94,8 @@ mixin _$ClientEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(ClientWantsToEnterRoom value)
         clientWantsToEnterRoom,
+    required TResult Function(ClientWantsToResetQuiz value)
+        clientWantsToResetQuiz,
     required TResult Function(ClientWantsToAnswerQuestion value)
         clientWantsToAnswerQuestion,
     required TResult Function(ClientWantsToKickAllUsers value)
@@ -104,6 +111,7 @@ mixin _$ClientEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult? Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult? Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult? Function(ClientWantsToKickAllUsers value)?
@@ -117,6 +125,7 @@ mixin _$ClientEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult Function(ClientWantsToKickAllUsers value)?
@@ -267,6 +276,7 @@ class _$ClientWantsToEnterRoomImpl
   TResult when<TResult extends Object?>({
     required TResult Function(int roomId, String username)
         clientWantsToEnterRoom,
+    required TResult Function(int roomId) clientWantsToResetQuiz,
     required TResult Function(int answerId, String username, int roomId)
         clientWantsToAnswerQuestion,
     required TResult Function(int roomId) clientWantsToKickAllUsers,
@@ -285,6 +295,7 @@ class _$ClientWantsToEnterRoomImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult? Function(int roomId)? clientWantsToResetQuiz,
     TResult? Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult? Function(int roomId)? clientWantsToKickAllUsers,
@@ -303,6 +314,7 @@ class _$ClientWantsToEnterRoomImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult Function(int roomId)? clientWantsToResetQuiz,
     TResult Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult Function(int roomId)? clientWantsToKickAllUsers,
@@ -326,6 +338,8 @@ class _$ClientWantsToEnterRoomImpl
   TResult map<TResult extends Object?>({
     required TResult Function(ClientWantsToEnterRoom value)
         clientWantsToEnterRoom,
+    required TResult Function(ClientWantsToResetQuiz value)
+        clientWantsToResetQuiz,
     required TResult Function(ClientWantsToAnswerQuestion value)
         clientWantsToAnswerQuestion,
     required TResult Function(ClientWantsToKickAllUsers value)
@@ -344,6 +358,7 @@ class _$ClientWantsToEnterRoomImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult? Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult? Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult? Function(ClientWantsToKickAllUsers value)?
@@ -360,6 +375,7 @@ class _$ClientWantsToEnterRoomImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult Function(ClientWantsToKickAllUsers value)?
@@ -398,6 +414,235 @@ abstract class ClientWantsToEnterRoom implements ClientEvent {
   @override
   @JsonKey(ignore: true)
   _$$ClientWantsToEnterRoomImplCopyWith<_$ClientWantsToEnterRoomImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ClientWantsToResetQuizImplCopyWith<$Res>
+    implements $ClientEventCopyWith<$Res> {
+  factory _$$ClientWantsToResetQuizImplCopyWith(
+          _$ClientWantsToResetQuizImpl value,
+          $Res Function(_$ClientWantsToResetQuizImpl) then) =
+      __$$ClientWantsToResetQuizImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int roomId});
+}
+
+/// @nodoc
+class __$$ClientWantsToResetQuizImplCopyWithImpl<$Res>
+    extends _$ClientEventCopyWithImpl<$Res, _$ClientWantsToResetQuizImpl>
+    implements _$$ClientWantsToResetQuizImplCopyWith<$Res> {
+  __$$ClientWantsToResetQuizImplCopyWithImpl(
+      _$ClientWantsToResetQuizImpl _value,
+      $Res Function(_$ClientWantsToResetQuizImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? roomId = null,
+  }) {
+    return _then(_$ClientWantsToResetQuizImpl(
+      roomId: null == roomId
+          ? _value.roomId
+          : roomId // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ClientWantsToResetQuizImpl
+    with DiagnosticableTreeMixin
+    implements ClientWantsToResetQuiz {
+  const _$ClientWantsToResetQuizImpl(
+      {required this.roomId, final String? $type})
+      : $type = $type ?? 'ClientWantsToResetQuiz';
+
+  factory _$ClientWantsToResetQuizImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ClientWantsToResetQuizImplFromJson(json);
+
+  @override
+  final int roomId;
+
+  @JsonKey(name: 'eventType')
+  final String $type;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ClientEvent.clientWantsToResetQuiz(roomId: $roomId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ClientEvent.clientWantsToResetQuiz'))
+      ..add(DiagnosticsProperty('roomId', roomId));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ClientWantsToResetQuizImpl &&
+            (identical(other.roomId, roomId) || other.roomId == roomId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, roomId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ClientWantsToResetQuizImplCopyWith<_$ClientWantsToResetQuizImpl>
+      get copyWith => __$$ClientWantsToResetQuizImplCopyWithImpl<
+          _$ClientWantsToResetQuizImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int roomId, String username)
+        clientWantsToEnterRoom,
+    required TResult Function(int roomId) clientWantsToResetQuiz,
+    required TResult Function(int answerId, String username, int roomId)
+        clientWantsToAnswerQuestion,
+    required TResult Function(int roomId) clientWantsToKickAllUsers,
+    required TResult Function(int roomId, String username)
+        clientWantsToKickUserFromRoom,
+    required TResult Function(
+            String quizId, String username, int roomId, int setupTimer)
+        clientWantsToSetupQuiz,
+    required TResult Function(String username, String quizId, int roomId)
+        clientWantsToStartQuiz,
+  }) {
+    return clientWantsToResetQuiz(roomId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult? Function(int roomId)? clientWantsToResetQuiz,
+    TResult? Function(int answerId, String username, int roomId)?
+        clientWantsToAnswerQuestion,
+    TResult? Function(int roomId)? clientWantsToKickAllUsers,
+    TResult? Function(int roomId, String username)?
+        clientWantsToKickUserFromRoom,
+    TResult? Function(
+            String quizId, String username, int roomId, int setupTimer)?
+        clientWantsToSetupQuiz,
+    TResult? Function(String username, String quizId, int roomId)?
+        clientWantsToStartQuiz,
+  }) {
+    return clientWantsToResetQuiz?.call(roomId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult Function(int roomId)? clientWantsToResetQuiz,
+    TResult Function(int answerId, String username, int roomId)?
+        clientWantsToAnswerQuestion,
+    TResult Function(int roomId)? clientWantsToKickAllUsers,
+    TResult Function(int roomId, String username)?
+        clientWantsToKickUserFromRoom,
+    TResult Function(
+            String quizId, String username, int roomId, int setupTimer)?
+        clientWantsToSetupQuiz,
+    TResult Function(String username, String quizId, int roomId)?
+        clientWantsToStartQuiz,
+    required TResult orElse(),
+  }) {
+    if (clientWantsToResetQuiz != null) {
+      return clientWantsToResetQuiz(roomId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ClientWantsToEnterRoom value)
+        clientWantsToEnterRoom,
+    required TResult Function(ClientWantsToResetQuiz value)
+        clientWantsToResetQuiz,
+    required TResult Function(ClientWantsToAnswerQuestion value)
+        clientWantsToAnswerQuestion,
+    required TResult Function(ClientWantsToKickAllUsers value)
+        clientWantsToKickAllUsers,
+    required TResult Function(clientWantsToKickUserFromRoom value)
+        clientWantsToKickUserFromRoom,
+    required TResult Function(ClientWantsToSetupQuiz value)
+        clientWantsToSetupQuiz,
+    required TResult Function(ClientWantsToStartQuiz value)
+        clientWantsToStartQuiz,
+  }) {
+    return clientWantsToResetQuiz(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult? Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
+    TResult? Function(ClientWantsToAnswerQuestion value)?
+        clientWantsToAnswerQuestion,
+    TResult? Function(ClientWantsToKickAllUsers value)?
+        clientWantsToKickAllUsers,
+    TResult? Function(clientWantsToKickUserFromRoom value)?
+        clientWantsToKickUserFromRoom,
+    TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
+    TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+  }) {
+    return clientWantsToResetQuiz?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
+    TResult Function(ClientWantsToAnswerQuestion value)?
+        clientWantsToAnswerQuestion,
+    TResult Function(ClientWantsToKickAllUsers value)?
+        clientWantsToKickAllUsers,
+    TResult Function(clientWantsToKickUserFromRoom value)?
+        clientWantsToKickUserFromRoom,
+    TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
+    TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    required TResult orElse(),
+  }) {
+    if (clientWantsToResetQuiz != null) {
+      return clientWantsToResetQuiz(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ClientWantsToResetQuizImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ClientWantsToResetQuiz implements ClientEvent {
+  const factory ClientWantsToResetQuiz({required final int roomId}) =
+      _$ClientWantsToResetQuizImpl;
+
+  factory ClientWantsToResetQuiz.fromJson(Map<String, dynamic> json) =
+      _$ClientWantsToResetQuizImpl.fromJson;
+
+  @override
+  int get roomId;
+  @override
+  @JsonKey(ignore: true)
+  _$$ClientWantsToResetQuizImplCopyWith<_$ClientWantsToResetQuizImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -516,6 +761,7 @@ class _$ClientWantsToAnswerQuestionImpl
   TResult when<TResult extends Object?>({
     required TResult Function(int roomId, String username)
         clientWantsToEnterRoom,
+    required TResult Function(int roomId) clientWantsToResetQuiz,
     required TResult Function(int answerId, String username, int roomId)
         clientWantsToAnswerQuestion,
     required TResult Function(int roomId) clientWantsToKickAllUsers,
@@ -534,6 +780,7 @@ class _$ClientWantsToAnswerQuestionImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult? Function(int roomId)? clientWantsToResetQuiz,
     TResult? Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult? Function(int roomId)? clientWantsToKickAllUsers,
@@ -552,6 +799,7 @@ class _$ClientWantsToAnswerQuestionImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult Function(int roomId)? clientWantsToResetQuiz,
     TResult Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult Function(int roomId)? clientWantsToKickAllUsers,
@@ -575,6 +823,8 @@ class _$ClientWantsToAnswerQuestionImpl
   TResult map<TResult extends Object?>({
     required TResult Function(ClientWantsToEnterRoom value)
         clientWantsToEnterRoom,
+    required TResult Function(ClientWantsToResetQuiz value)
+        clientWantsToResetQuiz,
     required TResult Function(ClientWantsToAnswerQuestion value)
         clientWantsToAnswerQuestion,
     required TResult Function(ClientWantsToKickAllUsers value)
@@ -593,6 +843,7 @@ class _$ClientWantsToAnswerQuestionImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult? Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult? Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult? Function(ClientWantsToKickAllUsers value)?
@@ -609,6 +860,7 @@ class _$ClientWantsToAnswerQuestionImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult Function(ClientWantsToKickAllUsers value)?
@@ -743,6 +995,7 @@ class _$ClientWantsToKickAllUsersImpl
   TResult when<TResult extends Object?>({
     required TResult Function(int roomId, String username)
         clientWantsToEnterRoom,
+    required TResult Function(int roomId) clientWantsToResetQuiz,
     required TResult Function(int answerId, String username, int roomId)
         clientWantsToAnswerQuestion,
     required TResult Function(int roomId) clientWantsToKickAllUsers,
@@ -761,6 +1014,7 @@ class _$ClientWantsToKickAllUsersImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult? Function(int roomId)? clientWantsToResetQuiz,
     TResult? Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult? Function(int roomId)? clientWantsToKickAllUsers,
@@ -779,6 +1033,7 @@ class _$ClientWantsToKickAllUsersImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult Function(int roomId)? clientWantsToResetQuiz,
     TResult Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult Function(int roomId)? clientWantsToKickAllUsers,
@@ -802,6 +1057,8 @@ class _$ClientWantsToKickAllUsersImpl
   TResult map<TResult extends Object?>({
     required TResult Function(ClientWantsToEnterRoom value)
         clientWantsToEnterRoom,
+    required TResult Function(ClientWantsToResetQuiz value)
+        clientWantsToResetQuiz,
     required TResult Function(ClientWantsToAnswerQuestion value)
         clientWantsToAnswerQuestion,
     required TResult Function(ClientWantsToKickAllUsers value)
@@ -820,6 +1077,7 @@ class _$ClientWantsToKickAllUsersImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult? Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult? Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult? Function(ClientWantsToKickAllUsers value)?
@@ -836,6 +1094,7 @@ class _$ClientWantsToKickAllUsersImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult Function(ClientWantsToKickAllUsers value)?
@@ -978,6 +1237,7 @@ class _$clientWantsToKickUserFromRoomImpl
   TResult when<TResult extends Object?>({
     required TResult Function(int roomId, String username)
         clientWantsToEnterRoom,
+    required TResult Function(int roomId) clientWantsToResetQuiz,
     required TResult Function(int answerId, String username, int roomId)
         clientWantsToAnswerQuestion,
     required TResult Function(int roomId) clientWantsToKickAllUsers,
@@ -996,6 +1256,7 @@ class _$clientWantsToKickUserFromRoomImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult? Function(int roomId)? clientWantsToResetQuiz,
     TResult? Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult? Function(int roomId)? clientWantsToKickAllUsers,
@@ -1014,6 +1275,7 @@ class _$clientWantsToKickUserFromRoomImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult Function(int roomId)? clientWantsToResetQuiz,
     TResult Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult Function(int roomId)? clientWantsToKickAllUsers,
@@ -1037,6 +1299,8 @@ class _$clientWantsToKickUserFromRoomImpl
   TResult map<TResult extends Object?>({
     required TResult Function(ClientWantsToEnterRoom value)
         clientWantsToEnterRoom,
+    required TResult Function(ClientWantsToResetQuiz value)
+        clientWantsToResetQuiz,
     required TResult Function(ClientWantsToAnswerQuestion value)
         clientWantsToAnswerQuestion,
     required TResult Function(ClientWantsToKickAllUsers value)
@@ -1055,6 +1319,7 @@ class _$clientWantsToKickUserFromRoomImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult? Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult? Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult? Function(ClientWantsToKickAllUsers value)?
@@ -1071,6 +1336,7 @@ class _$clientWantsToKickUserFromRoomImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult Function(ClientWantsToKickAllUsers value)?
@@ -1237,6 +1503,7 @@ class _$ClientWantsToSetupQuizImpl
   TResult when<TResult extends Object?>({
     required TResult Function(int roomId, String username)
         clientWantsToEnterRoom,
+    required TResult Function(int roomId) clientWantsToResetQuiz,
     required TResult Function(int answerId, String username, int roomId)
         clientWantsToAnswerQuestion,
     required TResult Function(int roomId) clientWantsToKickAllUsers,
@@ -1255,6 +1522,7 @@ class _$ClientWantsToSetupQuizImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult? Function(int roomId)? clientWantsToResetQuiz,
     TResult? Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult? Function(int roomId)? clientWantsToKickAllUsers,
@@ -1273,6 +1541,7 @@ class _$ClientWantsToSetupQuizImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult Function(int roomId)? clientWantsToResetQuiz,
     TResult Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult Function(int roomId)? clientWantsToKickAllUsers,
@@ -1296,6 +1565,8 @@ class _$ClientWantsToSetupQuizImpl
   TResult map<TResult extends Object?>({
     required TResult Function(ClientWantsToEnterRoom value)
         clientWantsToEnterRoom,
+    required TResult Function(ClientWantsToResetQuiz value)
+        clientWantsToResetQuiz,
     required TResult Function(ClientWantsToAnswerQuestion value)
         clientWantsToAnswerQuestion,
     required TResult Function(ClientWantsToKickAllUsers value)
@@ -1314,6 +1585,7 @@ class _$ClientWantsToSetupQuizImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult? Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult? Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult? Function(ClientWantsToKickAllUsers value)?
@@ -1330,6 +1602,7 @@ class _$ClientWantsToSetupQuizImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult Function(ClientWantsToKickAllUsers value)?
@@ -1487,6 +1760,7 @@ class _$ClientWantsToStartQuizImpl
   TResult when<TResult extends Object?>({
     required TResult Function(int roomId, String username)
         clientWantsToEnterRoom,
+    required TResult Function(int roomId) clientWantsToResetQuiz,
     required TResult Function(int answerId, String username, int roomId)
         clientWantsToAnswerQuestion,
     required TResult Function(int roomId) clientWantsToKickAllUsers,
@@ -1505,6 +1779,7 @@ class _$ClientWantsToStartQuizImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult? Function(int roomId)? clientWantsToResetQuiz,
     TResult? Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult? Function(int roomId)? clientWantsToKickAllUsers,
@@ -1523,6 +1798,7 @@ class _$ClientWantsToStartQuizImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult Function(int roomId)? clientWantsToResetQuiz,
     TResult Function(int answerId, String username, int roomId)?
         clientWantsToAnswerQuestion,
     TResult Function(int roomId)? clientWantsToKickAllUsers,
@@ -1546,6 +1822,8 @@ class _$ClientWantsToStartQuizImpl
   TResult map<TResult extends Object?>({
     required TResult Function(ClientWantsToEnterRoom value)
         clientWantsToEnterRoom,
+    required TResult Function(ClientWantsToResetQuiz value)
+        clientWantsToResetQuiz,
     required TResult Function(ClientWantsToAnswerQuestion value)
         clientWantsToAnswerQuestion,
     required TResult Function(ClientWantsToKickAllUsers value)
@@ -1564,6 +1842,7 @@ class _$ClientWantsToStartQuizImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult? Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult? Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult? Function(ClientWantsToKickAllUsers value)?
@@ -1580,6 +1859,7 @@ class _$ClientWantsToStartQuizImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
     TResult Function(ClientWantsToAnswerQuestion value)?
         clientWantsToAnswerQuestion,
     TResult Function(ClientWantsToKickAllUsers value)?
@@ -1631,10 +1911,6 @@ ServerEvent _$ServerEventFromJson(Map<String, dynamic> json) {
       return ServerUserLeftRoom.fromJson(json);
     case 'ServerRemovesClientFromRoom':
       return ServerRemovesClientFromRoom.fromJson(json);
-    case 'ServerStartsQuiz':
-      return ServerStartsQuiz.fromJson(json);
-    case 'ServerFinishesQuiz':
-      return ServerFinishesQuiz.fromJson(json);
     case 'ServerResetsQuiz':
       return ServerResetsQuiz.fromJson(json);
     case 'ServerSetCurrentQuestion':
@@ -1647,6 +1923,8 @@ ServerEvent _$ServerEventFromJson(Map<String, dynamic> json) {
       return ServerTellsHowManyPeopleAnswered.fromJson(json);
     case 'ServerTellsUserJoinedRoom':
       return ServerTellsUserJoinedRoom.fromJson(json);
+    case 'ServerCurrentQuestionInfo':
+      return ServerCurrentQuestionInfo.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'eventType', 'ServerEvent',
@@ -1663,9 +1941,7 @@ mixin _$ServerEvent {
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -1673,6 +1949,8 @@ mixin _$ServerEvent {
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1681,15 +1959,15 @@ mixin _$ServerEvent {
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1698,15 +1976,15 @@ mixin _$ServerEvent {
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1717,8 +1995,6 @@ mixin _$ServerEvent {
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -1728,6 +2004,8 @@ mixin _$ServerEvent {
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1736,8 +2014,6 @@ mixin _$ServerEvent {
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -1746,6 +2022,8 @@ mixin _$ServerEvent {
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1754,8 +2032,6 @@ mixin _$ServerEvent {
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -1764,6 +2040,8 @@ mixin _$ServerEvent {
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1891,9 +2169,7 @@ class _$ServerAddsClientToRoomImpl
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -1901,6 +2177,8 @@ class _$ServerAddsClientToRoomImpl
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) {
     return serverAddsClientToRoom(roomId, liveConnections);
   }
@@ -1912,15 +2190,15 @@ class _$ServerAddsClientToRoomImpl
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) {
     return serverAddsClientToRoom?.call(roomId, liveConnections);
   }
@@ -1932,15 +2210,15 @@ class _$ServerAddsClientToRoomImpl
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverAddsClientToRoom != null) {
@@ -1957,8 +2235,6 @@ class _$ServerAddsClientToRoomImpl
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -1968,6 +2244,8 @@ class _$ServerAddsClientToRoomImpl
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) {
     return serverAddsClientToRoom(this);
   }
@@ -1979,8 +2257,6 @@ class _$ServerAddsClientToRoomImpl
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -1989,6 +2265,8 @@ class _$ServerAddsClientToRoomImpl
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) {
     return serverAddsClientToRoom?.call(this);
   }
@@ -2000,8 +2278,6 @@ class _$ServerAddsClientToRoomImpl
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -2010,6 +2286,8 @@ class _$ServerAddsClientToRoomImpl
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverAddsClientToRoom != null) {
@@ -2140,9 +2418,7 @@ class _$ServerUserLeftRoomImpl
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -2150,6 +2426,8 @@ class _$ServerUserLeftRoomImpl
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) {
     return serverUserLeftRoom(roomId, username);
   }
@@ -2161,15 +2439,15 @@ class _$ServerUserLeftRoomImpl
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) {
     return serverUserLeftRoom?.call(roomId, username);
   }
@@ -2181,15 +2459,15 @@ class _$ServerUserLeftRoomImpl
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverUserLeftRoom != null) {
@@ -2206,8 +2484,6 @@ class _$ServerUserLeftRoomImpl
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -2217,6 +2493,8 @@ class _$ServerUserLeftRoomImpl
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) {
     return serverUserLeftRoom(this);
   }
@@ -2228,8 +2506,6 @@ class _$ServerUserLeftRoomImpl
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -2238,6 +2514,8 @@ class _$ServerUserLeftRoomImpl
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) {
     return serverUserLeftRoom?.call(this);
   }
@@ -2249,8 +2527,6 @@ class _$ServerUserLeftRoomImpl
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -2259,6 +2535,8 @@ class _$ServerUserLeftRoomImpl
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverUserLeftRoom != null) {
@@ -2407,9 +2685,7 @@ class _$ServerRemovesClientFromRoomImpl
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -2417,6 +2693,8 @@ class _$ServerRemovesClientFromRoomImpl
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) {
     return serverRemovesClientFromRoom(roomId, username, liveConnections);
   }
@@ -2428,15 +2706,15 @@ class _$ServerRemovesClientFromRoomImpl
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) {
     return serverRemovesClientFromRoom?.call(roomId, username, liveConnections);
   }
@@ -2448,15 +2726,15 @@ class _$ServerRemovesClientFromRoomImpl
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverRemovesClientFromRoom != null) {
@@ -2473,8 +2751,6 @@ class _$ServerRemovesClientFromRoomImpl
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -2484,6 +2760,8 @@ class _$ServerRemovesClientFromRoomImpl
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) {
     return serverRemovesClientFromRoom(this);
   }
@@ -2495,8 +2773,6 @@ class _$ServerRemovesClientFromRoomImpl
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -2505,6 +2781,8 @@ class _$ServerRemovesClientFromRoomImpl
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) {
     return serverRemovesClientFromRoom?.call(this);
   }
@@ -2516,8 +2794,6 @@ class _$ServerRemovesClientFromRoomImpl
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -2526,6 +2802,8 @@ class _$ServerRemovesClientFromRoomImpl
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverRemovesClientFromRoom != null) {
@@ -2560,484 +2838,12 @@ abstract class ServerRemovesClientFromRoom implements ServerEvent {
 }
 
 /// @nodoc
-abstract class _$$ServerStartsQuizImplCopyWith<$Res> {
-  factory _$$ServerStartsQuizImplCopyWith(_$ServerStartsQuizImpl value,
-          $Res Function(_$ServerStartsQuizImpl) then) =
-      __$$ServerStartsQuizImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({QuizStatus status});
-}
-
-/// @nodoc
-class __$$ServerStartsQuizImplCopyWithImpl<$Res>
-    extends _$ServerEventCopyWithImpl<$Res, _$ServerStartsQuizImpl>
-    implements _$$ServerStartsQuizImplCopyWith<$Res> {
-  __$$ServerStartsQuizImplCopyWithImpl(_$ServerStartsQuizImpl _value,
-      $Res Function(_$ServerStartsQuizImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-  }) {
-    return _then(_$ServerStartsQuizImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as QuizStatus,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ServerStartsQuizImpl
-    with DiagnosticableTreeMixin
-    implements ServerStartsQuiz {
-  const _$ServerStartsQuizImpl({required this.status, final String? $type})
-      : $type = $type ?? 'ServerStartsQuiz';
-
-  factory _$ServerStartsQuizImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ServerStartsQuizImplFromJson(json);
-
-  @override
-  final QuizStatus status;
-
-  @JsonKey(name: 'eventType')
-  final String $type;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ServerEvent.serverStartsQuiz(status: $status)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'ServerEvent.serverStartsQuiz'))
-      ..add(DiagnosticsProperty('status', status));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ServerStartsQuizImpl &&
-            (identical(other.status, status) || other.status == status));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, status);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ServerStartsQuizImplCopyWith<_$ServerStartsQuizImpl> get copyWith =>
-      __$$ServerStartsQuizImplCopyWithImpl<_$ServerStartsQuizImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int roomId, int liveConnections)
-        serverAddsClientToRoom,
-    required TResult Function(int roomId, String username) serverUserLeftRoom,
-    required TResult Function(int roomId, String username, int liveConnections)
-        serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
-    required TResult Function(Question question, List<Answer> answers)
-        serverSetCurrentQuestion,
-    required TResult Function(int timeRemaining) serverTimeRemaining,
-    required TResult Function(Map<String, int> scores) serverShowScore,
-    required TResult Function(int peopleAnswered)
-        serverTellsHowManyPeopleAnswered,
-    required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
-  }) {
-    return serverStartsQuiz(status);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int roomId, int liveConnections)? serverAddsClientToRoom,
-    TResult? Function(int roomId, String username)? serverUserLeftRoom,
-    TResult? Function(int roomId, String username, int liveConnections)?
-        serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
-    TResult? Function(Question question, List<Answer> answers)?
-        serverSetCurrentQuestion,
-    TResult? Function(int timeRemaining)? serverTimeRemaining,
-    TResult? Function(Map<String, int> scores)? serverShowScore,
-    TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
-    TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
-  }) {
-    return serverStartsQuiz?.call(status);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int roomId, int liveConnections)? serverAddsClientToRoom,
-    TResult Function(int roomId, String username)? serverUserLeftRoom,
-    TResult Function(int roomId, String username, int liveConnections)?
-        serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
-    TResult Function(Question question, List<Answer> answers)?
-        serverSetCurrentQuestion,
-    TResult Function(int timeRemaining)? serverTimeRemaining,
-    TResult Function(Map<String, int> scores)? serverShowScore,
-    TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
-    TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
-    required TResult orElse(),
-  }) {
-    if (serverStartsQuiz != null) {
-      return serverStartsQuiz(status);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ServerAddsClientToRoom value)
-        serverAddsClientToRoom,
-    required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
-    required TResult Function(ServerRemovesClientFromRoom value)
-        serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
-    required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
-    required TResult Function(ServerSetCurrentQuestion value)
-        serverSetCurrentQuestion,
-    required TResult Function(ServerTimeRemaining value) serverTimeRemaining,
-    required TResult Function(ServerShowScore value) serverShowScore,
-    required TResult Function(ServerTellsHowManyPeopleAnswered value)
-        serverTellsHowManyPeopleAnswered,
-    required TResult Function(ServerTellsUserJoinedRoom value)
-        serverTellsUserJoinedRoom,
-  }) {
-    return serverStartsQuiz(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerAddsClientToRoom value)? serverAddsClientToRoom,
-    TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
-    TResult? Function(ServerRemovesClientFromRoom value)?
-        serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
-    TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
-    TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
-    TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
-    TResult? Function(ServerShowScore value)? serverShowScore,
-    TResult? Function(ServerTellsHowManyPeopleAnswered value)?
-        serverTellsHowManyPeopleAnswered,
-    TResult? Function(ServerTellsUserJoinedRoom value)?
-        serverTellsUserJoinedRoom,
-  }) {
-    return serverStartsQuiz?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerAddsClientToRoom value)? serverAddsClientToRoom,
-    TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
-    TResult Function(ServerRemovesClientFromRoom value)?
-        serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
-    TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
-    TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
-    TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
-    TResult Function(ServerShowScore value)? serverShowScore,
-    TResult Function(ServerTellsHowManyPeopleAnswered value)?
-        serverTellsHowManyPeopleAnswered,
-    TResult Function(ServerTellsUserJoinedRoom value)?
-        serverTellsUserJoinedRoom,
-    required TResult orElse(),
-  }) {
-    if (serverStartsQuiz != null) {
-      return serverStartsQuiz(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ServerStartsQuizImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class ServerStartsQuiz implements ServerEvent {
-  const factory ServerStartsQuiz({required final QuizStatus status}) =
-      _$ServerStartsQuizImpl;
-
-  factory ServerStartsQuiz.fromJson(Map<String, dynamic> json) =
-      _$ServerStartsQuizImpl.fromJson;
-
-  QuizStatus get status;
-  @JsonKey(ignore: true)
-  _$$ServerStartsQuizImplCopyWith<_$ServerStartsQuizImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ServerFinishesQuizImplCopyWith<$Res> {
-  factory _$$ServerFinishesQuizImplCopyWith(_$ServerFinishesQuizImpl value,
-          $Res Function(_$ServerFinishesQuizImpl) then) =
-      __$$ServerFinishesQuizImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({QuizStatus status});
-}
-
-/// @nodoc
-class __$$ServerFinishesQuizImplCopyWithImpl<$Res>
-    extends _$ServerEventCopyWithImpl<$Res, _$ServerFinishesQuizImpl>
-    implements _$$ServerFinishesQuizImplCopyWith<$Res> {
-  __$$ServerFinishesQuizImplCopyWithImpl(_$ServerFinishesQuizImpl _value,
-      $Res Function(_$ServerFinishesQuizImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-  }) {
-    return _then(_$ServerFinishesQuizImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as QuizStatus,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ServerFinishesQuizImpl
-    with DiagnosticableTreeMixin
-    implements ServerFinishesQuiz {
-  const _$ServerFinishesQuizImpl({required this.status, final String? $type})
-      : $type = $type ?? 'ServerFinishesQuiz';
-
-  factory _$ServerFinishesQuizImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ServerFinishesQuizImplFromJson(json);
-
-  @override
-  final QuizStatus status;
-
-  @JsonKey(name: 'eventType')
-  final String $type;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ServerEvent.serverFinishesQuiz(status: $status)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'ServerEvent.serverFinishesQuiz'))
-      ..add(DiagnosticsProperty('status', status));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ServerFinishesQuizImpl &&
-            (identical(other.status, status) || other.status == status));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, status);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ServerFinishesQuizImplCopyWith<_$ServerFinishesQuizImpl> get copyWith =>
-      __$$ServerFinishesQuizImplCopyWithImpl<_$ServerFinishesQuizImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(int roomId, int liveConnections)
-        serverAddsClientToRoom,
-    required TResult Function(int roomId, String username) serverUserLeftRoom,
-    required TResult Function(int roomId, String username, int liveConnections)
-        serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
-    required TResult Function(Question question, List<Answer> answers)
-        serverSetCurrentQuestion,
-    required TResult Function(int timeRemaining) serverTimeRemaining,
-    required TResult Function(Map<String, int> scores) serverShowScore,
-    required TResult Function(int peopleAnswered)
-        serverTellsHowManyPeopleAnswered,
-    required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
-  }) {
-    return serverFinishesQuiz(status);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int roomId, int liveConnections)? serverAddsClientToRoom,
-    TResult? Function(int roomId, String username)? serverUserLeftRoom,
-    TResult? Function(int roomId, String username, int liveConnections)?
-        serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
-    TResult? Function(Question question, List<Answer> answers)?
-        serverSetCurrentQuestion,
-    TResult? Function(int timeRemaining)? serverTimeRemaining,
-    TResult? Function(Map<String, int> scores)? serverShowScore,
-    TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
-    TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
-  }) {
-    return serverFinishesQuiz?.call(status);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int roomId, int liveConnections)? serverAddsClientToRoom,
-    TResult Function(int roomId, String username)? serverUserLeftRoom,
-    TResult Function(int roomId, String username, int liveConnections)?
-        serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
-    TResult Function(Question question, List<Answer> answers)?
-        serverSetCurrentQuestion,
-    TResult Function(int timeRemaining)? serverTimeRemaining,
-    TResult Function(Map<String, int> scores)? serverShowScore,
-    TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
-    TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
-    required TResult orElse(),
-  }) {
-    if (serverFinishesQuiz != null) {
-      return serverFinishesQuiz(status);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ServerAddsClientToRoom value)
-        serverAddsClientToRoom,
-    required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
-    required TResult Function(ServerRemovesClientFromRoom value)
-        serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
-    required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
-    required TResult Function(ServerSetCurrentQuestion value)
-        serverSetCurrentQuestion,
-    required TResult Function(ServerTimeRemaining value) serverTimeRemaining,
-    required TResult Function(ServerShowScore value) serverShowScore,
-    required TResult Function(ServerTellsHowManyPeopleAnswered value)
-        serverTellsHowManyPeopleAnswered,
-    required TResult Function(ServerTellsUserJoinedRoom value)
-        serverTellsUserJoinedRoom,
-  }) {
-    return serverFinishesQuiz(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerAddsClientToRoom value)? serverAddsClientToRoom,
-    TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
-    TResult? Function(ServerRemovesClientFromRoom value)?
-        serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
-    TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
-    TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
-    TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
-    TResult? Function(ServerShowScore value)? serverShowScore,
-    TResult? Function(ServerTellsHowManyPeopleAnswered value)?
-        serverTellsHowManyPeopleAnswered,
-    TResult? Function(ServerTellsUserJoinedRoom value)?
-        serverTellsUserJoinedRoom,
-  }) {
-    return serverFinishesQuiz?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerAddsClientToRoom value)? serverAddsClientToRoom,
-    TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
-    TResult Function(ServerRemovesClientFromRoom value)?
-        serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
-    TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
-    TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
-    TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
-    TResult Function(ServerShowScore value)? serverShowScore,
-    TResult Function(ServerTellsHowManyPeopleAnswered value)?
-        serverTellsHowManyPeopleAnswered,
-    TResult Function(ServerTellsUserJoinedRoom value)?
-        serverTellsUserJoinedRoom,
-    required TResult orElse(),
-  }) {
-    if (serverFinishesQuiz != null) {
-      return serverFinishesQuiz(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ServerFinishesQuizImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class ServerFinishesQuiz implements ServerEvent {
-  const factory ServerFinishesQuiz({required final QuizStatus status}) =
-      _$ServerFinishesQuizImpl;
-
-  factory ServerFinishesQuiz.fromJson(Map<String, dynamic> json) =
-      _$ServerFinishesQuizImpl.fromJson;
-
-  QuizStatus get status;
-  @JsonKey(ignore: true)
-  _$$ServerFinishesQuizImplCopyWith<_$ServerFinishesQuizImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
 abstract class _$$ServerResetsQuizImplCopyWith<$Res> {
   factory _$$ServerResetsQuizImplCopyWith(_$ServerResetsQuizImpl value,
           $Res Function(_$ServerResetsQuizImpl) then) =
       __$$ServerResetsQuizImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({QuizStatus status});
+  $Res call({String quizId});
 }
 
 /// @nodoc
@@ -3051,13 +2857,13 @@ class __$$ServerResetsQuizImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
+    Object? quizId = null,
   }) {
     return _then(_$ServerResetsQuizImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as QuizStatus,
+      quizId: null == quizId
+          ? _value.quizId
+          : quizId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -3067,21 +2873,21 @@ class __$$ServerResetsQuizImplCopyWithImpl<$Res>
 class _$ServerResetsQuizImpl
     with DiagnosticableTreeMixin
     implements ServerResetsQuiz {
-  const _$ServerResetsQuizImpl({required this.status, final String? $type})
+  const _$ServerResetsQuizImpl({required this.quizId, final String? $type})
       : $type = $type ?? 'ServerResetsQuiz';
 
   factory _$ServerResetsQuizImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServerResetsQuizImplFromJson(json);
 
   @override
-  final QuizStatus status;
+  final String quizId;
 
   @JsonKey(name: 'eventType')
   final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ServerEvent.serverResetsQuiz(status: $status)';
+    return 'ServerEvent.serverResetsQuiz(quizId: $quizId)';
   }
 
   @override
@@ -3089,7 +2895,7 @@ class _$ServerResetsQuizImpl
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'ServerEvent.serverResetsQuiz'))
-      ..add(DiagnosticsProperty('status', status));
+      ..add(DiagnosticsProperty('quizId', quizId));
   }
 
   @override
@@ -3097,12 +2903,12 @@ class _$ServerResetsQuizImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ServerResetsQuizImpl &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.quizId, quizId) || other.quizId == quizId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status);
+  int get hashCode => Object.hash(runtimeType, quizId);
 
   @JsonKey(ignore: true)
   @override
@@ -3119,9 +2925,7 @@ class _$ServerResetsQuizImpl
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -3129,8 +2933,10 @@ class _$ServerResetsQuizImpl
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) {
-    return serverResetsQuiz(status);
+    return serverResetsQuiz(quizId);
   }
 
   @override
@@ -3140,17 +2946,17 @@ class _$ServerResetsQuizImpl
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) {
-    return serverResetsQuiz?.call(status);
+    return serverResetsQuiz?.call(quizId);
   }
 
   @override
@@ -3160,19 +2966,19 @@ class _$ServerResetsQuizImpl
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverResetsQuiz != null) {
-      return serverResetsQuiz(status);
+      return serverResetsQuiz(quizId);
     }
     return orElse();
   }
@@ -3185,8 +2991,6 @@ class _$ServerResetsQuizImpl
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -3196,6 +3000,8 @@ class _$ServerResetsQuizImpl
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) {
     return serverResetsQuiz(this);
   }
@@ -3207,8 +3013,6 @@ class _$ServerResetsQuizImpl
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -3217,6 +3021,8 @@ class _$ServerResetsQuizImpl
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) {
     return serverResetsQuiz?.call(this);
   }
@@ -3228,8 +3034,6 @@ class _$ServerResetsQuizImpl
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -3238,6 +3042,8 @@ class _$ServerResetsQuizImpl
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverResetsQuiz != null) {
@@ -3255,13 +3061,13 @@ class _$ServerResetsQuizImpl
 }
 
 abstract class ServerResetsQuiz implements ServerEvent {
-  const factory ServerResetsQuiz({required final QuizStatus status}) =
+  const factory ServerResetsQuiz({required final String quizId}) =
       _$ServerResetsQuizImpl;
 
   factory ServerResetsQuiz.fromJson(Map<String, dynamic> json) =
       _$ServerResetsQuizImpl.fromJson;
 
-  QuizStatus get status;
+  String get quizId;
   @JsonKey(ignore: true)
   _$$ServerResetsQuizImplCopyWith<_$ServerResetsQuizImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -3387,9 +3193,7 @@ class _$ServerSetCurrentQuestionImpl
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -3397,6 +3201,8 @@ class _$ServerSetCurrentQuestionImpl
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) {
     return serverSetCurrentQuestion(question, answers);
   }
@@ -3408,15 +3214,15 @@ class _$ServerSetCurrentQuestionImpl
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) {
     return serverSetCurrentQuestion?.call(question, answers);
   }
@@ -3428,15 +3234,15 @@ class _$ServerSetCurrentQuestionImpl
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverSetCurrentQuestion != null) {
@@ -3453,8 +3259,6 @@ class _$ServerSetCurrentQuestionImpl
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -3464,6 +3268,8 @@ class _$ServerSetCurrentQuestionImpl
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) {
     return serverSetCurrentQuestion(this);
   }
@@ -3475,8 +3281,6 @@ class _$ServerSetCurrentQuestionImpl
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -3485,6 +3289,8 @@ class _$ServerSetCurrentQuestionImpl
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) {
     return serverSetCurrentQuestion?.call(this);
   }
@@ -3496,8 +3302,6 @@ class _$ServerSetCurrentQuestionImpl
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -3506,6 +3310,8 @@ class _$ServerSetCurrentQuestionImpl
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverSetCurrentQuestion != null) {
@@ -3627,9 +3433,7 @@ class _$ServerTimeRemainingImpl
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -3637,6 +3441,8 @@ class _$ServerTimeRemainingImpl
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) {
     return serverTimeRemaining(timeRemaining);
   }
@@ -3648,15 +3454,15 @@ class _$ServerTimeRemainingImpl
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) {
     return serverTimeRemaining?.call(timeRemaining);
   }
@@ -3668,15 +3474,15 @@ class _$ServerTimeRemainingImpl
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverTimeRemaining != null) {
@@ -3693,8 +3499,6 @@ class _$ServerTimeRemainingImpl
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -3704,6 +3508,8 @@ class _$ServerTimeRemainingImpl
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) {
     return serverTimeRemaining(this);
   }
@@ -3715,8 +3521,6 @@ class _$ServerTimeRemainingImpl
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -3725,6 +3529,8 @@ class _$ServerTimeRemainingImpl
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) {
     return serverTimeRemaining?.call(this);
   }
@@ -3736,8 +3542,6 @@ class _$ServerTimeRemainingImpl
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -3746,6 +3550,8 @@ class _$ServerTimeRemainingImpl
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverTimeRemaining != null) {
@@ -3871,9 +3677,7 @@ class _$ServerShowScoreImpl
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -3881,6 +3685,8 @@ class _$ServerShowScoreImpl
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) {
     return serverShowScore(scores);
   }
@@ -3892,15 +3698,15 @@ class _$ServerShowScoreImpl
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) {
     return serverShowScore?.call(scores);
   }
@@ -3912,15 +3718,15 @@ class _$ServerShowScoreImpl
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverShowScore != null) {
@@ -3937,8 +3743,6 @@ class _$ServerShowScoreImpl
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -3948,6 +3752,8 @@ class _$ServerShowScoreImpl
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) {
     return serverShowScore(this);
   }
@@ -3959,8 +3765,6 @@ class _$ServerShowScoreImpl
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -3969,6 +3773,8 @@ class _$ServerShowScoreImpl
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) {
     return serverShowScore?.call(this);
   }
@@ -3980,8 +3786,6 @@ class _$ServerShowScoreImpl
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -3990,6 +3794,8 @@ class _$ServerShowScoreImpl
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverShowScore != null) {
@@ -4115,9 +3921,7 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -4125,6 +3929,8 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) {
     return serverTellsHowManyPeopleAnswered(peopleAnswered);
   }
@@ -4136,15 +3942,15 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) {
     return serverTellsHowManyPeopleAnswered?.call(peopleAnswered);
   }
@@ -4156,15 +3962,15 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverTellsHowManyPeopleAnswered != null) {
@@ -4181,8 +3987,6 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -4192,6 +3996,8 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) {
     return serverTellsHowManyPeopleAnswered(this);
   }
@@ -4203,8 +4009,6 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -4213,6 +4017,8 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) {
     return serverTellsHowManyPeopleAnswered?.call(this);
   }
@@ -4224,8 +4030,6 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -4234,6 +4038,8 @@ class _$ServerTellsHowManyPeopleAnsweredImpl
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverTellsHowManyPeopleAnswered != null) {
@@ -4365,9 +4171,7 @@ class _$ServerTellsUserJoinedRoomImpl
     required TResult Function(int roomId, String username) serverUserLeftRoom,
     required TResult Function(int roomId, String username, int liveConnections)
         serverRemovesClientFromRoom,
-    required TResult Function(QuizStatus status) serverStartsQuiz,
-    required TResult Function(QuizStatus status) serverFinishesQuiz,
-    required TResult Function(QuizStatus status) serverResetsQuiz,
+    required TResult Function(String quizId) serverResetsQuiz,
     required TResult Function(Question question, List<Answer> answers)
         serverSetCurrentQuestion,
     required TResult Function(int timeRemaining) serverTimeRemaining,
@@ -4375,6 +4179,8 @@ class _$ServerTellsUserJoinedRoomImpl
     required TResult Function(int peopleAnswered)
         serverTellsHowManyPeopleAnswered,
     required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
   }) {
     return serverTellsUserJoinedRoom(Usernames);
   }
@@ -4386,15 +4192,15 @@ class _$ServerTellsUserJoinedRoomImpl
     TResult? Function(int roomId, String username)? serverUserLeftRoom,
     TResult? Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult? Function(QuizStatus status)? serverStartsQuiz,
-    TResult? Function(QuizStatus status)? serverFinishesQuiz,
-    TResult? Function(QuizStatus status)? serverResetsQuiz,
+    TResult? Function(String quizId)? serverResetsQuiz,
     TResult? Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult? Function(int timeRemaining)? serverTimeRemaining,
     TResult? Function(Map<String, int> scores)? serverShowScore,
     TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
   }) {
     return serverTellsUserJoinedRoom?.call(Usernames);
   }
@@ -4406,15 +4212,15 @@ class _$ServerTellsUserJoinedRoomImpl
     TResult Function(int roomId, String username)? serverUserLeftRoom,
     TResult Function(int roomId, String username, int liveConnections)?
         serverRemovesClientFromRoom,
-    TResult Function(QuizStatus status)? serverStartsQuiz,
-    TResult Function(QuizStatus status)? serverFinishesQuiz,
-    TResult Function(QuizStatus status)? serverResetsQuiz,
+    TResult Function(String quizId)? serverResetsQuiz,
     TResult Function(Question question, List<Answer> answers)?
         serverSetCurrentQuestion,
     TResult Function(int timeRemaining)? serverTimeRemaining,
     TResult Function(Map<String, int> scores)? serverShowScore,
     TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
     TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverTellsUserJoinedRoom != null) {
@@ -4431,8 +4237,6 @@ class _$ServerTellsUserJoinedRoomImpl
     required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
     required TResult Function(ServerRemovesClientFromRoom value)
         serverRemovesClientFromRoom,
-    required TResult Function(ServerStartsQuiz value) serverStartsQuiz,
-    required TResult Function(ServerFinishesQuiz value) serverFinishesQuiz,
     required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
     required TResult Function(ServerSetCurrentQuestion value)
         serverSetCurrentQuestion,
@@ -4442,6 +4246,8 @@ class _$ServerTellsUserJoinedRoomImpl
         serverTellsHowManyPeopleAnswered,
     required TResult Function(ServerTellsUserJoinedRoom value)
         serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
   }) {
     return serverTellsUserJoinedRoom(this);
   }
@@ -4453,8 +4259,6 @@ class _$ServerTellsUserJoinedRoomImpl
     TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult? Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult? Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult? Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -4463,6 +4267,8 @@ class _$ServerTellsUserJoinedRoomImpl
         serverTellsHowManyPeopleAnswered,
     TResult? Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
   }) {
     return serverTellsUserJoinedRoom?.call(this);
   }
@@ -4474,8 +4280,6 @@ class _$ServerTellsUserJoinedRoomImpl
     TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
     TResult Function(ServerRemovesClientFromRoom value)?
         serverRemovesClientFromRoom,
-    TResult Function(ServerStartsQuiz value)? serverStartsQuiz,
-    TResult Function(ServerFinishesQuiz value)? serverFinishesQuiz,
     TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
     TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
     TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
@@ -4484,6 +4288,8 @@ class _$ServerTellsUserJoinedRoomImpl
         serverTellsHowManyPeopleAnswered,
     TResult Function(ServerTellsUserJoinedRoom value)?
         serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
     required TResult orElse(),
   }) {
     if (serverTellsUserJoinedRoom != null) {
@@ -4511,5 +4317,262 @@ abstract class ServerTellsUserJoinedRoom implements ServerEvent {
   List<String> get Usernames;
   @JsonKey(ignore: true)
   _$$ServerTellsUserJoinedRoomImplCopyWith<_$ServerTellsUserJoinedRoomImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ServerCurrentQuestionInfoImplCopyWith<$Res> {
+  factory _$$ServerCurrentQuestionInfoImplCopyWith(
+          _$ServerCurrentQuestionInfoImpl value,
+          $Res Function(_$ServerCurrentQuestionInfoImpl) then) =
+      __$$ServerCurrentQuestionInfoImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int currentQuestionIndex, int totalQuestions});
+}
+
+/// @nodoc
+class __$$ServerCurrentQuestionInfoImplCopyWithImpl<$Res>
+    extends _$ServerEventCopyWithImpl<$Res, _$ServerCurrentQuestionInfoImpl>
+    implements _$$ServerCurrentQuestionInfoImplCopyWith<$Res> {
+  __$$ServerCurrentQuestionInfoImplCopyWithImpl(
+      _$ServerCurrentQuestionInfoImpl _value,
+      $Res Function(_$ServerCurrentQuestionInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currentQuestionIndex = null,
+    Object? totalQuestions = null,
+  }) {
+    return _then(_$ServerCurrentQuestionInfoImpl(
+      currentQuestionIndex: null == currentQuestionIndex
+          ? _value.currentQuestionIndex
+          : currentQuestionIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalQuestions: null == totalQuestions
+          ? _value.totalQuestions
+          : totalQuestions // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ServerCurrentQuestionInfoImpl
+    with DiagnosticableTreeMixin
+    implements ServerCurrentQuestionInfo {
+  const _$ServerCurrentQuestionInfoImpl(
+      {required this.currentQuestionIndex,
+      required this.totalQuestions,
+      final String? $type})
+      : $type = $type ?? 'ServerCurrentQuestionInfo';
+
+  factory _$ServerCurrentQuestionInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ServerCurrentQuestionInfoImplFromJson(json);
+
+  @override
+  final int currentQuestionIndex;
+  @override
+  final int totalQuestions;
+
+  @JsonKey(name: 'eventType')
+  final String $type;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ServerEvent.serverCurrentQuestionInfo(currentQuestionIndex: $currentQuestionIndex, totalQuestions: $totalQuestions)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'ServerEvent.serverCurrentQuestionInfo'))
+      ..add(DiagnosticsProperty('currentQuestionIndex', currentQuestionIndex))
+      ..add(DiagnosticsProperty('totalQuestions', totalQuestions));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ServerCurrentQuestionInfoImpl &&
+            (identical(other.currentQuestionIndex, currentQuestionIndex) ||
+                other.currentQuestionIndex == currentQuestionIndex) &&
+            (identical(other.totalQuestions, totalQuestions) ||
+                other.totalQuestions == totalQuestions));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, currentQuestionIndex, totalQuestions);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ServerCurrentQuestionInfoImplCopyWith<_$ServerCurrentQuestionInfoImpl>
+      get copyWith => __$$ServerCurrentQuestionInfoImplCopyWithImpl<
+          _$ServerCurrentQuestionInfoImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int roomId, int liveConnections)
+        serverAddsClientToRoom,
+    required TResult Function(int roomId, String username) serverUserLeftRoom,
+    required TResult Function(int roomId, String username, int liveConnections)
+        serverRemovesClientFromRoom,
+    required TResult Function(String quizId) serverResetsQuiz,
+    required TResult Function(Question question, List<Answer> answers)
+        serverSetCurrentQuestion,
+    required TResult Function(int timeRemaining) serverTimeRemaining,
+    required TResult Function(Map<String, int> scores) serverShowScore,
+    required TResult Function(int peopleAnswered)
+        serverTellsHowManyPeopleAnswered,
+    required TResult Function(List<String> Usernames) serverTellsUserJoinedRoom,
+    required TResult Function(int currentQuestionIndex, int totalQuestions)
+        serverCurrentQuestionInfo,
+  }) {
+    return serverCurrentQuestionInfo(currentQuestionIndex, totalQuestions);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int roomId, int liveConnections)? serverAddsClientToRoom,
+    TResult? Function(int roomId, String username)? serverUserLeftRoom,
+    TResult? Function(int roomId, String username, int liveConnections)?
+        serverRemovesClientFromRoom,
+    TResult? Function(String quizId)? serverResetsQuiz,
+    TResult? Function(Question question, List<Answer> answers)?
+        serverSetCurrentQuestion,
+    TResult? Function(int timeRemaining)? serverTimeRemaining,
+    TResult? Function(Map<String, int> scores)? serverShowScore,
+    TResult? Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
+    TResult? Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult? Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
+  }) {
+    return serverCurrentQuestionInfo?.call(
+        currentQuestionIndex, totalQuestions);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int roomId, int liveConnections)? serverAddsClientToRoom,
+    TResult Function(int roomId, String username)? serverUserLeftRoom,
+    TResult Function(int roomId, String username, int liveConnections)?
+        serverRemovesClientFromRoom,
+    TResult Function(String quizId)? serverResetsQuiz,
+    TResult Function(Question question, List<Answer> answers)?
+        serverSetCurrentQuestion,
+    TResult Function(int timeRemaining)? serverTimeRemaining,
+    TResult Function(Map<String, int> scores)? serverShowScore,
+    TResult Function(int peopleAnswered)? serverTellsHowManyPeopleAnswered,
+    TResult Function(List<String> Usernames)? serverTellsUserJoinedRoom,
+    TResult Function(int currentQuestionIndex, int totalQuestions)?
+        serverCurrentQuestionInfo,
+    required TResult orElse(),
+  }) {
+    if (serverCurrentQuestionInfo != null) {
+      return serverCurrentQuestionInfo(currentQuestionIndex, totalQuestions);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ServerAddsClientToRoom value)
+        serverAddsClientToRoom,
+    required TResult Function(ServerUserLeftRoom value) serverUserLeftRoom,
+    required TResult Function(ServerRemovesClientFromRoom value)
+        serverRemovesClientFromRoom,
+    required TResult Function(ServerResetsQuiz value) serverResetsQuiz,
+    required TResult Function(ServerSetCurrentQuestion value)
+        serverSetCurrentQuestion,
+    required TResult Function(ServerTimeRemaining value) serverTimeRemaining,
+    required TResult Function(ServerShowScore value) serverShowScore,
+    required TResult Function(ServerTellsHowManyPeopleAnswered value)
+        serverTellsHowManyPeopleAnswered,
+    required TResult Function(ServerTellsUserJoinedRoom value)
+        serverTellsUserJoinedRoom,
+    required TResult Function(ServerCurrentQuestionInfo value)
+        serverCurrentQuestionInfo,
+  }) {
+    return serverCurrentQuestionInfo(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ServerAddsClientToRoom value)? serverAddsClientToRoom,
+    TResult? Function(ServerUserLeftRoom value)? serverUserLeftRoom,
+    TResult? Function(ServerRemovesClientFromRoom value)?
+        serverRemovesClientFromRoom,
+    TResult? Function(ServerResetsQuiz value)? serverResetsQuiz,
+    TResult? Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
+    TResult? Function(ServerTimeRemaining value)? serverTimeRemaining,
+    TResult? Function(ServerShowScore value)? serverShowScore,
+    TResult? Function(ServerTellsHowManyPeopleAnswered value)?
+        serverTellsHowManyPeopleAnswered,
+    TResult? Function(ServerTellsUserJoinedRoom value)?
+        serverTellsUserJoinedRoom,
+    TResult? Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
+  }) {
+    return serverCurrentQuestionInfo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ServerAddsClientToRoom value)? serverAddsClientToRoom,
+    TResult Function(ServerUserLeftRoom value)? serverUserLeftRoom,
+    TResult Function(ServerRemovesClientFromRoom value)?
+        serverRemovesClientFromRoom,
+    TResult Function(ServerResetsQuiz value)? serverResetsQuiz,
+    TResult Function(ServerSetCurrentQuestion value)? serverSetCurrentQuestion,
+    TResult Function(ServerTimeRemaining value)? serverTimeRemaining,
+    TResult Function(ServerShowScore value)? serverShowScore,
+    TResult Function(ServerTellsHowManyPeopleAnswered value)?
+        serverTellsHowManyPeopleAnswered,
+    TResult Function(ServerTellsUserJoinedRoom value)?
+        serverTellsUserJoinedRoom,
+    TResult Function(ServerCurrentQuestionInfo value)?
+        serverCurrentQuestionInfo,
+    required TResult orElse(),
+  }) {
+    if (serverCurrentQuestionInfo != null) {
+      return serverCurrentQuestionInfo(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ServerCurrentQuestionInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ServerCurrentQuestionInfo implements ServerEvent {
+  const factory ServerCurrentQuestionInfo(
+      {required final int currentQuestionIndex,
+      required final int totalQuestions}) = _$ServerCurrentQuestionInfoImpl;
+
+  factory ServerCurrentQuestionInfo.fromJson(Map<String, dynamic> json) =
+      _$ServerCurrentQuestionInfoImpl.fromJson;
+
+  int get currentQuestionIndex;
+  int get totalQuestions;
+  @JsonKey(ignore: true)
+  _$$ServerCurrentQuestionInfoImplCopyWith<_$ServerCurrentQuestionInfoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -22,6 +22,20 @@ Map<String, dynamic> _$$ClientWantsToEnterRoomImplToJson(
       'eventType': instance.$type,
     };
 
+_$ClientWantsToResetQuizImpl _$$ClientWantsToResetQuizImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ClientWantsToResetQuizImpl(
+      roomId: (json['roomId'] as num).toInt(),
+      $type: json['eventType'] as String?,
+    );
+
+Map<String, dynamic> _$$ClientWantsToResetQuizImplToJson(
+        _$ClientWantsToResetQuizImpl instance) =>
+    <String, dynamic>{
+      'roomId': instance.roomId,
+      'eventType': instance.$type,
+    };
+
 _$ClientWantsToAnswerQuestionImpl _$$ClientWantsToAnswerQuestionImplFromJson(
         Map<String, dynamic> json) =>
     _$ClientWantsToAnswerQuestionImpl(
@@ -158,51 +172,17 @@ Map<String, dynamic> _$$ServerRemovesClientFromRoomImplToJson(
       'eventType': instance.$type,
     };
 
-_$ServerStartsQuizImpl _$$ServerStartsQuizImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ServerStartsQuizImpl(
-      status: $enumDecode(_$QuizStatusEnumMap, json['status']),
-      $type: json['eventType'] as String?,
-    );
-
-Map<String, dynamic> _$$ServerStartsQuizImplToJson(
-        _$ServerStartsQuizImpl instance) =>
-    <String, dynamic>{
-      'status': _$QuizStatusEnumMap[instance.status]!,
-      'eventType': instance.$type,
-    };
-
-const _$QuizStatusEnumMap = {
-  QuizStatus.notStarted: 'notStarted',
-  QuizStatus.inProgress: 'inProgress',
-  QuizStatus.finished: 'finished',
-};
-
-_$ServerFinishesQuizImpl _$$ServerFinishesQuizImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ServerFinishesQuizImpl(
-      status: $enumDecode(_$QuizStatusEnumMap, json['status']),
-      $type: json['eventType'] as String?,
-    );
-
-Map<String, dynamic> _$$ServerFinishesQuizImplToJson(
-        _$ServerFinishesQuizImpl instance) =>
-    <String, dynamic>{
-      'status': _$QuizStatusEnumMap[instance.status]!,
-      'eventType': instance.$type,
-    };
-
 _$ServerResetsQuizImpl _$$ServerResetsQuizImplFromJson(
         Map<String, dynamic> json) =>
     _$ServerResetsQuizImpl(
-      status: $enumDecode(_$QuizStatusEnumMap, json['status']),
+      quizId: json['quizId'] as String,
       $type: json['eventType'] as String?,
     );
 
 Map<String, dynamic> _$$ServerResetsQuizImplToJson(
         _$ServerResetsQuizImpl instance) =>
     <String, dynamic>{
-      'status': _$QuizStatusEnumMap[instance.status]!,
+      'quizId': instance.quizId,
       'eventType': instance.$type,
     };
 
@@ -279,5 +259,21 @@ Map<String, dynamic> _$$ServerTellsUserJoinedRoomImplToJson(
         _$ServerTellsUserJoinedRoomImpl instance) =>
     <String, dynamic>{
       'Usernames': instance.Usernames,
+      'eventType': instance.$type,
+    };
+
+_$ServerCurrentQuestionInfoImpl _$$ServerCurrentQuestionInfoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ServerCurrentQuestionInfoImpl(
+      currentQuestionIndex: (json['currentQuestionIndex'] as num).toInt(),
+      totalQuestions: (json['totalQuestions'] as num).toInt(),
+      $type: json['eventType'] as String?,
+    );
+
+Map<String, dynamic> _$$ServerCurrentQuestionInfoImplToJson(
+        _$ServerCurrentQuestionInfoImpl instance) =>
+    <String, dynamic>{
+      'currentQuestionIndex': instance.currentQuestionIndex,
+      'totalQuestions': instance.totalQuestions,
       'eventType': instance.$type,
     };

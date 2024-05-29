@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/bloc/quiz_bloc.dart';
-import 'package:frontend/screens/answer_screen.dart';
+import 'package:frontend/screens/quiz_answer_screen.dart';
 import 'package:provider/provider.dart';
 
 class QuizJoiningScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
     _usernameController.addListener(_updateButtonState);
 
     // Listen for changes in QuizBloc state
-    context.read<QuizBloc>().stream.listen((state) {
+    context.read<QuizBloc>().stream.listen((state) async {
       if (context
           .read<QuizBloc>()
           .state
@@ -40,12 +40,19 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
           MaterialPageRoute(builder: (context) => AnswerScreen()),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Username does not exist in the users list'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        await Future.delayed(const Duration(milliseconds: 1000));
+        if (mounted) {
+          // Check if the current route is QuizJoiningScreen
+          bool isCurrentRouteJoiningScreen = ModalRoute.of(context)?.settings.name == '/QuizJoiningScreen';
+          if (isCurrentRouteJoiningScreen) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Something went wrong. Please try again.'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+        }
       }
     });
   }
@@ -102,7 +109,6 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
       ),
     );
   }
-
 
   @override
   void dispose() {
