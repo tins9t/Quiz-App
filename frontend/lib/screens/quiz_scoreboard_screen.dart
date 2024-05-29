@@ -31,9 +31,18 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
   @override
   void initState() {
     super.initState();
+
     flickerTimer =
         Timer.periodic(const Duration(milliseconds: 50), _updatePoints);
+
+    _createQuizSession();
+    flickerTimer = Timer.periodic(const Duration(milliseconds: 50), _updatePoints);
     stopTimer = Timer(const Duration(seconds: 3), _stopFlicker);
+  }
+
+  Future<void> _createQuizSession() async {
+    String sessionId = await context.read<QuizBloc>().quizDataSource.createQuizSession(context.read<QuizBloc>().state.quizId);
+    print('Quiz session created with ID: $sessionId');
   }
 
   @override
