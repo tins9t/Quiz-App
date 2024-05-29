@@ -31,7 +31,8 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
   @override
   void initState() {
     super.initState();
-    flickerTimer = Timer.periodic(const Duration(milliseconds: 50), _updatePoints);
+    flickerTimer =
+        Timer.periodic(const Duration(milliseconds: 50), _updatePoints);
     stopTimer = Timer(const Duration(seconds: 3), _stopFlicker);
   }
 
@@ -61,7 +62,6 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
       ),
       body: Column(
         children: [
-          const EndQuizButton(),
           Container(
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -70,7 +70,6 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
             ),
             child: Column(
               children: [
-
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   decoration: const BoxDecoration(
@@ -80,13 +79,15 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                       topRight: Radius.circular(5),
                     ),
                   ),
-
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Scoreboard',
-                        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ],
                   ),
@@ -97,9 +98,13 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                       shrinkWrap: true,
                       itemCount: state.scores.length,
                       itemBuilder: (context, index) {
-                        final playerUsername = state.scores.keys.elementAt(index);
-                        final playerScore = state.scores.values.elementAt(index);
-                        final backgroundColor = index.isEven ? Colors.orange[50] : Colors.lightBlueAccent[50];
+                        final playerUsername =
+                            state.scores.keys.elementAt(index);
+                        final playerScore =
+                            state.scores.values.elementAt(index);
+                        final backgroundColor = index.isEven
+                            ? Colors.orange[50]
+                            : Colors.lightBlueAccent[50];
                         return Container(
                           color: backgroundColor,
                           child: ListTile(
@@ -108,7 +113,9 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                               style: const TextStyle(fontSize: 18.0),
                             ),
                             trailing: Text(
-                              flickerTimer?.isActive ?? false ? '$randomScore points' : '$playerScore points',
+                              flickerTimer?.isActive ?? false
+                                  ? '$randomScore points'
+                                  : '$playerScore points',
                               style: const TextStyle(fontSize: 18.0),
                             ),
                           ),
@@ -122,33 +129,29 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
           ),
           const SizedBox(height: 20),
           Lottie.asset('assets/animations/top.json'),
+          SizedBox(height: 50),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.blue,
+            ),
+            onPressed: () {
+              // Trigger the KickAllUsersEvent
+              context.read<QuizBloc>().add(ClientWantsToResetQuiz(
+                  roomId: context.read<QuizBloc>().state.roomId));
+              context.read<QuizBloc>().add(
+                  ClientEvent.clientWantsToKickAllUsers(
+                      roomId: context.read<QuizBloc>().state.roomId));
+              // Navigate to HomePage
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
+            },
+            child: const Text('End Quiz'),
+          ),
         ],
       ),
     );
   }
 }
-
-class EndQuizButton extends StatelessWidget {
-  const EndQuizButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        // Trigger the KickAllUsersEvent
-        context.read<QuizBloc>().add(ClientWantsToResetQuiz( roomId: context.read<QuizBloc>().state.roomId));
-        context.read<QuizBloc>().add(ClientEvent.clientWantsToKickAllUsers(roomId: context.read<QuizBloc>().state.roomId));
-        // Navigate to HomePage
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-      },
-      child: const Text('End quiz and go to Home Page'),
-    );
-  }
-}
-
-

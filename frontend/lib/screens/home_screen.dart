@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: null,
         backgroundColor: Colors.indigo[300],
         elevation: 4,
         title: Row(
@@ -74,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
       ),
-      floatingActionButton: Container(
+      floatingActionButton: _selectedOption != 'Library' ? Container(
         margin: EdgeInsets.only(
           bottom: isSmallScreen ? 70 : 0,
         ),
@@ -93,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           backgroundColor: Colors.indigo[900],
         ),
-      ),
+      ) : null,
     );
   }
 }

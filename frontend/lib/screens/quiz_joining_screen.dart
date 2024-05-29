@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/bloc/quiz_bloc.dart';
 import 'package:frontend/screens/quiz_answer_screen.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class QuizJoiningScreen extends StatefulWidget {
@@ -43,7 +44,8 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
         await Future.delayed(const Duration(milliseconds: 1000));
         if (mounted) {
           // Check if the current route is QuizJoiningScreen
-          bool isCurrentRouteJoiningScreen = ModalRoute.of(context)?.settings.name == '/QuizJoiningScreen';
+          bool isCurrentRouteJoiningScreen =
+              ModalRoute.of(context)?.settings.name == '/QuizJoiningScreen';
           if (isCurrentRouteJoiningScreen) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -88,8 +90,12 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
                 labelText: 'Username',
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.blue,
+              ),
               onPressed: _isButtonEnabled
                   ? () async {
                       context.read<QuizBloc>().clientWantsToEnterRoom(
@@ -103,6 +109,11 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
                     }
                   : null, // Disable button if fields are not filled out
               child: const Text('Join Quiz'),
+            ),
+            SizedBox(height: 80),
+            Center(
+              child: Lottie.asset('assets/animations/question.json',
+                  fit: BoxFit.cover, height: 300, width: 300),
             ),
           ],
         ),

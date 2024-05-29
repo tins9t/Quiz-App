@@ -37,14 +37,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.home),
-            onPressed: () {
-              Navigator.popUntil(context, ModalRoute.withName('/'));
-            },
-          ),
-        ],
       ),
       body: Center(
         child: Container(
@@ -91,7 +83,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             'Are you sure you want to logout?',
                             onConfirm: () {
                               context.read<TokenService>().deleteToken();
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => LoginScreen()),

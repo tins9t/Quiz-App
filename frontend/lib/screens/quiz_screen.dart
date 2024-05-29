@@ -10,13 +10,13 @@ class QuizScreen extends StatelessWidget {
     Colors.blue,
     Colors.red,
     Colors.green,
-    Colors.deepPurple
+    Colors.yellow
   ];
   final List<IconData> buttonIcons = [
-    Icons.monitor_heart,
-    Icons.star,
-    Icons.add_card,
-    Icons.work
+    Icons.square,
+    Icons.favorite,
+    Icons.circle,
+    Icons.star
   ];
 
   Stream<int> countdown(int milliseconds) {

@@ -65,13 +65,12 @@ class QuizVictoryScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
+                    context.read<QuizBloc>().add(ClientWantsToResetQuiz( roomId: context.read<QuizBloc>().state.roomId));
                     // Call the leaveRoom event
                     context.read<QuizBloc>().add(ClientEvent.clientWantsToKickUserFromRoom(
                       username: quizState.username,
                       roomId: quizState.roomId,
-                    ));
-                    context.read<QuizBloc>().add(ClientWantsToResetQuiz( roomId: context.read<QuizBloc>().state.roomId));
-                    // Navigate to LoginScreen
+                    )); // Navigate to LoginScreen
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => const LoginScreen()),

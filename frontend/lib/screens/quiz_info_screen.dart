@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/data/quiz_data_source.dart';
 import 'package:frontend/data/user_data_source.dart';
@@ -38,7 +39,6 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
       print('Error fetching questions with answers: $error');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -110,32 +110,35 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                         children: [
                           Text(
                             'Time Created: $formattedTime',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           SizedBox(height: 8),
                           FutureBuilder<User>(
-                            future: context.read<UserDataSource>().getUserById(userId: widget.quiz.userId!),
+                            future: context
+                                .read<UserDataSource>()
+                                .getUserById(userId: widget.quiz.userId!),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
                                 return Text(
                                   'By: Loading...',
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 );
                               } else if (snapshot.hasError) {
                                 return Text(
                                   'By: Unknown',
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 );
                               } else if (snapshot.hasData) {
                                 final user = snapshot.data!;
                                 return Text(
                                   'By: ${user.username}',
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 );
                               } else {
                                 return Text(
                                   'By: Unknown',
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 );
                               }
                             },
@@ -143,15 +146,16 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                           SizedBox(height: 20),
                           Text(
                             widget.quiz.description,
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           SizedBox(height: 16),
                           Container(
                             height: 200,
                             width: double.infinity,
-                            child: Lottie.asset('assets/animations/people.json'),
+                            child:
+                                Lottie.asset('assets/animations/top.json'),
                           ),
-                          SizedBox(height: 16),
+                          SizedBox(height: 20),
                           if (questionsWithAnswers.isNotEmpty)
                             Container(
                               decoration: BoxDecoration(
@@ -170,25 +174,31 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                                 children: [
                                   SingleChildScrollView(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: questionsWithAnswers
                                           .expand((qa) => [
-                                        ListTile(
-                                          title: Text(
-                                            qa.question.text,
-                                            style: TextStyle(fontWeight: FontWeight.bold),
-                                          ),
-                                          subtitle: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: qa.answers.map((answer) {
-                                              return Text(
-                                                answer.text,
-                                              );
-                                            }).toList(),
-                                          ),
-                                        ),
-                                        Divider(),
-                                      ])
+                                                ListTile(
+                                                  title: Text(
+                                                    qa.question.text,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  subtitle: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: qa.answers
+                                                        .map((answer) {
+                                                      return Text(
+                                                        answer.text,
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                ),
+                                                Divider(),
+                                              ])
                                           .toList(),
                                     ),
                                   ),
@@ -204,15 +214,22 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                       ),
                     ),
                     SizedBox(height: 16),
+                    if(kIsWeb)
                     Center(
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blueAccent,
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => QuizSetupScreen(
-                                quizId: widget.quiz.id!, // Pass the quizId to the QuizSetupScreen
-                                username: 'username', // Replace 'username' with the actual username
+                                quizId: widget.quiz.id!,
+                                // Pass the quizId to the QuizSetupScreen
+                                username:
+                                    'username', // Replace 'username' with the actual username
                               ),
                             ),
                           );

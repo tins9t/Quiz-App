@@ -76,21 +76,45 @@ class UserDataSource {
   }
 
 
-  Future<bool> updateUser(
-      {required BuildContext context,
-      required String username,
-      required String email}) async {
+  Future<bool> updateUser({
+    required BuildContext context,
+    required String username,
+    required String email,
+  }) async {
     User user = await context.read<UserDataSource>().getUser(context);
+
+    // Checking if username or email has been changed
+    bool usernameChanged = user.username != username;
+    bool emailChanged = user.email != email;
+
+
+    Map<String, dynamic> requestBody = {};
+
+    // Put username in request body if it has been changed
+    if (usernameChanged) {
+      requestBody['username'] = username;
+    }
+
+    // Put email in request body if it has been changed
+    if (emailChanged) {
+      requestBody['email'] = email;
+    }
+
     final response = await http.Client().put(
-        Uri.parse("$baseUrl/api/update/user/${user.id}"),
-        body: jsonEncode({"username": username, "email": email}),
-        headers: headers);
+      Uri.parse("$baseUrl/api/update/user/${user.id}"),
+      body: jsonEncode(requestBody),
+      headers: headers,
+    );
+
     final jsonBody = jsonDecode(response.body);
+
     if (response.statusCode >= 400) {
       throw ApiError.fromJson(jsonBody);
     }
-    return jsonBody;
+
+    return true;
   }
+
 
   Future<bool> updatePassword(
       {required BuildContext context,

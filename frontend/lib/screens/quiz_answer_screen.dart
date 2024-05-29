@@ -30,7 +30,7 @@ class AnswerButton extends StatelessWidget {
         ),
         margin: const EdgeInsets.all(10.0),
         width: 180.0,
-        height: 330.0,
+        height: 400.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -58,13 +58,13 @@ class AnswerScreen extends StatelessWidget {
     Colors.blue,
     Colors.red,
     Colors.green,
-    Colors.deepPurple
+    Colors.yellow
   ];
   final List<IconData> buttonIcons = [
-    Icons.monitor_heart,
-    Icons.star,
-    Icons.add_card,
-    Icons.work
+    Icons.square,
+    Icons.favorite,
+    Icons.circle,
+    Icons.star
   ];
 
   AnswerScreen({super.key});

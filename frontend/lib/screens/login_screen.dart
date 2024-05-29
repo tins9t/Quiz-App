@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _navigateToHomeScreen(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => HomeScreen()),
     );
@@ -260,29 +260,38 @@ class _LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: Visibility(
         visible: !kIsWeb,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          color: Colors.indigo[300],
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Psst.. click here if you want to join a Quiz without logging in.',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to the Quiz Joining Screen
-                  _navigateToQuizJoiningScreen(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.indigo[700],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            color: Colors.indigo[300],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Psst.. click ',
+                  style: TextStyle(color: Colors.white),
                 ),
-                child: Text('Join Quiz'),
-              )
-            ],
+                GestureDetector(
+                  onTap: () {
+                    // Navigate to the Quiz Joining Screen
+                    _navigateToQuizJoiningScreen(context);
+                  },
+                  child: Text(
+                    'HERE',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 2), // Add some spacing between the text and the button
+                Text(
+                  ' if you want to join a Quiz without logging in.',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
           ),
         ),
       ),

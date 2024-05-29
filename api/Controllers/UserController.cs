@@ -35,18 +35,28 @@ public class UserController : ControllerBase
 
         return user;
     }
-
+    
     [Route("api/update/user/{userId}")]
     [HttpPut]
     public User UpdateUser([FromBody] UserUpdateDto dto, [FromRoute] string userId)
     {
-        User updatedUser = new User()
+        User existingUser = _userService.GetUserById(userId);
+
+        // Update the fields if they are provided in the DTO
+        if (dto.Username != null)
         {
-            Username = dto.Username,
-            Email = dto.Email
-        };
-        return _userService.UpdateUser(updatedUser);
+            existingUser.Username = dto.Username;
+        }
+
+        if (dto.Email != null)
+        {
+            existingUser.Email = dto.Email;
+        }
+
+        return _userService.UpdateUser(existingUser);
     }
+
+
 
     [Route("/api/delete/user/{userId}")]
     [HttpDelete]

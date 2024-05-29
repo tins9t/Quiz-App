@@ -69,8 +69,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ElevatedButton(
           onPressed: () {
             ConfirmationDialog(
-              title: 'Change password',
-              content: 'Are you sure you want to change your password?',
+              title: 'Change credentials',
+              content: 'Are you sure you want to save your changes?',
               onConfirm: () {
                 context.read<UserDataSource>().updateUser(
                     context: context,
