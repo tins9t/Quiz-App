@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/quiz_state.dart';
+import 'package:frontend/models/entities.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../models/events.dart';
 
@@ -26,6 +27,8 @@ class QuizBloc extends Bloc<BaseEvent, QuizState> {
     on<ServerTellsHowManyPeopleAnswered>(_onServerTellsHowManyPeopleAnswered);
     on<ServerTellsUserJoinedRoom>(_onServerTellsUserJoinedRoom);
     on<ServerRemovesClientFromRoom>(_onServerRemovesClientFromRoom);
+    on<ServerCurrentQuestionInfo>(_onServerCurrentQuestionInfo);
+
 
     // Feed deserialized events from server into this bloc
     _channelSubscription = _channel.stream.map((event) {
@@ -60,9 +63,18 @@ class QuizBloc extends Bloc<BaseEvent, QuizState> {
     if (event is ClientWantsToEnterRoom) {
       emit(state.copyWith(roomId: event.roomId, username: event.username));
     }
+    if (event is ClientWantsToResetQuiz) {
+      emit(state.copyWith(
+        currentQuestion: const Question(id: 0, quizId: '', text: ''),
+        answersForCurrentQuestion: [],
+        selectedAnswers: [],
+        scores: {},
+        showScore: false,
+      ));
+    }
   }
 
-  void clientWantsToEnterRoom(int roomId, String username) {
+  Future<void> clientWantsToEnterRoom(int roomId, String username) async {
     add(ClientEvent.clientWantsToEnterRoom(roomId: roomId, username: username));
   }
 
@@ -91,6 +103,9 @@ class QuizBloc extends Bloc<BaseEvent, QuizState> {
         username: username,
         roomId: roomId,
         setupTimer: setupTimer));
+  }
+  void clientWantstoResetQuiz(int roomId) {
+    add(ClientEvent.clientWantsToResetQuiz(roomId: roomId));
   }
 
 // Sends ClientWantsToStartQuiz event to server
@@ -149,6 +164,13 @@ class QuizBloc extends Bloc<BaseEvent, QuizState> {
       ServerTellsHowManyPeopleAnswered event, Emitter<QuizState> emit) async {
     emit(state.copyWith(
       peopleAnswered: event.peopleAnswered,
+    ));
+  }
+  Future<void> _onServerCurrentQuestionInfo(
+      ServerCurrentQuestionInfo event, Emitter<QuizState> emit) async {
+    emit(state.copyWith(
+      currentQuestionIndex: event.currentQuestionIndex,
+      totalQuestions: event.totalQuestions,
     ));
   }
 

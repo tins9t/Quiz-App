@@ -25,7 +25,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
   int randomScore = 0;
 
   int getRandomScore() {
-    return random.nextInt(100); // Change 100 to the maximum score possible
+    return random.nextInt(9999);
   }
 
   @override
@@ -57,6 +57,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [
@@ -137,6 +138,7 @@ class EndQuizButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         // Trigger the KickAllUsersEvent
+        context.read<QuizBloc>().add(ClientWantsToResetQuiz( roomId: context.read<QuizBloc>().state.roomId));
         context.read<QuizBloc>().add(ClientEvent.clientWantsToKickAllUsers(roomId: context.read<QuizBloc>().state.roomId));
         // Navigate to HomePage
         Navigator.pushReplacement(

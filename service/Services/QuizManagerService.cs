@@ -5,13 +5,13 @@ namespace service.Services;
 
 public class QuizManagerService
 {
-    public const int DelayTimeMilliseconds = 30000; // 30 seconds
+    public const int DelayTimeMilliseconds = 20000; // 20 seconds
     private readonly QuizService _quizService;
     private readonly QuestionService _questionService;
     private readonly AnswerService _answerService;
     private readonly ConcurrentDictionary<Question, List<Answer>> _quizData = new ConcurrentDictionary<Question, List<Answer>>();
 
-    public event Action<int, Question, List<Answer>> QuestionAsked;
+    public event Action<int, Question, List<Answer>, int, int> QuestionAsked;
     public event Action<int> QuizStarted;
     public event Action<int, Dictionary<string, int>> ScoreCalculated;
 
@@ -23,8 +23,6 @@ public class QuizManagerService
         _questionService = questionService;
         _answerService = answerService;
     }
-
-
     public async Task RunQuiz(int quizRoomId, string quizId, GetUserInputCallback getUserInput, ConcurrentDictionary<int, Dictionary<string, Dictionary<Question, Answer>>> userAnswersPerRoom)
     {
         Quiz quiz = _quizService.GetQuizById(quizId);
@@ -45,8 +43,11 @@ public class QuizManagerService
             var question = questions[i];
             List<Answer> answers = _answerService.GetAnswersByQuestionId(question.Id);
             _quizData[question] = answers;
-
-            QuestionAsked?.Invoke(quizRoomId, question, answers);
+            int currentQuestionNumber = i + 1;
+            int totalQuestions = questions.Count;
+            Console.WriteLine("Total questions: " + totalQuestions);
+            Console.WriteLine("Current question number: " + currentQuestionNumber);
+            QuestionAsked?.Invoke(quizRoomId, question, answers, currentQuestionNumber , totalQuestions);
 
             Answer userAnswer = await getUserInput(question, answers);
             userAnswers[question] = userAnswer;
@@ -93,11 +94,8 @@ public class QuizManagerService
         var winStreak = 0;
 
         // Iterate over each answer
-        foreach (var answer in userAnswers)
+        foreach (var (question, userAnswer) in userAnswers)
         {
-            var question = answer.Key;
-            var userAnswer = answer.Value;
-
             // Check if the question exists in the quiz data
             if (!_quizData.TryGetValue(question, out var correctAnswers))
             {
@@ -110,16 +108,15 @@ public class QuizManagerService
                 // If the user's answer is correct, increment the win streak
                 winStreak++;
 
-                // If the win streak is 3 or more, increase the score by 2
+                // If the win streak is 3 or more, increase the score by 2X
                 if (winStreak >= 3)
                 {
-                    userScore ++;
-                    userScore ++;
+                    userScore += 20; // 2X the score
                 }
                 else
                 {
-                    // If the win streak is less than 3, just increment the score by 1
-                    userScore++;
+                    // If the win streak is less than 3, just increment the score by 10
+                    userScore += 10;
                 }
             }
             else

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:frontend/screens/scoreboard_screen.dart';
+import 'package:frontend/screens/quiz_scoreboard_screen.dart';
 
 import '../bloc/quiz_bloc.dart';
 import '../bloc/quiz_state.dart';
@@ -66,6 +66,7 @@ class QuizScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(''),
         backgroundColor: Colors.indigo[300],
+          automaticallyImplyLeading: false,
       ),
       body: BlocConsumer<QuizBloc, QuizState>(
         listener: (context, state) {
@@ -89,6 +90,10 @@ class QuizScreen extends StatelessWidget {
                     state.currentQuestion.text, // Display the current question
                     style: const TextStyle(fontSize: 24.0),
                   ),
+                ),
+                Text(
+                  'Question ${state.currentQuestionIndex} of ${state.totalQuestions}',
+                  style: const TextStyle(fontSize: 18.0),
                 ),
                 StreamBuilder<int>(
                   stream: countdown(state.timeRemaining),

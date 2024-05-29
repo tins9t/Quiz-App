@@ -15,8 +15,11 @@ sealed class ClientEvent with _$ClientEvent implements BaseEvent {
     required String username,
   }) = ClientWantsToEnterRoom;
 
-  const factory ClientEvent.clientWantsToAnswerQuestion({
+  const factory ClientEvent.clientWantsToResetQuiz({
+    required int roomId,
+  }) = ClientWantsToResetQuiz;
 
+  const factory ClientEvent.clientWantsToAnswerQuestion({
     required int answerId,
     required String username,
     required int roomId,
@@ -68,16 +71,8 @@ sealed class ServerEvent with _$ServerEvent implements BaseEvent {
     required int liveConnections,
   }) = ServerRemovesClientFromRoom;
 
-  const factory ServerEvent.serverStartsQuiz({
-    required QuizStatus status,
-  }) = ServerStartsQuiz;
-
-  const factory ServerEvent.serverFinishesQuiz({
-    required QuizStatus status,
-  }) = ServerFinishesQuiz;
-
   const factory ServerEvent.serverResetsQuiz({
-    required QuizStatus status,
+    required String quizId,
   }) = ServerResetsQuiz;
 
   const factory ServerEvent.serverSetCurrentQuestion({
@@ -101,6 +96,12 @@ sealed class ServerEvent with _$ServerEvent implements BaseEvent {
     required List<String> Usernames,
   }) = ServerTellsUserJoinedRoom;
 
+  const factory ServerEvent.serverCurrentQuestionInfo({
+    required int currentQuestionIndex,
+    required int totalQuestions,
+  }) = ServerCurrentQuestionInfo;
+
   factory ServerEvent.fromJson(Map<String, dynamic> json) =>
       _$ServerEventFromJson(json);
+
 }

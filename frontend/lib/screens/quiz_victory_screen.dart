@@ -29,6 +29,7 @@ class QuizVictoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Victory Screen'),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(
@@ -69,11 +70,11 @@ class QuizVictoryScreen extends StatelessWidget {
                       username: quizState.username,
                       roomId: quizState.roomId,
                     ));
-
+                    context.read<QuizBloc>().add(ClientWantsToResetQuiz( roomId: context.read<QuizBloc>().state.roomId));
                     // Navigate to LoginScreen
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
                     );
                   },
                   child: const Text('Go to Login Screen'),

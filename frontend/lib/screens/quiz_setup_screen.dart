@@ -68,6 +68,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
       appBar: AppBar(
         title: const Text('Quiz Setup', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blueGrey,
+
         leading: BackButton(
           onPressed: () {
             context.read<QuizBloc>().clientWantsToKickAllUsers(roomId);

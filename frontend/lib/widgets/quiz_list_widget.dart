@@ -15,20 +15,22 @@ class QuizListWidget extends StatefulWidget {
 class _QuizListWidgetState extends State<QuizListWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 10),
-        _buildQuizzes(context,
-            context.read<QuizDataSource>().getPopularQuizzes(), 'Most Popular', 5),
-        SizedBox(height: 40),
-        _buildQuizzes(context,
-            context.read<QuizDataSource>().getNewestQuizzes(), 'Newest', 10),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          _buildQuizzes(context,
+              context.read<QuizDataSource>().getPopularQuizzes(), 'Most Popular', 5),
+          const SizedBox(height: 40),
+          _buildQuizzes(context,
+              context.read<QuizDataSource>().getNewestQuizzes(), 'Newest', 10),
+        ],
+      ),
     );
   }
 
@@ -38,13 +40,13 @@ class _QuizListWidgetState extends State<QuizListWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -63,7 +65,7 @@ class _QuizListWidgetState extends State<QuizListWidget> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No quizzes available'));
+                    return const Center(child: Text('No quizzes available'));
                   } else {
                     final itemCount = snapshot.data!.length > itemCountLimit
                         ? itemCountLimit

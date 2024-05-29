@@ -23,6 +23,8 @@ sealed class QuizState with _$QuizState {
     required int timeRemaining,
     required int peopleAnswered,
     required int roomId,
+    required int currentQuestionIndex,
+    required int totalQuestions,
     required bool showScore,
     required bool answerButtonPressed,
 
@@ -42,5 +44,7 @@ sealed class QuizState with _$QuizState {
         roomId: 0,
         showScore: false,
         answerButtonPressed: false,
+        currentQuestionIndex: 0,
+        totalQuestions: 0,
       );
 }

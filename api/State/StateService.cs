@@ -17,7 +17,7 @@ public class StateService {
     public StateService(QuizManagerService quizManagerService)
     {
         _quizManagerService = quizManagerService;
-        _quizManagerService.QuestionAsked += async (room, question, answer) => await WaitForAnswers(room, question, answer);
+        _quizManagerService.QuestionAsked += async (room, question, answer, currentQuestionNumber, totalQuestions) => await WaitForAnswers(room, question, answer, currentQuestionNumber, totalQuestions);
         //In this code, an async lambda function is used as the event handler for QuestionAsked. This lambda function matches the event signature and calls WaitForAnswers inside it.
         _quizManagerService.QuizStarted += GetNumberOfConnectionsInRoom;
         _quizManagerService.ScoreCalculated += SendScore;
@@ -181,8 +181,21 @@ public class StateService {
         userAnswers[question] = answer;
     }
 
-    private async Task WaitForAnswers(int room, Question question, List<Answer> answers)
+    private async Task WaitForAnswers(int room, Question question, List<Answer> answers, int currentQuestionNumber, int totalQuestions)
     {
+        // Update the current question for the room
+        SetCurrentQuestion(room, question, answers);
+        Console.WriteLine($"Waiting for answers for question {currentQuestionNumber} of {totalQuestions}");
+        // Create a new ServerCurrentQuestionInfo response
+        var questionInfoResponse = new ServerMessage.ServerCurrentQuestionInfo
+        {
+            eventType = "ServerCurrentQuestionInfo",
+            currentQuestionIndex = currentQuestionNumber,
+            totalQuestions = totalQuestions
+        };
+
+        // Send the response to the room
+        SendServerResponse(room, questionInfoResponse);
         // Update the current question for the room
         SetCurrentQuestion(room, question, answers);
         var timer = new Timer(QuizManagerService.DelayTimeMilliseconds);
