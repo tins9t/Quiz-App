@@ -140,4 +140,22 @@ public class QuizRepository
             return conn.Query<Quiz>(sql).ToList();
         }
     }
+    
+    public string AddQuizSession(string quizId)
+    {
+        var sql = $@"INSERT INTO quiz_session(id, quiz_id)
+        VALUES (@id, @quiz_id) RETURNING id;";
+        using var conn = DataConnection.DataSource.OpenConnection();
+        return conn.QueryFirst<string>(sql, new
+        {
+            id = Guid.NewGuid().ToString(),
+            quiz_id = quizId,
+        });
+    }
+    public bool DeleteQuizSession(string quizId)
+    {
+        var sql = $@"DELETE FROM quiz_session WHERE id = @id;";
+        using var conn = DataConnection.DataSource.OpenConnection();
+        return conn.Execute(sql, new { id = quizId }) == 1;
+    }
 }

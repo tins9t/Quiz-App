@@ -164,4 +164,17 @@ class QuizDataSource {
       throw Exception('Failed to load questions with answers');
     }
   }
+
+  Future<String> createQuizSession(String quizId) async {
+    final response = await http.post(
+      Uri.parse("$baseUrl/api/quiz/session/$quizId"),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to create quiz session. Status code: ${response.statusCode}');
+    }
+  }
+
 }

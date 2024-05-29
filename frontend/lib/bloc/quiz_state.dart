@@ -20,6 +20,7 @@ sealed class QuizState with _$QuizState {
     required Map<String, int> scores,
     required Question currentQuestion,
     required String username,
+    required String quizId,
     required int timeRemaining,
     required int peopleAnswered,
     required int roomId,
@@ -46,5 +47,6 @@ sealed class QuizState with _$QuizState {
         answerButtonPressed: false,
         currentQuestionIndex: 0,
         totalQuestions: 0,
+        quizId: '',
       );
-}
+  }

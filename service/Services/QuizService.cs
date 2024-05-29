@@ -29,6 +29,7 @@ public class QuizService
     public bool DeleteQuizById(string quizId)
     {
         _questionService.DeleteQuestionsByQuizId(quizId);
+        _quizRepository.DeleteQuizSession(quizId);
         return _quizRepository.DeleteQuizById(quizId);
     }
     
@@ -74,5 +75,10 @@ public class QuizService
     public List<Quiz> GetQuizzesByPopularity()
     {
         return _quizRepository.GetQuizzesByPopularity();
+    }
+    
+    public string AddQuizSession(string quizId)
+    {
+        return _quizRepository.AddQuizSession(quizId);
     }
 }
