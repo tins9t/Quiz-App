@@ -17,15 +17,17 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent[300]!,
+        backgroundColor: Colors.indigo[300],
         elevation: 4,
         title: Text(
           isEditing ? 'Edit Quiz' : 'Create Quiz',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: MediaQuery.of(context).size.width < 600 ? 20 : 25,
+            fontSize: isSmallScreen ? 20 : 25,
             color: Colors.indigo[900],
           ),
         ),
@@ -48,7 +50,11 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (int i = 0; i < questions.length; i++)
-                    QuestionField(question: questions[i], index: i, isEditing: isEditing),
+                    QuestionField(
+                        question: questions[i],
+                        index: i,
+                        isEditing: isEditing
+                    ),
                   if (questions.length < 15)
                     Center(
                       child: ElevatedButton.icon(
@@ -62,8 +68,8 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(
-                            vertical: MediaQuery.of(context).size.width < 600 ? 12 : 16,
-                            horizontal: MediaQuery.of(context).size.width < 600 ? 20 : 24,
+                            vertical: isSmallScreen ? 12 : 16,
+                            horizontal: isSmallScreen ? 20 : 24,
                           ),
                           backgroundColor: Colors.indigo[900],
                         ),
@@ -81,14 +87,14 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.indigo[900],
                             padding: EdgeInsets.symmetric(
-                              vertical: MediaQuery.of(context).size.width < 600 ? 12 : 16,
-                              horizontal: MediaQuery.of(context).size.width < 600 ? 20 : 24,
+                              vertical: isSmallScreen ? 12 : 16,
+                              horizontal: isSmallScreen ? 20 : 24,
                             ),
                           ),
                           child: Text(
                             'Save Quiz',
                             style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width < 600 ? 16 : null,
+                              fontSize: isSmallScreen ? 16 : null,
                             ),
                           ),
                         ),
@@ -101,11 +107,14 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
         },
         onSave: (questions) async {
           final dataSource = context.read<QuestionDataSource>();
-          if(!isEditing){
-          await dataSource.createQuestionsWithAnswers(questionsWithAnswers: questions);}
-          if(isEditing){
+          if (!isEditing) {
+            await dataSource.createQuestionsWithAnswers(
+                questionsWithAnswers: questions);
+          }
+          if (isEditing) {
             dataSource.deleteQuestionsByQuizId(quizId: quizId);
-            dataSource.createQuestionsWithAnswers(questionsWithAnswers: questions);
+            dataSource.createQuestionsWithAnswers(
+                questionsWithAnswers: questions);
           }
           if (context.mounted) {
             Navigator.pushAndRemoveUntil(

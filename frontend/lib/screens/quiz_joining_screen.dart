@@ -85,7 +85,7 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
                 ),
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _usernameController,
                 decoration: const InputDecoration(
@@ -130,6 +130,7 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
           ),
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 

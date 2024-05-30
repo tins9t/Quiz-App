@@ -20,17 +20,6 @@ public class QuestionService
         return _questionRepository.CreateQuestion(question);
     }
 
-    public Question UpdateQuestion(Question question)
-    {
-        return _questionRepository.UpdateQuestion(question);
-    }
-
-    public bool DeleteQuestionById(int questionId)
-    {
-        _answerService.DeleteAnswersByQuestionId(questionId);
-        return _questionRepository.DeleteQuestionById(questionId);
-    }
-    
     public bool DeleteQuestionsByQuizId(string quizId)
     {
         _answerService.DeleteAnswersByQuizId(quizId);

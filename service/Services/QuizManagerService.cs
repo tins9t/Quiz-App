@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using infrastructure.QueryModels;
-
 namespace service.Services;
 
 public class QuizManagerService

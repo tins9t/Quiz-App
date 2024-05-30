@@ -33,10 +33,11 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final isMediumScreen = MediaQuery.of(context).size.width < 800;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent[300],
+        backgroundColor: Colors.indigo[300],
         elevation: 4,
         title: Text(
           widget.isEditing ? 'Edit Quiz' : 'Create Quiz',
@@ -107,17 +108,20 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Center(
-                    child: SizedBox(
-                      height: isSmallScreen ? 200 : 400,
-                      width: isSmallScreen ? 200 : 400,
-                      child: Lottie.asset(
-                        'assets/animations/writing.json',
-                        fit: BoxFit.cover,
-                        repeat: false,
+                    Visibility(
+                      visible: !isMediumScreen || isSmallScreen,
+                      child: Center(
+                        child: SizedBox(
+                          height: isSmallScreen ? 200 : 300,
+                          width: isSmallScreen ? 200 : 300,
+                          child: Lottie.asset(
+                            'assets/animations/writing.json',
+                            fit: BoxFit.cover,
+                            repeat: false,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -126,24 +130,24 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    User user = await context.read<UserDataSource>().getUser(context);
+                    User user =
+                        await context.read<UserDataSource>().getUser(context);
                     if (!context.mounted) return;
 
                     Quiz quiz;
                     if (widget.isEditing) {
                       await context.read<QuizDataSource>().updateQuiz(
-                        quizId: widget.quiz!.id!,
-                        name: _quizNameController.value.text,
-                        description: _quizDescriptionController.value.text,
-                        isPrivate: false
-                      );
+                          quizId: widget.quiz!.id!,
+                          name: _quizNameController.value.text,
+                          description: _quizDescriptionController.value.text,
+                          isPrivate: false);
                       quiz = widget.quiz!;
                     } else {
                       quiz = await context.read<QuizDataSource>().createQuiz(
-                        name: _quizNameController.value.text,
-                        description: _quizDescriptionController.value.text,
-                        userId: user.id,
-                      );
+                            name: _quizNameController.value.text,
+                            description: _quizDescriptionController.value.text,
+                            userId: user.id,
+                          );
                     }
 
                     print('Is Editing: ${widget.isEditing}');
@@ -163,7 +167,9 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                   } catch (error) {
                     print('Error: $error');
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Failed to create or update quiz: $error')),
+                      SnackBar(
+                          content:
+                              Text('Failed to create or update quiz: $error')),
                     );
                   }
                 },

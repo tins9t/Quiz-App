@@ -17,28 +17,7 @@ public class QuestionRepository
             });
         }
     }
-
-    public Question UpdateQuestion(Question question)
-    {
-        var sql = $@"UPDATE question SET text = @text WHERE id = @id RETURNING *;";
-        using (var conn = DataConnection.DataSource.OpenConnection())
-        {
-            return conn.QueryFirst<Question>(sql, new
-            {
-                id = question.Id,
-                text = question.Text
-            });
-        }
-    }
-
-    public bool DeleteQuestionById(int questionId)
-    {
-        var sql = $@"DELETE FROM question WHERE id = @id;";
-        using (var conn = DataConnection.DataSource.OpenConnection())
-        {
-            return conn.Execute(sql, new {id = questionId}) == 1;
-        }
-    }
+    
     
     public bool DeleteQuestionsByQuizId(string quizId)
     {

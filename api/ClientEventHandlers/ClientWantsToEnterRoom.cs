@@ -1,7 +1,6 @@
 using Fleck;
 using lib;
 using System.Text.Json;
-using api.Models.ServerEvents;
 using api.State;
 
 namespace api.ClientEventHandlers;

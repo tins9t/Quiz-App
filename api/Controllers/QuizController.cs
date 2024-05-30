@@ -52,12 +52,6 @@ public class QuizController : ControllerBase
         return _quizService.DeleteQuizById(quizId);
     }
     
-    [Route("api/quiz/start/{quizId}")]
-    [HttpGet]
-    public void StartQuiz([FromRoute] string quizId)
-    {
-       // _quizService.StartQuiz(quizId);
-    }
 
     [Route("api/quiz/get/newest")]
     [HttpGet]

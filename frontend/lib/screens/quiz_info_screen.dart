@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/data/quiz_data_source.dart';
 import 'package:frontend/data/user_data_source.dart';
@@ -152,8 +151,7 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                           SizedBox(
                             height: 200,
                             width: double.infinity,
-                            child:
-                                Lottie.asset('assets/animations/top.json'),
+                            child: Lottie.asset('assets/animations/top.json'),
                           ),
                           const SizedBox(height: 20),
                           if (questionsWithAnswers.isNotEmpty)
@@ -214,28 +212,39 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    if(kIsWeb)
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.blueAccent,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blueAccent,
+                          ),
+                          onPressed: () {
+                            if (questionsWithAnswers.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('You cannot start a quiz without any questions!'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QuizSetupScreen(
+                                    quizId: widget.quiz.id!,
+                                    // Pass the quizId to the QuizSetupScreen
+                                    username:
+                                        'username', // Replace 'username' with the actual username
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          child: const Text('Start Quiz'),
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => QuizSetupScreen(
-                                quizId: widget.quiz.id!,
-                                // Pass the quizId to the QuizSetupScreen
-                                username:
-                                    'username', // Replace 'username' with the actual username
-                              ),
-                            ),
-                          );
-                        },
-                        child: const Text('Start Quiz'),
-                      ),
+                      ],
                     ),
                   ],
                 ),

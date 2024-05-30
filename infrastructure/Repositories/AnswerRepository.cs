@@ -18,29 +18,6 @@ public class AnswerRepository
             });
         }
     }
-
-    public Answer UpdateAnswer(Answer answer)
-    {
-        var sql = $@"UPDATE answer SET text = @text, correct = @correct WHERE id = @id RETURNING *;";
-        using (var conn = DataConnection.DataSource.OpenConnection())
-        {
-            return conn.QueryFirst<Answer>(sql, new
-            {
-                id = answer.Id,
-                text = answer.Text,
-                correct = answer.Correct
-            });
-        }
-    }
-
-    public bool DeleteAnswerById(int answerId)
-    {
-        var sql = $@"DELETE FROM answer WHERE id = @id;";
-        using (var conn = DataConnection.DataSource.OpenConnection())
-        {
-            return conn.Execute(sql, new { id = answerId }) == 1;
-        }
-    }
     
     public bool DeleteAnswersByQuestionId(int questionId)
     {

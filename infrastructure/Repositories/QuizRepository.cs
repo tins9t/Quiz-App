@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using infrastructure.QueryModels;
-
 namespace infrastructure.Repositories;
 
 public class QuizRepository

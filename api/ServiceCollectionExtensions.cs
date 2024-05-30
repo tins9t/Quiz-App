@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.OpenApi.Models;
 using service;
-
 namespace api;
 
 public static class ServiceCollectionExtensions

@@ -4,7 +4,6 @@ using api.Models.ServerEvents;
 using infrastructure.QueryModels;
 using lib;
 using service.Services;
-
 namespace api.State;
 using Fleck;
 using Timer = System.Timers.Timer;
@@ -47,16 +46,7 @@ public class StateService {
         return Connections.TryAdd(socket.ConnectionInfo.Id, 
             new WebSocketMetaData(socket));
     }
-    public void SendTimeRemaining(int roomId, int timeRemaining)
-    {
-        var response = new ServerMessage.ServerTimeRemaining
-        {
-            eventType = "ServerTimeRemaining",
-            timeRemaining = timeRemaining
-        };
-
-        SendServerResponse(roomId, response);
-    }
+   
     public bool AddToRoom(IWebSocketConnection socket, int room, string username)
     {
         // Set the username for the connection

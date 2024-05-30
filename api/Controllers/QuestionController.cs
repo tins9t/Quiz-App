@@ -18,31 +18,6 @@ public class QuestionController : ControllerBase
         _answerService = answerService;
     }
 
-    [Route("api/question/create")]
-    [HttpPost]
-    public Question CreateQuestion([FromBody] Question question)
-    {
-        return _questionService.CreateQuestion(question);
-    }
-
-    [Route("api/question/{questionId}")]
-    [HttpDelete]
-    public bool DeleteQuestionById([FromRoute] int questionId)
-    {
-        return _questionService.DeleteQuestionById(questionId);
-    }
-
-    [Route("api/question/update/{questionId}")]
-    [HttpPut]
-    public Question UpdateQuestion([FromBody] QuestionUpdateDto question, [FromRoute] int questionId)
-    {
-        Question updatedQuestion = new Question()
-        {
-            Text = question.Text, Id = questionId
-        };
-        return _questionService.UpdateQuestion(updatedQuestion);
-    }
-
     [Route("api/question/createWithAnswers")]
     [HttpPost]
     public List<QuestionWithAnswers> CreateQuestionsWithAnswers([FromBody] List<QuestionWithAnswers> questionsWithAnswers)
