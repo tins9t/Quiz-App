@@ -3,7 +3,6 @@ import 'package:frontend/widgets/box_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../data/quiz_data_source.dart';
-import '../data/user_data_source.dart';
 import '../models/entities.dart';
 
 class UserQuizListWidget extends StatefulWidget {
@@ -106,7 +105,6 @@ class _UserQuizListWidgetState extends State<UserQuizListWidget> {
 
   Future<List<Quiz>> _fetchQuizzes() async {
     try {
-      final user = await context.read<UserDataSource>().getUser(context);
       return context
           .read<QuizDataSource>()
           .getQuizzesByUser(context: context);

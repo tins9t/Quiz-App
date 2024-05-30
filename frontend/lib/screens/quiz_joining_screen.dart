@@ -3,7 +3,6 @@ import 'package:frontend/bloc/quiz_bloc.dart';
 import 'package:frontend/screens/quiz_answer_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
 import '../models/events.dart';
 
 class QuizJoiningScreen extends StatefulWidget {

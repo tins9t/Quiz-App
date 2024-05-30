@@ -4,7 +4,6 @@ import 'package:frontend/bloc/quiz_bloc.dart';
 import 'package:frontend/bloc/quiz_state.dart';
 import 'package:frontend/models/events.dart';
 import 'package:frontend/screens/quiz_victory_screen.dart';
-
 import '../widgets/answer_button_widget.dart';
 
 class AnswerScreen extends StatelessWidget {

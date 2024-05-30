@@ -22,19 +22,21 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
   int _start = 60;
   late int roomId;
   String username = "";
+
   @override
   void initState() {
     super.initState();
-    roomId = 100000 + Random().nextInt(900000); // Generate a random 6-digit number
+    roomId =
+        100000 + Random().nextInt(900000); // Generate a random 6-digit number
     username = context.read<QuizBloc>().state.username;
     print('Room ID: $roomId'); // Add this line
     startTimer();
     context.read<QuizBloc>().clientWantsToSetupQuiz(
-      widget.quizId,
-      username,
-      roomId,
-      _start,
-    );
+          widget.quizId,
+          username,
+          roomId,
+          _start,
+        );
     print("${username}joined room: $roomId");
   }
 
@@ -65,7 +67,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
       appBar: AppBar(
         title: const Text('Quiz Setup', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.indigo[300],
-
+        automaticallyImplyLeading: false,
         leading: BackButton(
           onPressed: () {
             context.read<QuizBloc>().clientWantsToKickAllUsers(roomId);
@@ -96,16 +98,24 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
                 builder: (context, state) {
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: state.users.where((user) => user != state.username).length, // Filter out the username from the users list
+                    itemCount: state.users
+                        .where((user) => user != state.username)
+                        .length, // Filter out the username from the users list
                     itemBuilder: (context, index) {
-                      String user = state.users.where((user) => user != state.username).toList()[index]; // Get the user at the current index after filtering
+                      String user = state.users
+                              .where((user) => user != state.username)
+                              .toList()[
+                          index]; // Get the user at the current index after filtering
                       return Card(
                         child: ListTile(
-                          title: Text(user, style: const TextStyle(fontSize: 18)),
+                          title:
+                              Text(user, style: const TextStyle(fontSize: 18)),
                           trailing: IconButton(
                             icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () {
-                              context.read<QuizBloc>().clientWantsToKickUserFromRoom(roomId, user);
+                              context
+                                  .read<QuizBloc>()
+                                  .clientWantsToKickUserFromRoom(roomId, user);
                             },
                           ),
                         ),
@@ -116,6 +126,10 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.indigo[300],
+                ),
                 onPressed: () {
                   context.read<QuizBloc>().clientWantsToStartQuiz(
                         widget.username,

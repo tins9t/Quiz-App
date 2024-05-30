@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/bloc/quiz_bloc.dart';
 import 'package:frontend/models/events.dart';
 import 'package:frontend/screens/home_screen.dart';
-
 import 'package:lottie/lottie.dart';
-
 import '../bloc/quiz_state.dart';
 
 class ScoreboardScreen extends StatefulWidget {
