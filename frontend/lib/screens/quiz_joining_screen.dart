@@ -4,6 +4,8 @@ import 'package:frontend/screens/quiz_answer_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
+import '../models/events.dart';
+
 class QuizJoiningScreen extends StatefulWidget {
   const QuizJoiningScreen({super.key});
 
@@ -21,6 +23,7 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
     super.initState();
     String usernameInState = context.read<QuizBloc>().state.username;
     _roomIdController = TextEditingController();
+    context.read<QuizBloc>().add(ClientWantsToResetQuiz( roomId: context.read<QuizBloc>().state.roomId));
     _usernameController = TextEditingController(
       text: usernameInState == 'Host' ? '' : usernameInState,
     ); // Set initial value to username in state if it's not 'Host'

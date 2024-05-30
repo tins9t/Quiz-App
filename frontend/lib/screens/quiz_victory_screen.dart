@@ -84,7 +84,7 @@ class QuizVictoryScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
-                    context.read<QuizBloc>().add(ClientWantsToResetQuiz( roomId: context.read<QuizBloc>().state.roomId));
+
                     // Call the leaveRoom event
                     context.read<QuizBloc>().add(ClientEvent.clientWantsToKickUserFromRoom(
                       username: quizState.username,

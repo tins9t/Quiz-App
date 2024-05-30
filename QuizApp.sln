@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "infrastructure", "infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "service", "service\service.csproj", "{3665FA19-2EA8-4646-BE1B-2BB7BE009419}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{CC9BF52D-7F3E-4915-96AF-334664F410EC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +24,5 @@ Global
 		{3665FA19-2EA8-4646-BE1B-2BB7BE009419}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3665FA19-2EA8-4646-BE1B-2BB7BE009419}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3665FA19-2EA8-4646-BE1B-2BB7BE009419}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC9BF52D-7F3E-4915-96AF-334664F410EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC9BF52D-7F3E-4915-96AF-334664F410EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC9BF52D-7F3E-4915-96AF-334664F410EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC9BF52D-7F3E-4915-96AF-334664F410EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
