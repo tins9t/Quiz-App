@@ -50,7 +50,7 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
           if (isCurrentRouteJoiningScreen) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Something went wrong. Please try again.'),
+                content: Text('Wrong room id!.'),
                 duration: Duration(seconds: 2),
               ),
             );
@@ -75,48 +75,59 @@ class _QuizJoiningScreenState extends State<QuizJoiningScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              controller: _roomIdController,
-              decoration: const InputDecoration(
-                labelText: 'Room ID',
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                controller: _roomIdController,
+                decoration: const InputDecoration(
+                  labelText: 'Room ID',
+                ),
+                keyboardType: TextInputType.number,
               ),
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Username',
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  labelText: 'Username',
+                ),
               ),
-            ),
-            const SizedBox(height: 50),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.blue,
+              const SizedBox(height: 50),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
+                ),
+                onPressed: _isButtonEnabled
+                    ? () async {
+                  if (context.read<QuizBloc>().state.users.contains(_usernameController.text)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Username already exists. Please enter a unique username.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    context.read<QuizBloc>().clientWantsToEnterRoom(
+                      int.parse(_roomIdController.text.trim()),
+                      _usernameController.text,
+                    );
+                    context.read<QuizBloc>().clientWantsToEnterRoom(
+                      int.parse(_roomIdController.text),
+                      _usernameController.text,
+                    );
+                  }
+                }
+                    : null, // Disable button if fields are not filled out
+                child: const Text('Join Quiz'),
               ),
-              onPressed: _isButtonEnabled
-                  ? () async {
-                      context.read<QuizBloc>().clientWantsToEnterRoom(
-                            int.parse(_roomIdController.text.trim()),
-                            _usernameController.text,
-                          );
-                      context.read<QuizBloc>().clientWantsToEnterRoom(
-                            int.parse(_roomIdController.text),
-                            _usernameController.text,
-                          );
-                    }
-                  : null, // Disable button if fields are not filled out
-              child: const Text('Join Quiz'),
-            ),
-            SizedBox(height: 80),
-            Center(
-              child: Lottie.asset('assets/animations/question.json',
-                  fit: BoxFit.cover, height: 300, width: 300),
-            ),
-          ],
+              const SizedBox(height: 80),
+              Center(
+                child: Lottie.asset('assets/animations/question.json',
+                    fit: BoxFit.cover, height: 300, width: 300),
+              ),
+            ],
+          ),
         ),
       ),
     );

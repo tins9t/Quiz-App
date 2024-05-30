@@ -45,6 +45,10 @@ sealed class ClientEvent with _$ClientEvent implements BaseEvent {
     required int roomId,
   }) = ClientWantsToStartQuiz;
 
+  const factory ClientEvent.clientLoggedIn({
+    required String username,
+  }) = ClientLoggedIn;
+
   factory ClientEvent.fromJson(Map<String, dynamic> json) =>
       _$ClientEventFromJson(json);
 

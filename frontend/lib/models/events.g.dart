@@ -122,6 +122,19 @@ Map<String, dynamic> _$$ClientWantsToStartQuizImplToJson(
       'eventType': instance.$type,
     };
 
+_$ClientLoggedInImpl _$$ClientLoggedInImplFromJson(Map<String, dynamic> json) =>
+    _$ClientLoggedInImpl(
+      username: json['username'] as String,
+      $type: json['eventType'] as String?,
+    );
+
+Map<String, dynamic> _$$ClientLoggedInImplToJson(
+        _$ClientLoggedInImpl instance) =>
+    <String, dynamic>{
+      'username': instance.username,
+      'eventType': instance.$type,
+    };
+
 _$ServerAddsClientToRoomImpl _$$ServerAddsClientToRoomImplFromJson(
         Map<String, dynamic> json) =>
     _$ServerAddsClientToRoomImpl(

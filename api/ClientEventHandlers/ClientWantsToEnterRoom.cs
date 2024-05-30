@@ -24,14 +24,27 @@ public class ClientWantsToEnterRoom() : BaseEventHandler<ClientWantsToEnterRoomD
 
     public override Task Handle(ClientWantsToEnterRoomDto dto, IWebSocketConnection socket)
     {
-        var isSuccess = _stateService.AddToRoom(socket, dto.roomId);
-        _stateService.Connections[socket.ConnectionInfo.Id].Username = dto.Username;
-        socket.Send(JsonSerializer.Serialize(new ServerAddsClientToRoomDto()
+        var isSuccess = _stateService.AddToRoom(socket, dto.roomId, dto.Username);
+
+        if (isSuccess)
         {
-            eventType = "ServerAddsClientToRoom",
-            message = dto.Username + " were successfully added to room with ID: " + dto.roomId
-        }));
-        Console.WriteLine("Client " + dto.Username + " added to room with ID: " + dto.roomId);
+            socket.Send(JsonSerializer.Serialize(new ServerAddsClientToRoomDto()
+            {
+                eventType = "ServerAddsClientToRoom",
+                message = dto.Username + " were successfully added to room with ID: " + dto.roomId
+            }));
+            Console.WriteLine("Client " + dto.Username + " added to room with ID: " + dto.roomId);
+        }
+        else
+        {
+            socket.Send(JsonSerializer.Serialize(new ServerAddsClientToRoomDto()
+            {
+                eventType = "ServerAddsClientToRoom",
+                message = "Failed to add " + dto.Username + " to room with ID: " + dto.roomId + ". Username already exists in the room."
+            }));
+            Console.WriteLine("Failed to add client " + dto.Username + " to room with ID: " + dto.roomId + ". Username already exists in the room.");
+        }
+
         return Task.CompletedTask;
     }
 }

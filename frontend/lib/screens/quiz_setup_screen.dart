@@ -22,23 +22,21 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
   late Timer _timer;
   int _start = 60;
   late int roomId;
-
+  String username = "";
   @override
   void initState() {
     super.initState();
     roomId = 100000 + Random().nextInt(900000); // Generate a random 6-digit number
+    username = context.read<QuizBloc>().state.username;
     print('Room ID: $roomId'); // Add this line
     startTimer();
     context.read<QuizBloc>().clientWantsToSetupQuiz(
       widget.quizId,
-      widget.username,
+      username,
       roomId,
       _start,
     );
-    context
-        .read<QuizBloc>()
-        .clientWantsToEnterRoom(roomId, "Host"); // Add this line
-    print("Host joined room: $roomId");
+    print("${username}joined room: $roomId");
   }
 
   void startTimer() {

@@ -32,9 +32,8 @@ public class ClientWantsToSetupQuiz : BaseEventHandler<ClientWantsToSetupQuizDto
 
     public override Task Handle(ClientWantsToSetupQuizDto dto, IWebSocketConnection socket)
     {
-        _stateService.CreateRoom(socket, dto.roomId);
+        _stateService.CreateRoom(socket, dto.roomId, dto.Username);
         Console.WriteLine("room created for quiz room: " + dto.roomId);
-        _stateService.Connections[socket.ConnectionInfo.Id].Username = dto.Username;
 
         // If SetupTimer is not zero, start the setup phase timer
         if (dto.SetupTimer > 0)
