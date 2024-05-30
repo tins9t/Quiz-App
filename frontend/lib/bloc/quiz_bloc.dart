@@ -81,6 +81,9 @@ class QuizBloc extends Bloc<BaseEvent, QuizState> {
         roomId: event.roomId,
       ));
     }
+    if (event is ClientLoggedIn) {
+      emit(state.copyWith(username: event.username));
+    }
 
   }
 

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/bloc/quiz_bloc.dart';
+import 'package:frontend/data/user_data_source.dart';
+import 'package:frontend/models/events.dart';
 import '../widgets/big_screen_widget.dart';
 import '../widgets/small_screen_widget.dart';
 import 'account_settings_screen.dart';
@@ -12,6 +16,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String _selectedOption = 'Home';
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _setUsername();
+  }
+
+  Future<void> _setUsername() async {
+    final username = await context.read<UserDataSource>().getUser(context).then((user) => user.username);
+    print(username);
+    BlocProvider.of<QuizBloc>(context).add(ClientEvent.clientLoggedIn(username: username));
+  }
 
   @override
   Widget build(BuildContext context) {

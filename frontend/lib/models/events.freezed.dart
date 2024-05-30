@@ -30,6 +30,8 @@ ClientEvent _$ClientEventFromJson(Map<String, dynamic> json) {
       return ClientWantsToSetupQuiz.fromJson(json);
     case 'ClientWantsToStartQuiz':
       return ClientWantsToStartQuiz.fromJson(json);
+    case 'ClientLoggedIn':
+      return ClientLoggedIn.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'eventType', 'ClientEvent',
@@ -39,7 +41,6 @@ ClientEvent _$ClientEventFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ClientEvent {
-  int get roomId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int roomId, String username)
@@ -55,6 +56,7 @@ mixin _$ClientEvent {
         clientWantsToSetupQuiz,
     required TResult Function(String username, String quizId, int roomId)
         clientWantsToStartQuiz,
+    required TResult Function(String username) clientLoggedIn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -71,6 +73,7 @@ mixin _$ClientEvent {
         clientWantsToSetupQuiz,
     TResult? Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult? Function(String username)? clientLoggedIn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -87,6 +90,7 @@ mixin _$ClientEvent {
         clientWantsToSetupQuiz,
     TResult Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult Function(String username)? clientLoggedIn,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -106,6 +110,7 @@ mixin _$ClientEvent {
         clientWantsToSetupQuiz,
     required TResult Function(ClientWantsToStartQuiz value)
         clientWantsToStartQuiz,
+    required TResult Function(ClientLoggedIn value) clientLoggedIn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -120,6 +125,7 @@ mixin _$ClientEvent {
         clientWantsToKickUserFromRoom,
     TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult? Function(ClientLoggedIn value)? clientLoggedIn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -134,13 +140,11 @@ mixin _$ClientEvent {
         clientWantsToKickUserFromRoom,
     TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult Function(ClientLoggedIn value)? clientLoggedIn,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ClientEventCopyWith<ClientEvent> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -148,8 +152,6 @@ abstract class $ClientEventCopyWith<$Res> {
   factory $ClientEventCopyWith(
           ClientEvent value, $Res Function(ClientEvent) then) =
       _$ClientEventCopyWithImpl<$Res, ClientEvent>;
-  @useResult
-  $Res call({int roomId});
 }
 
 /// @nodoc
@@ -161,29 +163,14 @@ class _$ClientEventCopyWithImpl<$Res, $Val extends ClientEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? roomId = null,
-  }) {
-    return _then(_value.copyWith(
-      roomId: null == roomId
-          ? _value.roomId
-          : roomId // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$ClientWantsToEnterRoomImplCopyWith<$Res>
-    implements $ClientEventCopyWith<$Res> {
+abstract class _$$ClientWantsToEnterRoomImplCopyWith<$Res> {
   factory _$$ClientWantsToEnterRoomImplCopyWith(
           _$ClientWantsToEnterRoomImpl value,
           $Res Function(_$ClientWantsToEnterRoomImpl) then) =
       __$$ClientWantsToEnterRoomImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({int roomId, String username});
 }
@@ -287,6 +274,7 @@ class _$ClientWantsToEnterRoomImpl
         clientWantsToSetupQuiz,
     required TResult Function(String username, String quizId, int roomId)
         clientWantsToStartQuiz,
+    required TResult Function(String username) clientLoggedIn,
   }) {
     return clientWantsToEnterRoom(roomId, username);
   }
@@ -306,6 +294,7 @@ class _$ClientWantsToEnterRoomImpl
         clientWantsToSetupQuiz,
     TResult? Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult? Function(String username)? clientLoggedIn,
   }) {
     return clientWantsToEnterRoom?.call(roomId, username);
   }
@@ -325,6 +314,7 @@ class _$ClientWantsToEnterRoomImpl
         clientWantsToSetupQuiz,
     TResult Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult Function(String username)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToEnterRoom != null) {
@@ -350,6 +340,7 @@ class _$ClientWantsToEnterRoomImpl
         clientWantsToSetupQuiz,
     required TResult Function(ClientWantsToStartQuiz value)
         clientWantsToStartQuiz,
+    required TResult Function(ClientLoggedIn value) clientLoggedIn,
   }) {
     return clientWantsToEnterRoom(this);
   }
@@ -367,6 +358,7 @@ class _$ClientWantsToEnterRoomImpl
         clientWantsToKickUserFromRoom,
     TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult? Function(ClientLoggedIn value)? clientLoggedIn,
   }) {
     return clientWantsToEnterRoom?.call(this);
   }
@@ -384,6 +376,7 @@ class _$ClientWantsToEnterRoomImpl
         clientWantsToKickUserFromRoom,
     TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult Function(ClientLoggedIn value)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToEnterRoom != null) {
@@ -408,23 +401,19 @@ abstract class ClientWantsToEnterRoom implements ClientEvent {
   factory ClientWantsToEnterRoom.fromJson(Map<String, dynamic> json) =
       _$ClientWantsToEnterRoomImpl.fromJson;
 
-  @override
   int get roomId;
   String get username;
-  @override
   @JsonKey(ignore: true)
   _$$ClientWantsToEnterRoomImplCopyWith<_$ClientWantsToEnterRoomImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ClientWantsToResetQuizImplCopyWith<$Res>
-    implements $ClientEventCopyWith<$Res> {
+abstract class _$$ClientWantsToResetQuizImplCopyWith<$Res> {
   factory _$$ClientWantsToResetQuizImplCopyWith(
           _$ClientWantsToResetQuizImpl value,
           $Res Function(_$ClientWantsToResetQuizImpl) then) =
       __$$ClientWantsToResetQuizImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({int roomId});
 }
@@ -518,6 +507,7 @@ class _$ClientWantsToResetQuizImpl
         clientWantsToSetupQuiz,
     required TResult Function(String username, String quizId, int roomId)
         clientWantsToStartQuiz,
+    required TResult Function(String username) clientLoggedIn,
   }) {
     return clientWantsToResetQuiz(roomId);
   }
@@ -537,6 +527,7 @@ class _$ClientWantsToResetQuizImpl
         clientWantsToSetupQuiz,
     TResult? Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult? Function(String username)? clientLoggedIn,
   }) {
     return clientWantsToResetQuiz?.call(roomId);
   }
@@ -556,6 +547,7 @@ class _$ClientWantsToResetQuizImpl
         clientWantsToSetupQuiz,
     TResult Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult Function(String username)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToResetQuiz != null) {
@@ -581,6 +573,7 @@ class _$ClientWantsToResetQuizImpl
         clientWantsToSetupQuiz,
     required TResult Function(ClientWantsToStartQuiz value)
         clientWantsToStartQuiz,
+    required TResult Function(ClientLoggedIn value) clientLoggedIn,
   }) {
     return clientWantsToResetQuiz(this);
   }
@@ -598,6 +591,7 @@ class _$ClientWantsToResetQuizImpl
         clientWantsToKickUserFromRoom,
     TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult? Function(ClientLoggedIn value)? clientLoggedIn,
   }) {
     return clientWantsToResetQuiz?.call(this);
   }
@@ -615,6 +609,7 @@ class _$ClientWantsToResetQuizImpl
         clientWantsToKickUserFromRoom,
     TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult Function(ClientLoggedIn value)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToResetQuiz != null) {
@@ -638,22 +633,18 @@ abstract class ClientWantsToResetQuiz implements ClientEvent {
   factory ClientWantsToResetQuiz.fromJson(Map<String, dynamic> json) =
       _$ClientWantsToResetQuizImpl.fromJson;
 
-  @override
   int get roomId;
-  @override
   @JsonKey(ignore: true)
   _$$ClientWantsToResetQuizImplCopyWith<_$ClientWantsToResetQuizImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ClientWantsToAnswerQuestionImplCopyWith<$Res>
-    implements $ClientEventCopyWith<$Res> {
+abstract class _$$ClientWantsToAnswerQuestionImplCopyWith<$Res> {
   factory _$$ClientWantsToAnswerQuestionImplCopyWith(
           _$ClientWantsToAnswerQuestionImpl value,
           $Res Function(_$ClientWantsToAnswerQuestionImpl) then) =
       __$$ClientWantsToAnswerQuestionImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({int answerId, String username, int roomId});
 }
@@ -772,6 +763,7 @@ class _$ClientWantsToAnswerQuestionImpl
         clientWantsToSetupQuiz,
     required TResult Function(String username, String quizId, int roomId)
         clientWantsToStartQuiz,
+    required TResult Function(String username) clientLoggedIn,
   }) {
     return clientWantsToAnswerQuestion(answerId, username, roomId);
   }
@@ -791,6 +783,7 @@ class _$ClientWantsToAnswerQuestionImpl
         clientWantsToSetupQuiz,
     TResult? Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult? Function(String username)? clientLoggedIn,
   }) {
     return clientWantsToAnswerQuestion?.call(answerId, username, roomId);
   }
@@ -810,6 +803,7 @@ class _$ClientWantsToAnswerQuestionImpl
         clientWantsToSetupQuiz,
     TResult Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult Function(String username)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToAnswerQuestion != null) {
@@ -835,6 +829,7 @@ class _$ClientWantsToAnswerQuestionImpl
         clientWantsToSetupQuiz,
     required TResult Function(ClientWantsToStartQuiz value)
         clientWantsToStartQuiz,
+    required TResult Function(ClientLoggedIn value) clientLoggedIn,
   }) {
     return clientWantsToAnswerQuestion(this);
   }
@@ -852,6 +847,7 @@ class _$ClientWantsToAnswerQuestionImpl
         clientWantsToKickUserFromRoom,
     TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult? Function(ClientLoggedIn value)? clientLoggedIn,
   }) {
     return clientWantsToAnswerQuestion?.call(this);
   }
@@ -869,6 +865,7 @@ class _$ClientWantsToAnswerQuestionImpl
         clientWantsToKickUserFromRoom,
     TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult Function(ClientLoggedIn value)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToAnswerQuestion != null) {
@@ -896,22 +893,18 @@ abstract class ClientWantsToAnswerQuestion implements ClientEvent {
 
   int get answerId;
   String get username;
-  @override
   int get roomId;
-  @override
   @JsonKey(ignore: true)
   _$$ClientWantsToAnswerQuestionImplCopyWith<_$ClientWantsToAnswerQuestionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ClientWantsToKickAllUsersImplCopyWith<$Res>
-    implements $ClientEventCopyWith<$Res> {
+abstract class _$$ClientWantsToKickAllUsersImplCopyWith<$Res> {
   factory _$$ClientWantsToKickAllUsersImplCopyWith(
           _$ClientWantsToKickAllUsersImpl value,
           $Res Function(_$ClientWantsToKickAllUsersImpl) then) =
       __$$ClientWantsToKickAllUsersImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({int roomId});
 }
@@ -1006,6 +999,7 @@ class _$ClientWantsToKickAllUsersImpl
         clientWantsToSetupQuiz,
     required TResult Function(String username, String quizId, int roomId)
         clientWantsToStartQuiz,
+    required TResult Function(String username) clientLoggedIn,
   }) {
     return clientWantsToKickAllUsers(roomId);
   }
@@ -1025,6 +1019,7 @@ class _$ClientWantsToKickAllUsersImpl
         clientWantsToSetupQuiz,
     TResult? Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult? Function(String username)? clientLoggedIn,
   }) {
     return clientWantsToKickAllUsers?.call(roomId);
   }
@@ -1044,6 +1039,7 @@ class _$ClientWantsToKickAllUsersImpl
         clientWantsToSetupQuiz,
     TResult Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult Function(String username)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToKickAllUsers != null) {
@@ -1069,6 +1065,7 @@ class _$ClientWantsToKickAllUsersImpl
         clientWantsToSetupQuiz,
     required TResult Function(ClientWantsToStartQuiz value)
         clientWantsToStartQuiz,
+    required TResult Function(ClientLoggedIn value) clientLoggedIn,
   }) {
     return clientWantsToKickAllUsers(this);
   }
@@ -1086,6 +1083,7 @@ class _$ClientWantsToKickAllUsersImpl
         clientWantsToKickUserFromRoom,
     TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult? Function(ClientLoggedIn value)? clientLoggedIn,
   }) {
     return clientWantsToKickAllUsers?.call(this);
   }
@@ -1103,6 +1101,7 @@ class _$ClientWantsToKickAllUsersImpl
         clientWantsToKickUserFromRoom,
     TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult Function(ClientLoggedIn value)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToKickAllUsers != null) {
@@ -1126,22 +1125,18 @@ abstract class ClientWantsToKickAllUsers implements ClientEvent {
   factory ClientWantsToKickAllUsers.fromJson(Map<String, dynamic> json) =
       _$ClientWantsToKickAllUsersImpl.fromJson;
 
-  @override
   int get roomId;
-  @override
   @JsonKey(ignore: true)
   _$$ClientWantsToKickAllUsersImplCopyWith<_$ClientWantsToKickAllUsersImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$clientWantsToKickUserFromRoomImplCopyWith<$Res>
-    implements $ClientEventCopyWith<$Res> {
+abstract class _$$clientWantsToKickUserFromRoomImplCopyWith<$Res> {
   factory _$$clientWantsToKickUserFromRoomImplCopyWith(
           _$clientWantsToKickUserFromRoomImpl value,
           $Res Function(_$clientWantsToKickUserFromRoomImpl) then) =
       __$$clientWantsToKickUserFromRoomImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({int roomId, String username});
 }
@@ -1248,6 +1243,7 @@ class _$clientWantsToKickUserFromRoomImpl
         clientWantsToSetupQuiz,
     required TResult Function(String username, String quizId, int roomId)
         clientWantsToStartQuiz,
+    required TResult Function(String username) clientLoggedIn,
   }) {
     return clientWantsToKickUserFromRoom(roomId, username);
   }
@@ -1267,6 +1263,7 @@ class _$clientWantsToKickUserFromRoomImpl
         clientWantsToSetupQuiz,
     TResult? Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult? Function(String username)? clientLoggedIn,
   }) {
     return clientWantsToKickUserFromRoom?.call(roomId, username);
   }
@@ -1286,6 +1283,7 @@ class _$clientWantsToKickUserFromRoomImpl
         clientWantsToSetupQuiz,
     TResult Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult Function(String username)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToKickUserFromRoom != null) {
@@ -1311,6 +1309,7 @@ class _$clientWantsToKickUserFromRoomImpl
         clientWantsToSetupQuiz,
     required TResult Function(ClientWantsToStartQuiz value)
         clientWantsToStartQuiz,
+    required TResult Function(ClientLoggedIn value) clientLoggedIn,
   }) {
     return clientWantsToKickUserFromRoom(this);
   }
@@ -1328,6 +1327,7 @@ class _$clientWantsToKickUserFromRoomImpl
         clientWantsToKickUserFromRoom,
     TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult? Function(ClientLoggedIn value)? clientLoggedIn,
   }) {
     return clientWantsToKickUserFromRoom?.call(this);
   }
@@ -1345,6 +1345,7 @@ class _$clientWantsToKickUserFromRoomImpl
         clientWantsToKickUserFromRoom,
     TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult Function(ClientLoggedIn value)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToKickUserFromRoom != null) {
@@ -1369,10 +1370,8 @@ abstract class clientWantsToKickUserFromRoom implements ClientEvent {
   factory clientWantsToKickUserFromRoom.fromJson(Map<String, dynamic> json) =
       _$clientWantsToKickUserFromRoomImpl.fromJson;
 
-  @override
   int get roomId;
   String get username;
-  @override
   @JsonKey(ignore: true)
   _$$clientWantsToKickUserFromRoomImplCopyWith<
           _$clientWantsToKickUserFromRoomImpl>
@@ -1380,13 +1379,11 @@ abstract class clientWantsToKickUserFromRoom implements ClientEvent {
 }
 
 /// @nodoc
-abstract class _$$ClientWantsToSetupQuizImplCopyWith<$Res>
-    implements $ClientEventCopyWith<$Res> {
+abstract class _$$ClientWantsToSetupQuizImplCopyWith<$Res> {
   factory _$$ClientWantsToSetupQuizImplCopyWith(
           _$ClientWantsToSetupQuizImpl value,
           $Res Function(_$ClientWantsToSetupQuizImpl) then) =
       __$$ClientWantsToSetupQuizImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String quizId, String username, int roomId, int setupTimer});
 }
@@ -1514,6 +1511,7 @@ class _$ClientWantsToSetupQuizImpl
         clientWantsToSetupQuiz,
     required TResult Function(String username, String quizId, int roomId)
         clientWantsToStartQuiz,
+    required TResult Function(String username) clientLoggedIn,
   }) {
     return clientWantsToSetupQuiz(quizId, username, roomId, setupTimer);
   }
@@ -1533,6 +1531,7 @@ class _$ClientWantsToSetupQuizImpl
         clientWantsToSetupQuiz,
     TResult? Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult? Function(String username)? clientLoggedIn,
   }) {
     return clientWantsToSetupQuiz?.call(quizId, username, roomId, setupTimer);
   }
@@ -1552,6 +1551,7 @@ class _$ClientWantsToSetupQuizImpl
         clientWantsToSetupQuiz,
     TResult Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult Function(String username)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToSetupQuiz != null) {
@@ -1577,6 +1577,7 @@ class _$ClientWantsToSetupQuizImpl
         clientWantsToSetupQuiz,
     required TResult Function(ClientWantsToStartQuiz value)
         clientWantsToStartQuiz,
+    required TResult Function(ClientLoggedIn value) clientLoggedIn,
   }) {
     return clientWantsToSetupQuiz(this);
   }
@@ -1594,6 +1595,7 @@ class _$ClientWantsToSetupQuizImpl
         clientWantsToKickUserFromRoom,
     TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult? Function(ClientLoggedIn value)? clientLoggedIn,
   }) {
     return clientWantsToSetupQuiz?.call(this);
   }
@@ -1611,6 +1613,7 @@ class _$ClientWantsToSetupQuizImpl
         clientWantsToKickUserFromRoom,
     TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult Function(ClientLoggedIn value)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToSetupQuiz != null) {
@@ -1639,23 +1642,19 @@ abstract class ClientWantsToSetupQuiz implements ClientEvent {
 
   String get quizId;
   String get username;
-  @override
   int get roomId;
   int get setupTimer;
-  @override
   @JsonKey(ignore: true)
   _$$ClientWantsToSetupQuizImplCopyWith<_$ClientWantsToSetupQuizImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ClientWantsToStartQuizImplCopyWith<$Res>
-    implements $ClientEventCopyWith<$Res> {
+abstract class _$$ClientWantsToStartQuizImplCopyWith<$Res> {
   factory _$$ClientWantsToStartQuizImplCopyWith(
           _$ClientWantsToStartQuizImpl value,
           $Res Function(_$ClientWantsToStartQuizImpl) then) =
       __$$ClientWantsToStartQuizImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String username, String quizId, int roomId});
 }
@@ -1771,6 +1770,7 @@ class _$ClientWantsToStartQuizImpl
         clientWantsToSetupQuiz,
     required TResult Function(String username, String quizId, int roomId)
         clientWantsToStartQuiz,
+    required TResult Function(String username) clientLoggedIn,
   }) {
     return clientWantsToStartQuiz(username, quizId, roomId);
   }
@@ -1790,6 +1790,7 @@ class _$ClientWantsToStartQuizImpl
         clientWantsToSetupQuiz,
     TResult? Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult? Function(String username)? clientLoggedIn,
   }) {
     return clientWantsToStartQuiz?.call(username, quizId, roomId);
   }
@@ -1809,6 +1810,7 @@ class _$ClientWantsToStartQuizImpl
         clientWantsToSetupQuiz,
     TResult Function(String username, String quizId, int roomId)?
         clientWantsToStartQuiz,
+    TResult Function(String username)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToStartQuiz != null) {
@@ -1834,6 +1836,7 @@ class _$ClientWantsToStartQuizImpl
         clientWantsToSetupQuiz,
     required TResult Function(ClientWantsToStartQuiz value)
         clientWantsToStartQuiz,
+    required TResult Function(ClientLoggedIn value) clientLoggedIn,
   }) {
     return clientWantsToStartQuiz(this);
   }
@@ -1851,6 +1854,7 @@ class _$ClientWantsToStartQuizImpl
         clientWantsToKickUserFromRoom,
     TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult? Function(ClientLoggedIn value)? clientLoggedIn,
   }) {
     return clientWantsToStartQuiz?.call(this);
   }
@@ -1868,6 +1872,7 @@ class _$ClientWantsToStartQuizImpl
         clientWantsToKickUserFromRoom,
     TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
     TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult Function(ClientLoggedIn value)? clientLoggedIn,
     required TResult orElse(),
   }) {
     if (clientWantsToStartQuiz != null) {
@@ -1895,12 +1900,239 @@ abstract class ClientWantsToStartQuiz implements ClientEvent {
 
   String get username;
   String get quizId;
-  @override
   int get roomId;
-  @override
   @JsonKey(ignore: true)
   _$$ClientWantsToStartQuizImplCopyWith<_$ClientWantsToStartQuizImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ClientLoggedInImplCopyWith<$Res> {
+  factory _$$ClientLoggedInImplCopyWith(_$ClientLoggedInImpl value,
+          $Res Function(_$ClientLoggedInImpl) then) =
+      __$$ClientLoggedInImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String username});
+}
+
+/// @nodoc
+class __$$ClientLoggedInImplCopyWithImpl<$Res>
+    extends _$ClientEventCopyWithImpl<$Res, _$ClientLoggedInImpl>
+    implements _$$ClientLoggedInImplCopyWith<$Res> {
+  __$$ClientLoggedInImplCopyWithImpl(
+      _$ClientLoggedInImpl _value, $Res Function(_$ClientLoggedInImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? username = null,
+  }) {
+    return _then(_$ClientLoggedInImpl(
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ClientLoggedInImpl
+    with DiagnosticableTreeMixin
+    implements ClientLoggedIn {
+  const _$ClientLoggedInImpl({required this.username, final String? $type})
+      : $type = $type ?? 'ClientLoggedIn';
+
+  factory _$ClientLoggedInImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ClientLoggedInImplFromJson(json);
+
+  @override
+  final String username;
+
+  @JsonKey(name: 'eventType')
+  final String $type;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ClientEvent.clientLoggedIn(username: $username)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ClientEvent.clientLoggedIn'))
+      ..add(DiagnosticsProperty('username', username));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ClientLoggedInImpl &&
+            (identical(other.username, username) ||
+                other.username == username));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, username);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ClientLoggedInImplCopyWith<_$ClientLoggedInImpl> get copyWith =>
+      __$$ClientLoggedInImplCopyWithImpl<_$ClientLoggedInImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int roomId, String username)
+        clientWantsToEnterRoom,
+    required TResult Function(int roomId) clientWantsToResetQuiz,
+    required TResult Function(int answerId, String username, int roomId)
+        clientWantsToAnswerQuestion,
+    required TResult Function(int roomId) clientWantsToKickAllUsers,
+    required TResult Function(int roomId, String username)
+        clientWantsToKickUserFromRoom,
+    required TResult Function(
+            String quizId, String username, int roomId, int setupTimer)
+        clientWantsToSetupQuiz,
+    required TResult Function(String username, String quizId, int roomId)
+        clientWantsToStartQuiz,
+    required TResult Function(String username) clientLoggedIn,
+  }) {
+    return clientLoggedIn(username);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult? Function(int roomId)? clientWantsToResetQuiz,
+    TResult? Function(int answerId, String username, int roomId)?
+        clientWantsToAnswerQuestion,
+    TResult? Function(int roomId)? clientWantsToKickAllUsers,
+    TResult? Function(int roomId, String username)?
+        clientWantsToKickUserFromRoom,
+    TResult? Function(
+            String quizId, String username, int roomId, int setupTimer)?
+        clientWantsToSetupQuiz,
+    TResult? Function(String username, String quizId, int roomId)?
+        clientWantsToStartQuiz,
+    TResult? Function(String username)? clientLoggedIn,
+  }) {
+    return clientLoggedIn?.call(username);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int roomId, String username)? clientWantsToEnterRoom,
+    TResult Function(int roomId)? clientWantsToResetQuiz,
+    TResult Function(int answerId, String username, int roomId)?
+        clientWantsToAnswerQuestion,
+    TResult Function(int roomId)? clientWantsToKickAllUsers,
+    TResult Function(int roomId, String username)?
+        clientWantsToKickUserFromRoom,
+    TResult Function(
+            String quizId, String username, int roomId, int setupTimer)?
+        clientWantsToSetupQuiz,
+    TResult Function(String username, String quizId, int roomId)?
+        clientWantsToStartQuiz,
+    TResult Function(String username)? clientLoggedIn,
+    required TResult orElse(),
+  }) {
+    if (clientLoggedIn != null) {
+      return clientLoggedIn(username);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ClientWantsToEnterRoom value)
+        clientWantsToEnterRoom,
+    required TResult Function(ClientWantsToResetQuiz value)
+        clientWantsToResetQuiz,
+    required TResult Function(ClientWantsToAnswerQuestion value)
+        clientWantsToAnswerQuestion,
+    required TResult Function(ClientWantsToKickAllUsers value)
+        clientWantsToKickAllUsers,
+    required TResult Function(clientWantsToKickUserFromRoom value)
+        clientWantsToKickUserFromRoom,
+    required TResult Function(ClientWantsToSetupQuiz value)
+        clientWantsToSetupQuiz,
+    required TResult Function(ClientWantsToStartQuiz value)
+        clientWantsToStartQuiz,
+    required TResult Function(ClientLoggedIn value) clientLoggedIn,
+  }) {
+    return clientLoggedIn(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult? Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
+    TResult? Function(ClientWantsToAnswerQuestion value)?
+        clientWantsToAnswerQuestion,
+    TResult? Function(ClientWantsToKickAllUsers value)?
+        clientWantsToKickAllUsers,
+    TResult? Function(clientWantsToKickUserFromRoom value)?
+        clientWantsToKickUserFromRoom,
+    TResult? Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
+    TResult? Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult? Function(ClientLoggedIn value)? clientLoggedIn,
+  }) {
+    return clientLoggedIn?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ClientWantsToEnterRoom value)? clientWantsToEnterRoom,
+    TResult Function(ClientWantsToResetQuiz value)? clientWantsToResetQuiz,
+    TResult Function(ClientWantsToAnswerQuestion value)?
+        clientWantsToAnswerQuestion,
+    TResult Function(ClientWantsToKickAllUsers value)?
+        clientWantsToKickAllUsers,
+    TResult Function(clientWantsToKickUserFromRoom value)?
+        clientWantsToKickUserFromRoom,
+    TResult Function(ClientWantsToSetupQuiz value)? clientWantsToSetupQuiz,
+    TResult Function(ClientWantsToStartQuiz value)? clientWantsToStartQuiz,
+    TResult Function(ClientLoggedIn value)? clientLoggedIn,
+    required TResult orElse(),
+  }) {
+    if (clientLoggedIn != null) {
+      return clientLoggedIn(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ClientLoggedInImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ClientLoggedIn implements ClientEvent {
+  const factory ClientLoggedIn({required final String username}) =
+      _$ClientLoggedInImpl;
+
+  factory ClientLoggedIn.fromJson(Map<String, dynamic> json) =
+      _$ClientLoggedInImpl.fromJson;
+
+  String get username;
+  @JsonKey(ignore: true)
+  _$$ClientLoggedInImplCopyWith<_$ClientLoggedInImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 ServerEvent _$ServerEventFromJson(Map<String, dynamic> json) {

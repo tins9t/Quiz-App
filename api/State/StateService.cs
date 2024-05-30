@@ -57,17 +57,32 @@ public class StateService {
 
         SendServerResponse(roomId, response);
     }
-    public bool AddToRoom(IWebSocketConnection socket, int room)
+    public bool AddToRoom(IWebSocketConnection socket, int room, string username)
     {
+        // Set the username for the connection
+        Connections[socket.ConnectionInfo.Id].Username = username;
+
+        // Check if the username already exists in the room
+        if (Rooms.TryGetValue(room, out var roomConnections))
+        {
+            if (roomConnections.Any(guid => Connections[guid].Username == username))
+            {
+                // Username already exists in the room, return false
+                return false;
+            }
+        }
+
+        // If the username does not exist in the room, add the connection to the room
         return AddConnectionToRoom(socket.ConnectionInfo.Id, room);
     }
 
-    public bool CreateRoom(IWebSocketConnection socket, int room)
+    public bool CreateRoom(IWebSocketConnection socket, int room, string username)
     {
         if(!Rooms.ContainsKey(room))
             Rooms.TryAdd(room, new HashSet<Guid>());
         
         Console.WriteLine( Rooms.ContainsKey(room) ? "Room Created" : "Room not created");
+        AddToRoom(socket, room, username);
         return AddConnectionToRoom(socket.ConnectionInfo.Id, room);
     }
     private bool AddConnectionToRoom(Guid connectionId, int room)
@@ -91,7 +106,7 @@ public class StateService {
         // Remove the "Host" and 'username' username from the list.
         usernamesInRoom.Remove("Host");
         usernamesInRoom.Remove("username");
-
+        Console.WriteLine("Usernames in room: " + string.Join(", ", usernamesInRoom));
         // Send a server event with the usernames.
         var serverEvent = new ServerMessage.ServerUserJoinedRoomEventDto
         {

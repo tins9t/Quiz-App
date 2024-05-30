@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/bloc/quiz_bloc.dart';
+import 'package:frontend/models/events.dart';
 import 'package:frontend/screens/quiz_joining_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -301,11 +304,11 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login(String email, String password, BuildContext context) async {
     if (email.isEmpty || password.isEmpty) return;
     try {
-      await context.read<UserDataSource>().login(
-            email: email,
-            password: password,
-            context: context,
-          );
+      final user = await context.read<UserDataSource>().login(
+        email: email,
+        password: password,
+        context: context,
+      );
       if (context.mounted) {
         _navigateToHomeScreen(context);
       }
