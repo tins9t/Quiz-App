@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/screens/quiz_scoreboard_screen.dart';
-
 import '../bloc/quiz_bloc.dart';
 import '../bloc/quiz_state.dart';
 
@@ -18,6 +17,8 @@ class QuizScreen extends StatelessWidget {
     Icons.circle,
     Icons.star
   ];
+
+  QuizScreen({super.key});
 
   Stream<int> countdown(int milliseconds) {
     int seconds = milliseconds ~/ 1000;

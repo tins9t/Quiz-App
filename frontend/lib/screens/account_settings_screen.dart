@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'login_screen.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
+  const AccountSettingsScreen({super.key});
+
   @override
   _AccountSettingsScreenState createState() => _AccountSettingsScreenState();
 }
@@ -29,9 +31,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo[300]!,
-        title: Text('Account Settings'),
+        title: const Text('Account Settings'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -46,7 +48,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             border: Border.all(color: Colors.indigo[300]!, width: 5),
           ),
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -56,7 +58,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   child: ListView(
                     children: [
                       ListTile(
-                        title: Text('Settings'),
+                        title: const Text('Settings'),
                         onTap: () {
                           setState(() {
                             _selectedOption = 'Settings';
@@ -65,7 +67,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         selected: _selectedOption == 'Settings',
                       ),
                       ListTile(
-                        title: Text('Privacy'),
+                        title: const Text('Privacy'),
                         onTap: () {
                           setState(() {
                             _selectedOption = 'Privacy';
@@ -74,30 +76,30 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         selected: _selectedOption == 'Privacy',
                       ),
                       ListTile(
-                        title: Text('Log Out'),
+                        title: const Text('Log Out'),
                         onTap: () {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('Logout'),
-                                content: Text('Are you sure you want to logout?'),
+                                title: const Text('Logout'),
+                                content: const Text('Are you sure you want to logout?'),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text('No'),
+                                    child: const Text('No'),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       context.read<TokenService>().deleteToken();
                                       Navigator.pushReplacement(
                                         context,
-                                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                                        MaterialPageRoute(builder: (context) => const LoginScreen()),
                                       );
                                     },
-                                    child: Text('Yes'),
+                                    child: const Text('Yes'),
                                   ),
                                 ],
                               );
@@ -110,7 +112,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: _buildSelectedOptionContent(),
                   ),
                 ),
@@ -125,9 +127,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   Widget _buildSelectedOptionContent() {
     switch (_selectedOption) {
       case 'Settings':
-        return SettingsWidget();
+        return const SettingsWidget();
       case 'Privacy':
-        return PrivacySettingsWidget();
+        return const PrivacySettingsWidget();
       default:
         return Container();
     }

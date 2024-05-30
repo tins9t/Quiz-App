@@ -10,10 +10,10 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
   final bool isEditing;
 
   const QuestionsAndAnswersScreen({
-    Key? key,
+    super.key,
     required this.quizId,
     required this.isEditing,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
         quizId: quizId,
         isEditing: isEditing,
         builder: (context, questions, isSaving) {
-          if (isSaving) return Center(child: CircularProgressIndicator());
+          if (isSaving) return const Center(child: CircularProgressIndicator());
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -55,8 +55,8 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
                         onPressed: () {
                           QuizBuilder.of(context).addQuestion();
                         },
-                        icon: Icon(Icons.add),
-                        label: Text(
+                        icon: const Icon(Icons.add),
+                        label: const Text(
                           'Add Another Question',
                           style: TextStyle(color: Colors.white),
                         ),
@@ -77,18 +77,18 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
                           onPressed: () {
                             QuizBuilder.of(context).saveQuiz();
                           },
-                          child: Text(
-                            'Save Quiz',
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width < 600 ? 16 : null,
-                            ),
-                          ),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.indigo[900],
                             padding: EdgeInsets.symmetric(
                               vertical: MediaQuery.of(context).size.width < 600 ? 12 : 16,
                               horizontal: MediaQuery.of(context).size.width < 600 ? 20 : 24,
+                            ),
+                          ),
+                          child: Text(
+                            'Save Quiz',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.width < 600 ? 16 : null,
                             ),
                           ),
                         ),
@@ -111,7 +111,7 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeScreen(),
+                builder: (context) => const HomeScreen(),
               ),
                   (route) => false,
             );

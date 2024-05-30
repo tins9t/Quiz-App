@@ -10,8 +10,7 @@ class CreateQuizScreen extends StatefulWidget {
   final bool isEditing;
   final Quiz? quiz;
 
-  CreateQuizScreen({Key? key, required this.isEditing, this.quiz})
-      : super(key: key);
+  const CreateQuizScreen({super.key, required this.isEditing, this.quiz});
 
   @override
   _CreateQuizScreenState createState() => _CreateQuizScreenState();
@@ -67,7 +66,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                 color: Colors.indigo[900],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               controller: _quizNameController,
               decoration: InputDecoration(
@@ -79,7 +78,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                 hintText: 'Enter quiz name',
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Quiz Description',
               style: TextStyle(
@@ -88,7 +87,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                 color: Colors.indigo[900],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: Column(
                 children: [
@@ -107,9 +106,9 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: isSmallScreen ? 200 : 400,
                       width: isSmallScreen ? 200 : 400,
                       child: Lottie.asset(
@@ -122,7 +121,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Center(
               child: ElevatedButton(
                 onPressed: () async {
@@ -168,10 +167,6 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                     );
                   }
                 },
-                child: Text(
-                  widget.isEditing ? 'Save Changes' : 'Create Quiz',
-                  style: TextStyle(fontSize: isSmallScreen ? 16 : null),
-                ),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.indigo[900],
@@ -179,6 +174,10 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
                     vertical: isSmallScreen ? 12 : 16,
                     horizontal: isSmallScreen ? 20 : 24,
                   ),
+                ),
+                child: Text(
+                  widget.isEditing ? 'Save Changes' : 'Create Quiz',
+                  style: TextStyle(fontSize: isSmallScreen ? 16 : null),
                 ),
               ),
             ),

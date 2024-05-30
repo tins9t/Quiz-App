@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'selected_option_widget.dart';
 
@@ -8,11 +7,11 @@ class SmallScreenWidget extends StatelessWidget {
   final int selectedIndex;
 
   const SmallScreenWidget({
-    Key? key,
+    super.key,
     required this.selectedOption,
     required this.onOptionSelected,
     required this.selectedIndex,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

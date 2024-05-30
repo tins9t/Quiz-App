@@ -4,13 +4,13 @@ import '../data/quiz_data_source.dart';
 import '../models/entities.dart';
 
 class EditingQuestion {
-  int? id = null;
+  int? id;
   String question = "";
   List<EditingAnswer> answers = <EditingAnswer>[];
 }
 
 class EditingAnswer {
-  int? id = null;
+  int? id;
   String answer = "";
   bool correct = false;
 }

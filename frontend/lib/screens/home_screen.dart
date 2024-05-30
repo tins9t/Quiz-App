@@ -9,6 +9,8 @@ import 'account_settings_screen.dart';
 import 'create_quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.indigo[900],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             // Show account circle icon
             IconButton(
               icon: Icon(
@@ -59,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AccountSettingsScreen(),
+                    builder: (context) => const AccountSettingsScreen(),
                   ),
                 );
               },
@@ -100,15 +102,15 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CreateQuizScreen(isEditing: false),
+                builder: (context) => const CreateQuizScreen(isEditing: false),
               ),
             );
           },
-          child: Icon(
+          backgroundColor: Colors.indigo[900],
+          child: const Icon(
             Icons.add,
             color: Colors.white,
           ),
-          backgroundColor: Colors.indigo[900],
         ),
       ) : null,
     );

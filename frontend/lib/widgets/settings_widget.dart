@@ -5,6 +5,8 @@ import '../models/entities.dart';
 import 'confirmation_dialog.dart';
 
 class SettingsWidget extends StatefulWidget {
+  const SettingsWidget({super.key});
+
   @override
   _SettingsWidgetState createState() => _SettingsWidgetState();
 }
@@ -33,12 +35,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Change username and email',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 50),
-        Text(
+        const SizedBox(height: 50),
+        const Text(
           'Username:',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -47,12 +49,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           validator: (value) {
             return _serverErrors?["Username"]?[0];
           },
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Enter your new username',
           ),
         ),
-        SizedBox(height: 16),
-        Text(
+        const SizedBox(height: 16),
+        const Text(
           'Email:',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -61,11 +63,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           validator: (value) {
             return _serverErrors?["Email"]?[0];
           },
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Enter your new email',
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
             ConfirmationDialog(
@@ -84,13 +86,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       backgroundColor: Colors.transparent,
                       elevation: 0,
                       content: Container(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         height: 90,
                         decoration: BoxDecoration(
                           color: Colors.green[700],
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderRadius: const BorderRadius.all(Radius.circular(20)),
                         ),
-                        child: Center(
+                        child: const Center(
                           child:
                               Text('Your changes have successfully been saved'),
                         ),
@@ -105,7 +107,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               },
             ).show(context);
           },
-          child: Text('Save Changes'),
+          child: const Text('Save Changes'),
         ),
       ],
     );

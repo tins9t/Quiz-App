@@ -5,6 +5,8 @@ import '../data/user_data_source.dart';
 import '../models/entities.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -35,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: Colors.indigo[300],
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: isSmallScreen ? width : 800,
           height: isSmallScreen ? null : 720,
           child: Padding(
@@ -54,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Create Account',
                         style: TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -67,22 +69,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         decoration: InputDecoration(
                           hintText: 'Username',
-                          prefixIcon: Icon(Icons.person),
+                          prefixIcon: const Icon(Icons.person),
                           filled: true,
                           fillColor: Colors.white70,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                                 color: Colors.blueAccent, width: 2.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide:
-                                BorderSide(color: Colors.blue, width: 2.0),
+                                const BorderSide(color: Colors.blue, width: 2.0),
                           ),
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      const SizedBox(height: 20.0),
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
@@ -91,22 +93,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           hintText: 'Email',
-                          prefixIcon: Icon(Icons.email),
+                          prefixIcon: const Icon(Icons.email),
                           filled: true,
                           fillColor: Colors.white70,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                                 color: Colors.blueAccent, width: 2.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide:
-                                BorderSide(color: Colors.blue, width: 2.0),
+                                const BorderSide(color: Colors.blue, width: 2.0),
                           ),
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      const SizedBox(height: 20.0),
                       TextFormField(
                         controller: _passwordController,
                         validator: (value) {
@@ -115,24 +117,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obscureText: _isHidden,
                         decoration: InputDecoration(
                           hintText: 'Password',
-                          prefixIcon: Icon(Icons.lock),
+                          prefixIcon: const Icon(Icons.lock),
                           suffixIcon: IconButton(
                             onPressed: _toggleVisibility,
                             icon: _isHidden
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
+                                ? const Icon(Icons.visibility_off)
+                                : const Icon(Icons.visibility),
                           ),
                           filled: true,
                           fillColor: Colors.white70,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                                 color: Colors.blueAccent, width: 2.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide:
-                                BorderSide(color: Colors.blue, width: 2.0),
+                                const BorderSide(color: Colors.blue, width: 2.0),
                           ),
                         ),
                       ),
@@ -146,7 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               repeat: false),
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      const SizedBox(height: 20.0),
                       ElevatedButton(
                         onPressed: () async {
                           _serverErrors = null;
@@ -164,8 +166,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   .showSnackBar(
                                     SnackBar(
                                       backgroundColor: Colors.green[700],
-                                      content: Text('Account has succesfully been created'),
-                                      duration: Duration(seconds: 3),
+                                      content: const Text('Account has succesfully been created'),
+                                      duration: const Duration(seconds: 3),
                                     ),
                                   )
                                   .closed
@@ -178,32 +180,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           }
                           _formKey.currentState?.validate();
                         },
-                        child: Text('Create Account'),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.green[400], // Text color
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 40.0, vertical: 15.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
+                        child: const Text('Create Account'),
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Cancel'),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.red[400],
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 40.0, vertical: 15.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
+                        child: const Text('Cancel'),
                       ),
                     ],
                   ),

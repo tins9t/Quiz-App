@@ -6,6 +6,8 @@ import '../screens/login_screen.dart';
 import 'confirmation_dialog.dart';
 
 class PrivacySettingsWidget extends StatefulWidget {
+  const PrivacySettingsWidget({super.key});
+
   @override
   _PrivacySettingsWidgetState createState() => _PrivacySettingsWidgetState();
 }
@@ -22,12 +24,12 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Change Password',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 50),
-        Text(
+        const SizedBox(height: 50),
+        const Text(
           'New Password:',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -37,12 +39,12 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
           validator: (value) {
             return _serverErrors?["NewPassword"]?[0];
           },
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Enter your new password',
           ),
         ),
-        SizedBox(height: 16),
-        Text(
+        const SizedBox(height: 16),
+        const Text(
           'Confirm Password:',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -52,11 +54,11 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
           validator: (value) {
             return _serverErrors?["Password"]?[0];
           },
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Input your old password',
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
             ConfirmationDialog(
@@ -75,14 +77,14 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
                       backgroundColor: Colors.transparent,
                       elevation: 0,
                       content: Container(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         height: 90,
                         decoration: BoxDecoration(
                           color: Colors.green[700],
                           borderRadius:
-                          BorderRadius.all(Radius.circular(20)),
+                          const BorderRadius.all(Radius.circular(20)),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                               'Your password has succesfully been changed'),
                         ),
@@ -96,9 +98,9 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
               },
             ).show(context);
           },
-          child: Text('Save Changes'),
+          child: const Text('Save Changes'),
         ),
-        Spacer(), // This will push the following button to the bottom
+        const Spacer(), // This will push the following button to the bottom
         ElevatedButton(
           onPressed: () {
             ConfirmationDialog(
@@ -111,13 +113,13 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
+                    builder: (context) => const LoginScreen(),
                   ),
                 );
               },
             ).show(context);
           },
-          child: Text('Delete User'),
+          child: const Text('Delete User'),
         ),
       ],
     );

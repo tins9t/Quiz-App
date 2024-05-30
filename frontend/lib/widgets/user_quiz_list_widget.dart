@@ -7,6 +7,8 @@ import '../data/user_data_source.dart';
 import '../models/entities.dart';
 
 class UserQuizListWidget extends StatefulWidget {
+  const UserQuizListWidget({super.key});
+
   @override
   _UserQuizListWidgetState createState() => _UserQuizListWidgetState();
 }
@@ -34,21 +36,21 @@ class _UserQuizListWidgetState extends State<UserQuizListWidget> {
           );
         } else if (snapshot.hasError) {
           if (snapshot.error.toString().contains('Token not found')) {
-            return Center(child: Text('Please login to review library'));
+            return const Center(child: Text('Please login to review library'));
           } else {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
         } else if (!snapshot.hasData ||
             snapshot.data!.isEmpty &&
                 !snapshot.error.toString().contains('Token not found')) {
-          return Center(
+          return const Center(
               child: Text(
                   'Looks empty.. Create a quiz by clicking the \'+\' button!'));
         } else {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Expanded(
                 child: isSmallScreen
                     ? ListView.builder(
@@ -105,14 +107,10 @@ class _UserQuizListWidgetState extends State<UserQuizListWidget> {
   Future<List<Quiz>> _fetchQuizzes() async {
     try {
       final user = await context.read<UserDataSource>().getUser(context);
-      if (user != null) {
-        return context
-            .read<QuizDataSource>()
-            .getQuizzesByUser(context: context);
-      } else {
-        return [];
-      }
-    } catch (error) {
+      return context
+          .read<QuizDataSource>()
+          .getQuizzesByUser(context: context);
+        } catch (error) {
       throw Exception('Failed to get user data: $error');
     }
   }

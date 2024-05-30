@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'quiz_builder.dart';
 
 class AnswerField extends StatelessWidget {
-  const AnswerField({Key? key, required this.answer, required this.index, required this.isEditing}) : super(key: key);
+  const AnswerField({super.key, required this.answer, required this.index, required this.isEditing});
 
   final EditingAnswer answer;
   final int index;
@@ -20,7 +20,7 @@ class AnswerField extends StatelessWidget {
               QuizBuilder.of(context).setCorrect(answer, isChecked!);
             },
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Expanded(
             child: TextFormField(
               onChanged: (value) {

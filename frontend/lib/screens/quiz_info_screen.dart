@@ -10,7 +10,7 @@ import '../models/entities.dart';
 class QuizInfoScreen extends StatefulWidget {
   final Quiz quiz;
 
-  const QuizInfoScreen({required this.quiz, Key? key}) : super(key: key);
+  const QuizInfoScreen({required this.quiz, super.key});
 
   @override
   _QuizInfoScreenState createState() => _QuizInfoScreenState();
@@ -49,8 +49,8 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
         primaryColor: Colors.indigo[300],
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            textStyle: TextStyle(fontSize: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            textStyle: const TextStyle(fontSize: 16),
           ),
         ),
       ),
@@ -64,7 +64,7 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
                   widget.quiz.name,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 background: Stack(
                   fit: StackFit.expand,
@@ -74,7 +74,7 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                       fit: BoxFit.cover,
                     ),
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Colors.transparent, Colors.black54],
                           begin: Alignment.topCenter,
@@ -88,16 +88,16 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
               ),
             ),
             SliverPadding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(
                   [
                     Container(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         color: Colors.blueAccent[100],
                         borderRadius: BorderRadius.circular(12.0),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black26,
                             blurRadius: 8.0,
@@ -112,7 +112,7 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                             'Time Created: $formattedTime',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           FutureBuilder<User>(
                             future: context
                                 .read<UserDataSource>()
@@ -143,25 +143,25 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                               }
                             },
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Text(
                             widget.quiz.description,
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          SizedBox(height: 16),
-                          Container(
+                          const SizedBox(height: 16),
+                          SizedBox(
                             height: 200,
                             width: double.infinity,
                             child:
                                 Lottie.asset('assets/animations/top.json'),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           if (questionsWithAnswers.isNotEmpty)
                             Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(12.0),
-                                boxShadow: [
+                                boxShadow: const [
                                   BoxShadow(
                                     color: Colors.black26,
                                     blurRadius: 8.0,
@@ -170,7 +170,7 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                                 ],
                               ),
                               child: ExpansionTile(
-                                title: Text('Show Questions and Answers'),
+                                title: const Text('Show Questions and Answers'),
                                 children: [
                                   SingleChildScrollView(
                                     child: Column(
@@ -181,7 +181,7 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                                                 ListTile(
                                                   title: Text(
                                                     qa.question.text,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
@@ -197,7 +197,7 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                                                     }).toList(),
                                                   ),
                                                 ),
-                                                Divider(),
+                                                const Divider(),
                                               ])
                                           .toList(),
                                     ),
@@ -206,14 +206,14 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                               ),
                             ),
                           if (questionsWithAnswers.isEmpty)
-                            Text(
+                            const Text(
                               'No questions available for this quiz.',
                               style: TextStyle(fontStyle: FontStyle.italic),
                             ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     if(kIsWeb)
                     Center(
                       child: ElevatedButton(
@@ -234,7 +234,7 @@ class _QuizInfoScreenState extends State<QuizInfoScreen> {
                             ),
                           );
                         },
-                        child: Text('Start Quiz'),
+                        child: const Text('Start Quiz'),
                       ),
                     ),
                   ],

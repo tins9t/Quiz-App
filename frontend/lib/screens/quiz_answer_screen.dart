@@ -21,7 +21,7 @@ class AnswerScreen extends StatelessWidget {
     Icons.star
   ];
 
-  AnswerScreen({Key? key}) : super(key: key);
+  AnswerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class AnswerScreen extends StatelessWidget {
         builder: (context, state) {
           if (state.scores.isNotEmpty) {
             // Navigate to VictoryScreen
-            WidgetsBinding.instance!.addPostFrameCallback((_) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

@@ -5,7 +5,6 @@ import 'package:frontend/bloc/quiz_state.dart';
 import 'package:frontend/models/events.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:lottie/lottie.dart';
-
 import '../data/user_data_source.dart';
 import '../models/entities.dart';
 import 'home_screen.dart';
@@ -60,7 +59,7 @@ class QuizVictoryScreen extends StatelessWidget {
                         style: const TextStyle(fontSize: 24, color: Colors.green),
                       ),
                       Center(
-                        child: Container(
+                        child: SizedBox(
                           height: 100,
                           width: 100,
                           child: Lottie.asset(
@@ -97,7 +96,7 @@ class QuizVictoryScreen extends StatelessWidget {
                       if(context.mounted) {
                         Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                        MaterialPageRoute(builder: (context) => const HomeScreen()),
                       );
                       }
                     } catch (error) {
@@ -105,7 +104,7 @@ class QuizVictoryScreen extends StatelessWidget {
                       if(context.mounted) {
                         Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
                       );
                       }
                     }

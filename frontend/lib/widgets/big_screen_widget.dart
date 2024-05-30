@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'selected_option_widget.dart';
@@ -8,10 +7,10 @@ class BigScreenWidget extends StatelessWidget {
   final Function(String) onOptionSelected;
 
   const BigScreenWidget({
-    Key? key,
+    super.key,
     required this.selectedOption,
     required this.onOptionSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +26,15 @@ class BigScreenWidget extends StatelessWidget {
                 child: ListView(
                   shrinkWrap: true,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _buildListTile('Home', Icons.home),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _buildListTile('Discover', Icons.explore),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _buildListTile('Library', Icons.library_books),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _buildListTile('Join Quiz', Icons.assignment),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -54,7 +53,7 @@ class BigScreenWidget extends StatelessWidget {
             ],
           ),
         ),
-        VerticalDivider(),
+        const VerticalDivider(),
         Expanded(
           child: SelectedOptionWidget(selectedOption: selectedOption),
         ),
@@ -71,7 +70,7 @@ class BigScreenWidget extends StatelessWidget {
       ),
       title: Text(
         option,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.indigo,
         ),
       ),

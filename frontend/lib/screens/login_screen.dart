@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:frontend/bloc/quiz_bloc.dart';
-import 'package:frontend/models/events.dart';
 import 'package:frontend/screens/quiz_joining_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _navigateToRegisterScreen(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => RegisterScreen()),
+      MaterialPageRoute(builder: (context) => const RegisterScreen()),
     );
   }
 
@@ -44,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _navigateToHomeScreen(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
     );
   }
 
@@ -262,12 +260,12 @@ class _LoginScreenState extends State<LoginScreen> {
       bottomNavigationBar: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           color: Colors.indigo[300],
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Psst.. click ',
                 style: TextStyle(color: Colors.white),
               ),
@@ -276,7 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Navigate to the Quiz Joining Screen
                   _navigateToQuizJoiningScreen(context);
                 },
-                child: Text(
+                child: const Text(
                   'HERE',
                   style: TextStyle(
                     color: Colors.white,
@@ -284,9 +282,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(width: 2),
+              const SizedBox(width: 2),
               // Add some spacing between the text and the button
-              Text(
+              const Text(
                 ' if you want to join a Quiz without logging in.',
                 style: TextStyle(color: Colors.white),
               ),

@@ -8,25 +8,25 @@ class SelectedOptionWidget extends StatelessWidget {
   final String selectedOption;
 
   const SelectedOptionWidget({
-    Key? key,
+    super.key,
     required this.selectedOption,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     switch (selectedOption) {
       case 'Discover':
         print("Discover");
-        return DiscoverWidget();
+        return const DiscoverWidget();
       case 'Library':
         print("Library");
-        return UserQuizListWidget();
+        return const UserQuizListWidget();
       case 'Join Quiz':
         print("Join Quiz");
-        return QuizJoiningScreen();
+        return const QuizJoiningScreen();
       default:
         print("Home");
-        return QuizListWidget();
+        return const QuizListWidget();
     }
   }
 }

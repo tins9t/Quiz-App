@@ -3,7 +3,7 @@ import 'answer_field.dart';
 import 'quiz_builder.dart';
 
 class QuestionField extends StatelessWidget {
-  const QuestionField({Key? key, required this.question, required this.index, required this.isEditing}) : super(key: key);
+  const QuestionField({super.key, required this.question, required this.index, required this.isEditing});
 
   final EditingQuestion question;
   final int index;
@@ -18,7 +18,7 @@ class QuestionField extends StatelessWidget {
     final bool hasPlusButton = answerCount < 4;
 
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -32,7 +32,7 @@ class QuestionField extends StatelessWidget {
                 color: Colors.indigo[900],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               onChanged: (value) {
                 question.question = value;
@@ -48,7 +48,7 @@ class QuestionField extends StatelessWidget {
                 fillColor: Colors.grey[200],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Answers',
               style: TextStyle(
@@ -57,10 +57,10 @@ class QuestionField extends StatelessWidget {
                 color: Colors.indigo[900],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             for (int i = 0; i < question.answers.length; i++)
               AnswerField(answer: question.answers[i], index: i, isEditing: isEditing),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -72,14 +72,14 @@ class QuestionField extends StatelessWidget {
                           onPressed: () {
                             QuizBuilder.of(context).addAnswer(index);
                           },
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add),
                         ),
                       if (hasMinusButton)
                         IconButton(
                           onPressed: () {
                             QuizBuilder.of(context).removeAnswer(index);
                           },
-                          icon: Icon(Icons.remove),
+                          icon: const Icon(Icons.remove),
                         ),
                     ],
                   ),
@@ -87,11 +87,11 @@ class QuestionField extends StatelessWidget {
                   onPressed: () {
                     QuizBuilder.of(context).removeQuestion(index);
                   },
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),

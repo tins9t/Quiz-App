@@ -20,8 +20,8 @@ class BoxWidget extends StatefulWidget {
     this.showEditIcon = false,
     this.showPrivacyToggle = false,
     this.onDelete,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _BoxWidgetState createState() => _BoxWidgetState();
@@ -68,7 +68,7 @@ class _BoxWidgetState extends State<BoxWidget> {
                 children: <Widget>[
                   Padding(
                     padding:
-                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -183,7 +183,7 @@ class _BoxWidgetState extends State<BoxWidget> {
                               Icon(Icons.edit, color: Colors.indigo[900]),
                             ),
                           if (widget.showEditIcon && widget.showTrashIcon)
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                           if (widget.showTrashIcon)
                             GestureDetector(
                               onTap: () async {

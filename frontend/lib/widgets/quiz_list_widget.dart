@@ -6,7 +6,7 @@ import '../data/quiz_data_source.dart';
 import '../models/entities.dart';
 
 class QuizListWidget extends StatefulWidget {
-  const QuizListWidget({Key? key}) : super(key: key);
+  const QuizListWidget({super.key});
 
   @override
   _QuizListWidgetState createState() => _QuizListWidgetState();

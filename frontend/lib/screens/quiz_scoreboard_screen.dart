@@ -138,7 +138,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
           ),
           const SizedBox(height: 20),
           Lottie.asset('assets/animations/top.json'),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,
@@ -154,7 +154,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
               // Navigate to HomePage
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
               );
             },
             child: const Text('End Quiz'),

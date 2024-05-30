@@ -6,6 +6,8 @@ import '../models/entities.dart';
 import 'box_widget.dart';
 
 class DiscoverWidget extends StatefulWidget {
+  const DiscoverWidget({super.key});
+
   @override
   _DiscoverWidgetState createState() => _DiscoverWidgetState();
 }
@@ -30,19 +32,19 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Row(
             children: [
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(color: Colors.grey),
                     ),
                   ),
                   child: TextField(
                     controller: _searchController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Search...',
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.zero,
@@ -55,18 +57,18 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
                   ),
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               ElevatedButton(
                 onPressed: () {
                   setState(() {
                     _performSearch(_searchController.text);
                   });
                 },
-                child: Text('Search'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.indigo[700],
                 ),
+                child: const Text('Search'),
               ),
             ],
           ),
@@ -80,7 +82,7 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
 
   Widget _buildSearchResultsWidget() {
     if (_searchController.text.isEmpty) {
-      return Center(
+      return const Center(
         child: Text('Input search query to display quizzes'),
       );
     }
@@ -98,11 +100,11 @@ class _DiscoverWidgetState extends State<DiscoverWidget> {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No quizzes available'));
+          return const Center(child: Text('No quizzes available'));
         } else {
           return Column(
             children: [
-              Text('',
+              const Text('',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               Expanded(
                 child: GridView.builder(

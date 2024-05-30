@@ -3,11 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/data/question_data_source.dart';
 import 'package:frontend/data/user_data_source.dart';
 import 'package:frontend/data/quiz_data_source.dart';
-import 'package:frontend/models/entities.dart';
 import 'package:frontend/screens/login_screen.dart';
-import 'package:frontend/screens/quiz_answer_screen.dart';
-import 'package:frontend/screens/quiz_joining_screen.dart';
-import 'package:frontend/screens/quiz_scoreboard_screen.dart';
 import 'package:frontend/websocket_channel_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'bloc/quiz_bloc.dart';
@@ -54,7 +50,7 @@ class QuizApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: LoginScreen(),
+        home: const LoginScreen(),
       ),
     );
   }

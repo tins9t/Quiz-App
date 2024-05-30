@@ -23,14 +23,14 @@ class ConfirmationDialog {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               onPressed: () {
                 onConfirm();
                 Navigator.pop(context);
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         );
