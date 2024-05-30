@@ -13,17 +13,17 @@ class QuizListWidget extends StatefulWidget {
 }
 
 class _QuizListWidgetState extends State<QuizListWidget> {
+
   @override
   Widget build(BuildContext context) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
+          SizedBox(height: isSmallScreen ? 30 : 10),
           _buildQuizzes(context,
               context.read<QuizDataSource>().getPopularQuizzes(), 'Most Popular', 5),
           const SizedBox(height: 40),

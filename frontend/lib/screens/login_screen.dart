@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/quiz_joining_screen.dart';
 import 'package:lottie/lottie.dart';
@@ -6,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../data/user_data_source.dart';
 import 'home_screen.dart';
 import 'register_screen.dart';
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,8 +15,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isHidden = true;
-  final _emailController = TextEditingController(text: 'mudkip@example.com');
-  final _passwordController = TextEditingController(text: 'mudkip123!');
+  final _emailController = TextEditingController(text: 'eeve@example.com');
+  final _passwordController = TextEditingController(text: 'eeve123!');
 
   void _toggleVisibility() {
     setState(() {
@@ -258,40 +256,38 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: Visibility(
-        visible: !kIsWeb,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            color: Colors.indigo[300],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Psst.. click ',
-                  style: TextStyle(color: Colors.white),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    // Navigate to the Quiz Joining Screen
-                    _navigateToQuizJoiningScreen(context);
-                  },
-                  child: Text(
-                    'HERE',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+      bottomNavigationBar: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          color: Colors.indigo[300],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Psst.. click ',
+                style: TextStyle(color: Colors.white),
+              ),
+              GestureDetector(
+                onTap: () {
+                  // Navigate to the Quiz Joining Screen
+                  _navigateToQuizJoiningScreen(context);
+                },
+                child: Text(
+                  'HERE',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 2), // Add some spacing between the text and the button
-                Text(
-                  ' if you want to join a Quiz without logging in.',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
+              ),
+              SizedBox(width: 2),
+              // Add some spacing between the text and the button
+              Text(
+                ' if you want to join a Quiz without logging in.',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
           ),
         ),
       ),

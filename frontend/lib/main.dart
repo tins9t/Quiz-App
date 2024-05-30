@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/data/question_data_source.dart';
 import 'package:frontend/data/user_data_source.dart';
 import 'package:frontend/data/quiz_data_source.dart';
+import 'package:frontend/models/entities.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/quiz_answer_screen.dart';
+import 'package:frontend/screens/quiz_joining_screen.dart';
 import 'package:frontend/screens/quiz_scoreboard_screen.dart';
 import 'package:frontend/websocket_channel_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +49,8 @@ class QuizApp extends StatelessWidget {
         channel: WebSocketChannelWrapper().connect(wsUrl), quizDataSource: context.read<QuizDataSource>(),
       ),
       child: MaterialApp(
-        title: 'Quiz App',
+        title: 'Quizilla',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

@@ -38,67 +38,62 @@ class _UserQuizListWidgetState extends State<UserQuizListWidget> {
           } else {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          final user = context.read<User>();
-          if (user == null) {
-            return Center(child: Text('Please login to review your library'));
-          } else {
-            return Center(
-                child: Text(
-                    'Looks empty.. Create a quiz by clicking the \'+\' button!'));
-          }
+        } else if (!snapshot.hasData ||
+            snapshot.data!.isEmpty &&
+                !snapshot.error.toString().contains('Token not found')) {
+          return Center(
+              child: Text(
+                  'Looks empty.. Create a quiz by clicking the \'+\' button!'));
         } else {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
-              Text('Your Quizzes',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(height: 20),
               Expanded(
                 child: isSmallScreen
                     ? ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final Quiz quiz = snapshot.data![index];
-                    return Flexible(
-                      child: BoxWidget(
-                        quiz: quiz,
-                        showEditIcon: true,
-                        showTrashIcon: true,
-                        showPrivacyToggle: true,
-                        onDelete: () {
-                          setState(() {
-                            // Remove the deleted quiz from the list
-                            snapshot.data!.removeAt(index);
-                          });
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          final Quiz quiz = snapshot.data![index];
+                          return Flexible(
+                            child: BoxWidget(
+                              quiz: quiz,
+                              showEditIcon: true,
+                              showTrashIcon: true,
+                              showPrivacyToggle: true,
+                              onDelete: () {
+                                setState(() {
+                                  // Remove the deleted quiz from the list
+                                  snapshot.data!.removeAt(index);
+                                });
+                              },
+                            ),
+                          );
+                        },
+                      )
+                    : GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: MediaQuery.of(context).size.width /
+                              (MediaQuery.of(context).size.height / 0.9),
+                        ),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          final Quiz quiz = snapshot.data![index];
+                          return BoxWidget(
+                            quiz: quiz,
+                            showEditIcon: true,
+                            showTrashIcon: true,
+                            showPrivacyToggle: true,
+                            onDelete: () {
+                              setState(() {
+                                // Remove the deleted quiz from the list
+                                snapshot.data!.removeAt(index);
+                              });
+                            },
+                          );
                         },
                       ),
-                    );
-                  },
-                )
-                    : GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: MediaQuery.of(context).size.width /
-                        (MediaQuery.of(context).size.height / 0.9),
-                  ),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final Quiz quiz = snapshot.data![index];
-                    return BoxWidget(
-                      quiz: quiz,
-                      showEditIcon: true,
-                      showTrashIcon: true,
-                      showPrivacyToggle: true,
-                      onDelete: () {
-                        setState(() {
-                          // Remove the deleted quiz from the list
-                          snapshot.data!.removeAt(index);
-                        });
-                      },
-                    );
-                  },
-                ),
               ),
             ],
           );

@@ -89,17 +89,8 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-     - family: SuperDessert
-       fonts:
-         - asset: assets/fonts/SuperDessert-EaAyj.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-     - family: LongToday
-       fonts:
-         - asset: assets/fonts/LongToday-1jjlZ.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  #fonts:
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

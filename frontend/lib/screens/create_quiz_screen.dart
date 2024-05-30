@@ -37,7 +37,7 @@ class _CreateQuizScreenState extends State<CreateQuizScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Colors.blueAccent[300],
         elevation: 4,
         title: Text(
           widget.isEditing ? 'Edit Quiz' : 'Create Quiz',

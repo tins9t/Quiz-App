@@ -3,7 +3,6 @@ import 'package:frontend/services/token_service.dart';
 import 'package:frontend/widgets/privacy_settings_widget.dart';
 import 'package:frontend/widgets/settings_widget.dart';
 import 'package:provider/provider.dart';
-import '../widgets/confirmation_dialog.dart';
 import 'login_screen.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
@@ -77,19 +76,33 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ListTile(
                         title: Text('Log Out'),
                         onTap: () {
-                          ConfirmationDialog(
-                            title: 'Logout',
-                            content:
-                            'Are you sure you want to logout?',
-                            onConfirm: () {
-                              context.read<TokenService>().deleteToken();
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen()),
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Logout'),
+                                content: Text('Are you sure you want to logout?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      context.read<TokenService>().deleteToken();
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                                      );
+                                    },
+                                    child: Text('Yes'),
+                                  ),
+                                ],
                               );
                             },
-                          ).show(context);
+                          );
                         },
                       ),
                     ],

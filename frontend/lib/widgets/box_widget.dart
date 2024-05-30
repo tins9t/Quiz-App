@@ -42,13 +42,16 @@ class _BoxWidgetState extends State<BoxWidget> {
     final isMediumScreen = MediaQuery.of(context).size.width < 800;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
       child: SizedBox(
         height: isSmallScreen ? 250 : 300,
         width: 400,
         child: Card(
+          elevation: 4,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(8),
+            side: BorderSide(
+                color: Colors.indigo[300]!, width: 2),
           ),
           clipBehavior: Clip.antiAliasWithSaveLayer,
           child: GestureDetector(
@@ -60,40 +63,45 @@ class _BoxWidgetState extends State<BoxWidget> {
               );
             },
             child: SingleChildScrollView(
-              // Wrap the contents with SingleChildScrollView
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    height: widget.showPrivacyToggle ? null : 50,
-                    width: widget.showPrivacyToggle ? null : 400,
+                  Padding(
                     padding:
                     EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.indigo[300], // Toolbar color
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(4),
-                        topRight: Radius.circular(4),
-                      ),
-                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // Align switch to the right
                       children: [
                         if (widget.showPrivacyToggle)
                           Expanded(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                if(!isMediumScreen | isSmallScreen)
-                                  Switch(
-                                    value: _isPrivate,
-                                    onChanged: (value) {
-                                      ConfirmationDialog(
-                                        title: 'Change quiz publicity',
-                                        content:
-                                        'Are you sure you want to make this quiz public? Everyone will be able to see and start your quiz.',
-                                        onConfirm: () async {
+                                if (!isMediumScreen || isSmallScreen)
+                                  Transform.scale(
+                                    scale: 0.7,
+                                    child: Switch(
+                                      value: _isPrivate,
+                                      onChanged: (value) async {
+                                        if (_isPrivate) {
+                                          await ConfirmationDialog(
+                                            title: 'Change quiz publicity',
+                                            content: 'Are you sure you want to make this quiz public? Everyone will be able to see and start your quiz.',
+                                            onConfirm: () async {
+                                              setState(() {
+                                                _isPrivate = value;
+                                              });
+                                              await context
+                                                  .read<QuizDataSource>()
+                                                  .updateQuiz(
+                                                quizId: widget.quiz.id!,
+                                                name: widget.quiz.name,
+                                                description: widget.quiz.description,
+                                                isPrivate: value,
+                                              );
+                                            },
+                                          ).show(context);
+                                        } else {
                                           setState(() {
                                             _isPrivate = value;
                                           });
@@ -102,21 +110,19 @@ class _BoxWidgetState extends State<BoxWidget> {
                                               .updateQuiz(
                                             quizId: widget.quiz.id!,
                                             name: widget.quiz.name,
-                                            description:
-                                            widget.quiz.description,
+                                            description: widget.quiz.description,
                                             isPrivate: value,
                                           );
-                                        },
-                                      ).show(context);
-                                    },
-                                    activeColor: Colors.white,
-                                    activeTrackColor: Colors.grey,
-                                    inactiveThumbColor: Colors.white,
-                                    inactiveTrackColor: Colors.grey,
+                                        }
+                                      },
+                                      activeColor: Colors.white,
+                                      inactiveThumbColor: Colors.transparent,
+                                      inactiveTrackColor: Colors.transparent,
+                                    ),
                                   ),
                                 Text(
                                   _isPrivate ? 'Private' : 'Public',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.indigo[900]),
                                 ),
                               ],
                             ),
@@ -141,13 +147,14 @@ class _BoxWidgetState extends State<BoxWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(height: 5),
-                              Text(widget.quiz.name,
-                                  style: TextStyle(
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.indigo[900],
-                                  )),
-                              Container(height: 5),
+                              Text(
+                                widget.quiz.name,
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.indigo[900],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -179,24 +186,24 @@ class _BoxWidgetState extends State<BoxWidget> {
                             SizedBox(width: 10),
                           if (widget.showTrashIcon)
                             GestureDetector(
-                                onTap: () async {
-                                  ConfirmationDialog(
-                                    title: 'Delete Quiz',
-                                    content:
-                                    'Are you sure you want to delete this quiz?',
-                                    onConfirm: () {
-                                      context
-                                          .read<QuizDataSource>()
-                                          .deleteQuiz(id: widget.quiz.id!);
-                                      // Call the onDelete callback after deletion
-                                      if (widget.onDelete != null) {
-                                        widget.onDelete!();
-                                      }
-                                    },
-                                  ).show(context);
-                                },
-                                child: Icon(Icons.delete,
-                                    color: Colors.indigo[900])),
+                              onTap: () async {
+                                ConfirmationDialog(
+                                  title: 'Delete Quiz',
+                                  content:
+                                  'Are you sure you want to delete this quiz?',
+                                  onConfirm: () {
+                                    context
+                                        .read<QuizDataSource>()
+                                        .deleteQuiz(id: widget.quiz.id!);
+                                    if (widget.onDelete != null) {
+                                      widget.onDelete!();
+                                    }
+                                  },
+                                ).show(context);
+                              },
+                              child:
+                              Icon(Icons.delete, color: Colors.indigo[900]),
+                            ),
                         ],
                       ),
                     ),

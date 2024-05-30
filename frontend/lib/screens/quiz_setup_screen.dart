@@ -67,7 +67,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Quiz Setup', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.indigo[300],
 
         leading: BackButton(
           onPressed: () {

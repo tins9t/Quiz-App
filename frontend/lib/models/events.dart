@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-
 import 'entities.dart';
-
 part 'events.freezed.dart';
 part 'events.g.dart';
 

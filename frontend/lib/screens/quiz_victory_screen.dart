@@ -4,6 +4,11 @@ import 'package:frontend/bloc/quiz_bloc.dart';
 import 'package:frontend/bloc/quiz_state.dart';
 import 'package:frontend/models/events.dart';
 import 'package:frontend/screens/login_screen.dart';
+import 'package:lottie/lottie.dart';
+
+import '../data/user_data_source.dart';
+import '../models/entities.dart';
+import 'home_screen.dart';
 
 
 class QuizVictoryScreen extends StatelessWidget {
@@ -48,13 +53,28 @@ class QuizVictoryScreen extends StatelessWidget {
               children: [
                 // Check if the user is in the top 3
                 if (position <= 3)
+                  Column(
+                    children: [
+                      Text(
+                        'Congratulations! You are in $position place !',
+                        style: const TextStyle(fontSize: 24, color: Colors.green),
+                      ),
+                      Center(
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          child: Lottie.asset(
+                            'assets/animations/confetti.json',
+                            fit: BoxFit.cover,
+                            repeat: false,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                if (position > 3)
                   Text(
-                    'Congratulations! You are in $position place !',
-                    style: const TextStyle(fontSize: 24, color: Colors.green),
-                  )
-                else
-                  Text(
-                    'You are in $position. place. Git gud ',
+                    'You are in $position place. Git gud ',
                     style: const TextStyle(fontSize: 24),
                   ),
                 const SizedBox(height: 20),
@@ -64,19 +84,33 @@ class QuizVictoryScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     context.read<QuizBloc>().add(ClientWantsToResetQuiz( roomId: context.read<QuizBloc>().state.roomId));
                     // Call the leaveRoom event
                     context.read<QuizBloc>().add(ClientEvent.clientWantsToKickUserFromRoom(
                       username: quizState.username,
                       roomId: quizState.roomId,
-                    )); // Navigate to LoginScreen
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
-                    );
+                    ));
+                    try {
+                      User user = await context.read<UserDataSource>().getUser(context);
+                      // Navigate to the home screen
+                      if(context.mounted) {
+                        Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      );
+                      }
+                    } catch (error) {
+                      // Navigate to the login screen
+                      if(context.mounted) {
+                        Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
+                      }
+                    }
                   },
-                  child: const Text('Go to Login Screen'),
+                  child: const Text('Leave Quiz'),
                 ),
               ],
             ),

@@ -19,7 +19,7 @@ class QuestionsAndAnswersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo[300],
+        backgroundColor: Colors.blueAccent[300]!,
         elevation: 4,
         title: Text(
           isEditing ? 'Edit Quiz' : 'Create Quiz',

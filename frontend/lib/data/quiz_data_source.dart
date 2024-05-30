@@ -176,5 +176,4 @@ class QuizDataSource {
       throw Exception('Failed to create quiz session. Status code: ${response.statusCode}');
     }
   }
-
 }

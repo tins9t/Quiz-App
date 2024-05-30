@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:frontend/models/entities.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-
 import '../services/token_service.dart';
 
 class UserDataSource {
@@ -28,7 +27,7 @@ class UserDataSource {
       if (response.statusCode >= 400) {
         throw ApiError.fromJson(jsonBody);
       }
-      return jsonBody;
+      return true;
   }
 
   Future<bool> login({required String email, required String password, required BuildContext context}) async {
@@ -111,7 +110,6 @@ class UserDataSource {
     if (response.statusCode >= 400) {
       throw ApiError.fromJson(jsonBody);
     }
-
     return true;
   }
 
@@ -129,7 +127,7 @@ class UserDataSource {
     if (response.statusCode >= 400) {
       throw ApiError.fromJson(jsonBody);
     }
-    return jsonBody;
+    return true;
   }
 
   Future<bool> deleteUser({required BuildContext context}) async {

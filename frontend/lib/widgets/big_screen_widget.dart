@@ -34,10 +34,7 @@ class BigScreenWidget extends StatelessWidget {
                     SizedBox(height: 20),
                     _buildListTile('Library', Icons.library_books),
                     SizedBox(height: 20),
-                    Visibility(
-                      visible: !kIsWeb,
-                      child: _buildListTile('Join Quiz', Icons.assignment),
-                    ),
+                    _buildListTile('Join Quiz', Icons.assignment),
                     SizedBox(height: 20),
                   ],
                 ),

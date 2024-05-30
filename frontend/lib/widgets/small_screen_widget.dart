@@ -37,7 +37,6 @@ class SmallScreenWidget extends StatelessWidget {
             icon: Icon(Icons.library_books, color: Colors.indigo[900]),
             label: 'Library',
           ),
-          if (!kIsWeb)
             BottomNavigationBarItem(
               icon: Icon(Icons.assignment, color: Colors.indigo[900]),
               label: 'Join Quiz',

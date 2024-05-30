@@ -72,8 +72,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fillColor: Colors.white70,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide:
-                                BorderSide(color: Colors.blueAccent, width: 2.0),
+                            borderSide: BorderSide(
+                                color: Colors.blueAccent, width: 2.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -96,8 +96,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fillColor: Colors.white70,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide:
-                                BorderSide(color: Colors.blueAccent, width: 2.0),
+                            borderSide: BorderSide(
+                                color: Colors.blueAccent, width: 2.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -126,8 +126,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fillColor: Colors.white70,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide:
-                                BorderSide(color: Colors.blueAccent, width: 2.0),
+                            borderSide: BorderSide(
+                                color: Colors.blueAccent, width: 2.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -155,10 +155,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           final password = _passwordController.value.text;
                           try {
                             await context.read<UserDataSource>().register(
-                                username: username,
-                                email: email,
-                                password: password);
-                          }  on ApiError catch (e) {
+                                  username: username,
+                                  email: email,
+                                  password: password,
+                                );
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.green[700],
+                                      content: Text('Account has succesfully been created'),
+                                      duration: Duration(seconds: 3),
+                                    ),
+                                  )
+                                  .closed
+                                  .then((SnackBarClosedReason reason) {
+                                Navigator.of(context).pop();
+                              });
+                            }
+                          } on ApiError catch (e) {
                             _serverErrors = e.errors;
                           }
                           _formKey.currentState?.validate();
